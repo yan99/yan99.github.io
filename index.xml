@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Yang Yan&#39;s Personal Webpage on Yang Yan</title>
+    <link>https://yan99.github.io/</link>
+    <description>Recent content in Yang Yan&#39;s Personal Webpage on Yang Yan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://yan99.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>3A</title>
+      <link>https://yan99.github.io/notes/3a/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://yan99.github.io/notes/3a/</guid>
+      <description>Auto Focus Auto Exposure Auto White Balance </description>
+    </item>
+    <item>
+      <title>Depth Image Denoising</title>
+      <link>https://yan99.github.io/projects/depthimagedenoise/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://yan99.github.io/projects/depthimagedenoise/</guid>
+      <description>Auto Focus Auto Exposure Auto White Balance </description>
+    </item>
+    <item>
+      <title>Stanford CS 149</title>
+      <link>https://yan99.github.io/notes/cs149/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://yan99.github.io/notes/cs149/</guid>
+      <description>Introduction Moore&amp;rsquo;s Law CUDA threads &amp;amp; Atomics </description>
+    </item>
+    <item>
+      <title>Stanford CS 231m</title>
+      <link>https://yan99.github.io/notes/cs231m/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://yan99.github.io/notes/cs231m/</guid>
+      <description>Panoramas Can be achieved with wide-angle optics or rotation cameras.&#xA;System Overview Camera Module -&amp;gt; Video Frames -&amp;gt; Real-Time Tracking -&amp;gt; Camera Module Camera Module -&amp;gt; Images -&amp;gt; Warping -&amp;gt; Registration -&amp;gt; Blending -&amp;gt; Final Panorama Cylindrical Panoramas Project each image onto a cylinder A cylindrical image is a rectangular array View: reproject a portion of the cylinder onto a picture plane representing the display screen Narrow FOV -&amp;gt; less distortion Same center of projection.</description>
+    </item>
+  </channel>
+</rss>

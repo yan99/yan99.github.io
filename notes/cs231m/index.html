@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="icon" href="/favicon.ico">
+
+  <title>
+    Stanford CS 231m - Yang Yan
+  </title>
+
+  <meta name="description" content="Part of Notes for Course Mobile Computer Vision" /><meta name="generator" content="Hugo 0.121.1">
+
+  <link rel="stylesheet" href="/main.css" />
+
+  
+  
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+      integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv"
+      crossorigin="anonymous"
+    >
+
+    <script defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+      integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+      crossorigin="anonymous"
+    ></script>
+
+    <script defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+      integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF"
+      crossorigin="anonymous"
+      onload="renderMathInElement(document.body);">
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+    </script>
+  
+
+  <meta property="og:title" content="Stanford CS 231m" />
+<meta property="og:description" content="Part of Notes for Course Mobile Computer Vision" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yan99.github.io/notes/cs231m/" /><meta property="article:section" content="Notes" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Stanford CS 231m"/>
+<meta name="twitter:description" content="Part of Notes for Course Mobile Computer Vision"/>
+
+
+  <meta itemprop="name" content="Stanford CS 231m">
+<meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision">
+
+<meta itemprop="wordCount" content="476">
+<meta itemprop="keywords" content="" />
+
+  <meta itemprop="name" content="Stanford CS 231m">
+<meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision">
+
+<meta itemprop="wordCount" content="476">
+<meta itemprop="keywords" content="" />
+</head><body class="flex relative h-full min-h-screen"><aside
+  class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
+  <p class="font-bold mb-5 flex items-center gap-2">
+    <button aria-label="Close sidebar"
+      class="md:hidden menu-trigger-close p-1 rounded text-slate-800 dark:text-slate-50 hover:bg-slate-200 dark:hover:bg-slate-700"><svg class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+  fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" />
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+</svg></button>
+    <a href="https://yan99.github.io/" class="px-2">
+      <span>Yang Yan</span>
+    </a>
+    <button aria-label="Toggle dark mode"
+      class="dark-mode-toggle p-2 rounded border dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700"><svg class="h-4 w-4" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+  fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" />
+  <circle cx="12" cy="12" r="4" />
+  <path d="M3 12h1M12 3v1M20 12h1M12 20v1M5.6 5.6l.7 .7M18.4 5.6l-.7 .7M17.7 17.7l.7 .7M6.3 17.7l-.7 .7" />
+</svg></button>
+  </p>
+
+  
+  <ul class="list-none flex flex-col gap-1">
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="/" >
+        <span>Home</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  text-slate-400 font-semibold pb-0 pl-1 border-b cursor-default pointer-events-none "
+        href="#" >
+        <span>Content</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="/notes/" >
+        <span>Notes</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  text-slate-400 font-semibold pb-0 pl-1 border-b cursor-default pointer-events-none "
+        href="#" >
+        <span>Projects</span>
+        
+      </a>
+    </li>
+    
+  </ul>
+
+  <div class="flex-1"></div>
+
+  
+
+  <ul class="list-none flex flex-wrap justify-center gap-1 pt-2 border-t border-slate-200 dark:border-slate-600">
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm block text-slate-800 dark:text-slate-50  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="" target="_blank" rel="noopener noreferrer">
+        <span class="sr-only">Github</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm block text-slate-800 dark:text-slate-50  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="" target="_blank" rel="noopener noreferrer">
+        <span class="sr-only">LinkedIn</span>
+        
+        <span><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+  stroke-linecap="round" stroke-linejoin="round">
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+  <rect x="2" y="9" width="4" height="12" />
+  <circle cx="4" cy="4" r="2" />
+</svg></span>
+        
+      </a>
+    </li>
+    
+  </ul>
+</aside>
+
+<div
+  class="fixed bg-slate-700 bg-opacity-5 transition duration-200 ease-in-out inset-0 z-10 pointer-events-auto md:hidden left-0 top-0 w-full h-full hidden menu-overlay">
+</div>
+
+<button aria-label="Toggle Sidebar"
+  class="md:hidden absolute top-3 left-3 z-10 menu-trigger p-1 rounded text-slate-800 dark:text-slate-50 hover:bg-slate-100"><svg class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+  fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" />
+  <line x1="4" y1="6" x2="20" y2="6" />
+  <line x1="4" y1="12" x2="20" y2="12" />
+  <line x1="4" y1="18" x2="16" y2="18" />
+</svg></button>
+
+
+
+
+
+<div class="flex max-h-screen relative overflow-y-auto h-full w-full">
+  
+  <article class="px-6 py-20 w-full mx-auto prose lg:prose-lg dark:prose-invert h-fit prose-img:mx-auto">
+    
+    <a href="https://yan99.github.io/notes/" class="!no-underline !text-slate-500 !mb-2 !inline-block !font-normal !text-sm hover:!text-slate-700 dark:hover:!text-slate-400">← Back to list</a>
+
+    
+    <h1 class="!mb-2">Stanford CS 231m</h1>
+    
+
+    
+
+    <h2 id="panoramas">Panoramas</h2>
+<p>Can be achieved with wide-angle optics or rotation cameras.</p>
+<h3 id="system-overview">System Overview</h3>
+<ul>
+<li>Camera Module -&gt; Video Frames -&gt; Real-Time Tracking -&gt; Camera Module</li>
+<li>Camera Module -&gt; Images -&gt; Warping -&gt; Registration -&gt; Blending -&gt; Final Panorama</li>
+</ul>
+<h3 id="cylindrical-panoramas">Cylindrical Panoramas</h3>
+<ul>
+<li>Project each image onto a cylinder</li>
+<li>A cylindrical image is a rectangular array</li>
+<li>View: reproject a portion of the cylinder onto a picture plane representing the display screen</li>
+<li>Narrow FOV -&gt; less distortion</li>
+<li>Same center of projection.</li>
+</ul>
+<h3 id="stitching">Stitching</h3>
+<p>Detect key points -&gt; find corresponding pairs -&gt; align images</p>
+<h4 id="key-points">Key Points</h4>
+<ul>
+<li>Harris corner detector: $$E(u,v) = \sum_{x, y}w(x,y)[I(x+u,y+v)-I(x,y)]^{2}$$, where $w(x,y)$ is window function</li>
+<li>Measure of corner response: $$M = \sum_{x,y}w(x,y)\begin{bmatrix} I_{x}^{2} &amp; I_{x}I_{y} // I_{x}I_{y} &amp; I_{y}^{2} \end{bmatrix}$$</li>
+<li>Both $\lambda_{1}$ and $\lambda_{2}$ are not too large</li>
+<li>$R = det(M) - k(trace(M))^{2}$, $k = 0.04~0.06$, $R&gt;0$ but not small</li>
+<li>Harris corner detector Workflow: corner response $R$ -&gt; thresholding -&gt; local maxima</li>
+<li>FAST corners: look for a continuous arc of N pixels, all much darker/brighter than center pixel</li>
+</ul>
+<h3 id="point-descriptors">Point Descriptors</h3>
+<p>Invariant and distinctive</p>
+<ul>
+<li>SIFT</li>
+<li>SURF</li>
+</ul>
+<h3 id="blending">Blending</h3>
+<h3 id="issue-drift">Issue: Drift</h3>
+<ul>
+<li>Vertical error accumulation &lt;- Apply correction make zero sum in vertical displacement</li>
+<li>Horizontal error accumulation &lt;- Reuse 1st/last image for right panorama radius</li>
+</ul>
+<h3 id="registration">Registration</h3>
+<ul>
+<li>Gradients along vertical, horizontal, diagonals -&gt; corners as key points</li>
+<li>Match gradient projections and determine transition</li>
+<li>Apply transition to corners -&gt; match corners -&gt; regine transition and rotation</li>
+</ul>
+<h2 id="hdr-imaging">HDR Imaging</h2>
+<h3 id="dynamic-range">Dynamic Range</h3>
+<ul>
+<li>$cd/m^{2} = lux$
+<ul>
+<li>Eye can adapt from $10^{-6}$ to $10^{8} cd/m^{2}$</li>
+<li>without adaptation from $1$ to $10^{4} cd/m^{2}$</li>
+<li>with non-specular reflectance from $1$ to $10^{3} cd/m^{2}$</li>
+<li>Display: $1$ to $100 cd/m^{2}$ (0-255)</li>
+</ul>
+</li>
+</ul>
+<h3 id="hdr-previous-methods">HDR Previous Methods</h3>
+<ul>
+<li>Human HDR: sensitive to contrast (log scale); pupil; neural &amp; chemical; transmition to brain</li>
+<li>Multiple exposure photography: map segments of high dynamic range to low contrasts</li>
+<li>Camera response curve calibration for the multiple images with various exposure time: adjust radiance to obtain a smooth response curve</li>
+<li>Dodging and burning: hide partial during exposure; exposure more to a region; smooth circular motions &amp; blurry mask avoid artifacts</li>
+<li>Gamma correction</li>
+<li>Global tone mapping (various contrast for each image)</li>
+<li>Local tone mapping (Reinhard operator to avoid high light satrurated)</li>
+<li>Hitogram adjustment: lum not even -&gt; equalization, histogram in log space -&gt; issue: expand comtrast -&gt; trimming large bins (adjustment)</li>
+<li>Oppenheim: low contrast on low-freq, keep high-freq -&gt; issue: halo -&gt; bilateral filtering on intensity</li>
+<li>Exposure fusion: weights over 3 maps: Laplacian filter -&gt; contrast map; saturation on RGB respectively; exposure stretched based on gaussian distribution</li>
+<li>Multi-resolution fusion: Laplacian pyramid $*$ Gaussian Pyramid generate fused pyramid</li>
+<li>HDR video: auto exposure, motion compensation (registration between frames), tone mapping</li>
+</ul>
+<h3 id="system-overview-1">System Overview</h3>
+<p>Reference frame selection -&gt; consistency detection -&gt; HDR generation -&gt; Poisson blending</p>
+<h3 id="hdr-optical-system">HDR optical system</h3>
+<ul>
+<li>Beam splitting prism breaks up the light into three parts, one for each sensor fitted with different filters</li>
+<li>With 2 beam splitters instead of prism to increase the light efficiency</li>
+</ul>
+<h2 id="camera-isp">Camera ISP</h2>
+
+  </article>
+
+</div>
+
+
+  
+<script type="text/javascript" src="/main.js" defer></script>
+
+
+</body>
+
+</html>

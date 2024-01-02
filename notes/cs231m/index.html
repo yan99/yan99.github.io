@@ -64,13 +64,13 @@
   <meta itemprop="name" content="Stanford CS 231m">
 <meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision">
 
-<meta itemprop="wordCount" content="476">
+<meta itemprop="wordCount" content="1032">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Stanford CS 231m">
 <meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision">
 
-<meta itemprop="wordCount" content="476">
+<meta itemprop="wordCount" content="1032">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -221,8 +221,85 @@
 <h3 id="point-descriptors">Point Descriptors</h3>
 <p>Invariant and distinctive</p>
 <ul>
-<li>SIFT</li>
-<li>SURF</li>
+<li>SIFT (Scale Invariant Feature Transform)
+<ul>
+<li>Locate high-variance interest points, representing them with a vector attribute of local gray level variations</li>
+<li>Laplacian pyramid (DoG):
+<ol>
+<li>1 octave above the level before</li>
+<li>Each octave has images of same size</li>
+<li>Within octave, apply same Gaussian</li>
+<li>Downsample and upsample to restone resolution</li>
+</ol>
+</li>
+<li>Local extreme in DoG for each image ($D$)
+<ol>
+<li>Local extreme among current and immediate recent $3x3x3$ pixels
+<ul>
+<li>It is recommended that finding the extrema for $&gt;= 2$ different values of scale $\sigma$ in each octave</li>
+<li>-&gt; $&gt;=4$ values for $\sigma$ -&gt; At least 5 different scale Gaissuan images in each octave</li>
+</ul>
+</li>
+<li>True locationn based on Taylor&rsquo;s expansion: $\overrightarrow{x} = - H^{-1}(\overrightarrow{x_{0}})\cdot \overrightarrow{J}(\overrightarrow{x_{0}})$</li>
+<li>Threshold out the weak extrema: $|D(\overrightarrow{x})| &lt; 0.03$</li>
+</ol>
+</li>
+<li>Dominant local orientation
+<ol>
+<li>Gradient magnitude at local extreme location on Gaussian-smoothed image: $$m(x,y) = \sqrt{|ff(x+1,y,\sigma) - ff(x, y, \sigma)|^{2}  + |ff(x, y + 1, \sigma) - ff(x, y, \sigma)|^{2}}$$</li>
+<li>Gradient orientation: $\theta(x,y) = \arctan \frac{ff(x, y + 1, \sigma) - ff(x,y,\sigma)}{ff(x+1, y, \sigma)-ff(x,y,\sigma)}$</li>
+<li>Weight $\theta(x,y)$ with $m(x,y)$</li>
+<li>Construct a histogram of $\theta(x,y)$ with 36 bins for 360 degree, the histogram peak/fitted parabola gives the dominant local orientation.</li>
+</ol>
+</li>
+<li>128-dimentional vector
+<ol>
+<li>Grdient magnitude is the same as previous step; Gradient directions are measured relative to the dominant local orientation</li>
+<li>At the scale of the extremum, the extreme point is surrounded by a $16\times16$ neighborhood of points ($4\times4$ cells, each cell contains $4\times4$ block of points). Magnitudes are weighted by a Gaussian where $\sigma$ is $1/2$ width of the neighborhood to reduce the importance of the points that are relatively far</li>
+<li>For each of the $16$ cells, and 8-bin orientation histogram is caluclated based on gradient-magnitude-weighted values of $\theta(x,y)$ at the $16$ pixels in the cell.</li>
+<li>Concat the $16$ 8-bin histograms yields a 128-element descriptor</li>
+<li>128-element descriptor for each extremum in DoG -&gt; normalized to unity for this 128 elements -&gt; invariant to illumination</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>SURF (Speeded Up Robust Features)
+<ul>
+<li>Interest point where determinant of Hessian is maximized (determinant of Hessian measures Guassian curvature of surface; Gaussian curvature$\uparrow$, strong variance in every direction)</li>
+<li>Differences: integral images for fast caluclation of derivatives; only concept of pyramids; No downsampling; Resolution stays same</li>
+<li>Integral images: $I(x,y) = \sum_{x}\sum_{y}f(i,j)$</li>
+<li>Discretization of $\frac{\partial^{2}}{\partial x^{2}}ff(x,y)$ in the Hessian
+<ol>
+<li>Convolve the image $f(x,y)$ with $\frac{\partial^{2}g}{\partial x^{2}}$, where $g(x) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{x^{2}}{2\sigma^{2}}}$ -&gt; actually, we need to convolve with half-width central lobe $h(x) = -\frac{1}{\sqrt{2\pi}\sigma^{3}}[1-\frac{x^{2}}{\sigma^{2}}]e^{-\frac{x^{2}}{2\sigma^{2}}}$</li>
+<li>Descrete 2D operators: The interest points are located at the pixels where the determinant is a maximum with respect $x$, $y$, and $\sigma$
+/<img src="/images/9x9_Operator.png" alt="drawing" width="25%"/></li>
+<li>Calculate first-order derivatives $\frac{\partial}{\partial x}$ and $\frac{\partial}{\partial y}$ with Haar wavelet filters.
+<ul>
+<li>Basic forms of Haar wavelet: $\begin{bmatrix}-1 &amp; 1\end{bmatrix}$ along $x$ and $\begin{bmatrix}-1 // 1\end{bmatrix}$ along $y$.</li>
+<li>Scale up to $M\times M$ operator ($M$ is even; $M&gt;4\times\sigma$)</li>
+<li>Could use integral image $I(x,y)$</li>
+</ul>
+</li>
+<li>Local dominant direction
+<ul>
+<li>Range: $6\sigma\times 6\sigma$ neighborhood</li>
+<li>$(d_{x}, d_{y})$ are weighted with $2\sigma$-Gaussian centered at interest points</li>
+<li>Scanning a scatter plot of the weighted $(d_{x}, d_{y})$ with a $60\deg$ cone. Largest resultant vector.</li>
+</ul>
+</li>
+<li>Descriptor at scale $\sigma$
+<ul>
+<li>Range: $20\sigma\times 20\sigma$</li>
+<li>Orientation: local dominant direction</li>
+<li>$20\sigma\times 20\sigma$ neighborhood is divided into a pattern of $4\times4$ squares</li>
+<li>Each squares (containing $5\sigma\times 5\sigma$ points) construct a $4$-vector $(\sum d_{x}&rsquo;, \sum d_{x}&rsquo;, \sum |d_{x}&rsquo;|, \sum |d_{x}&rsquo;|)$, where $d_{x}&rsquo;$ and $d_{y}&rsquo;$ are outputs of the two Haar operators relative to the lcoal dominant direction.</li>
+<li>Total $64$-element descriptor vector at each interest point after concatnating $16$ $4$-vectors.</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
 </ul>
 <h3 id="blending">Blending</h3>
 <h3 id="issue-drift">Issue: Drift</h3>
@@ -258,7 +335,7 @@
 <li>Global tone mapping (various contrast for each image)</li>
 <li>Local tone mapping (Reinhard operator to avoid high light satrurated)</li>
 <li>Hitogram adjustment: lum not even -&gt; equalization, histogram in log space -&gt; issue: expand comtrast -&gt; trimming large bins (adjustment)</li>
-<li>Oppenheim: low contrast on low-freq, keep high-freq -&gt; issue: halo -&gt; bilateral filtering on intensity</li>
+<li>Oppenhei               m: low contrast on low-freq, keep high-freq -&gt; issue: halo -&gt; bilateral filtering on intensity</li>
 <li>Exposure fusion: weights over 3 maps: Laplacian filter -&gt; contrast map; saturation on RGB respectively; exposure stretched based on gaussian distribution</li>
 <li>Multi-resolution fusion: Laplacian pyramid $*$ Gaussian Pyramid generate fused pyramid</li>
 <li>HDR video: auto exposure, motion compensation (registration between frames), tone mapping</li>

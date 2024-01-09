@@ -64,13 +64,13 @@
   <meta itemprop="name" content="Stanford CS 231m">
 <meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision">
 
-<meta itemprop="wordCount" content="1284">
+<meta itemprop="wordCount" content="1911">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Stanford CS 231m">
 <meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision">
 
-<meta itemprop="wordCount" content="1284">
+<meta itemprop="wordCount" content="1911">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -323,24 +323,85 @@
 <li>Feature matching: compare the binary vectors with Hamming distance(XOR + pop count)</li>
 </ul>
 </li>
+<li>SuperPoint Self-Supervision Networks</li>
+</ul>
+<h4 id="feature-matching">Feature Matching</h4>
+<ul>
+<li>SAD (Sum of Absolute Differences): $\min \sum\sum|f_{1}(i,j) - f_{2}(i,j)|$</li>
+<li>SSD (Sum of Squared Differences): $\min \sum\sum|f_{1}(i,j)-f_{2}(i,j)|^{2}$</li>
+<li>NCC (Nomalized Cross-Correlation): $\max \frac{\sum f_{1}(i,j)f_{2}(i,j)}{\sqrt{\sum f_{1}(i,j)^{2}\sum f_{2}(i,j)^{2}}}$</li>
 </ul>
 <h4 id="aligning-images">Aligning Images</h4>
 <ul>
-<li>Homography</li>
-<li>RANSAC (Random Sample Consensus)</li>
-<li>Registration
+<li>Homography = planar propjective transformation
 <ul>
-<li>Gradients along vertical, horizontal, diagonals -&gt; corners as key points</li>
-<li>Match gradient projections and determine transition</li>
-<li>Apply transition to corners -&gt; match corners -&gt; regine transition and rotation</li>
+<li>Linear transformation on homogeneous $3$-vectors, the transformation being represented  by a non-singular $3\times3$ matrix $H$</li>
+<li>Point $x$: $x&rsquo; = Hx$</li>
+<li>Line $l$: $l^{T}x_{i} = 0$ and $x_{i}&rsquo; = Hx_{i}\implies l&rsquo;=H^{-T}l$</li>
+<li>Conics $C$: $x^{T}Cx = 0$ and $x = H^{-1}x&rsquo;\implies C&rsquo;=H^{-T}CH^{-1}$</li>
+<li>Maps a traight line to a straight line</li>
+<li>Projective Group $\rightarrow$ Affine Group $\rightarrow$ Similarity Group $\rightarrow$ Ecuslidean Group
+<ol>
+<li>$H = \begin{bmatrix} A &amp; \vec{t}\\\vec{v^{T}} &amp; \nu \end{bmatrix}$</li>
+<li>Affine: $\begin{bmatrix} 0&amp;0&amp;1 \end{bmatrix}$ for last row of $H$, keeps parallel lines parallel</li>
+<li>Similarity: $A^{T}A = \lambda^{2}I$ ($A$ is orthogonal), shpaes preserved</li>
+<li>Euclidean: $A^{T}A = I$ ($A$ is orthonormal), rigid body motion, preserve Euclidean distance</li>
+</ol>
+</li>
+<li>Affine transform maps $l_{\infty}$ to $l_{\infty}=\begin{bmatrix} 0&amp;0&amp;1 \end{bmatrix}^{T}$</li>
+<li>General projective transform maps $l_{\infty}$ to vanishing line.</li>
+<li>By sending vanishing line to $l_{\infty}$ can remove affine distortion.</li>
+</ul>
+</li>
+<li>$x&rsquo; = Hx$for each corresponding point pairs. Rearrange the equations. $\rightarrow Ah = 0$, where $A_{i} = \begin{bmatrix} -x&amp;-y&amp;-1&amp;0&amp;0&amp;0&amp;xx&rsquo;&amp;yx&rsquo;&amp;x&rsquo;\\0&amp;0&amp;0&amp;-x&amp;-y&amp;-1&amp;xy&rsquo;&amp;yy&rsquo;&amp;y&rsquo;\end{bmatrix}$. Decomposite $A$ with SVD. Solution is the nullspace of A, the last column/row of $V$/$V^{T}$. Or solve the least square problem of $min|Ah|$ with $|h| = 1$. Or set $h_{3,3} = 1$, solve least square problem of $|Ah-b|$ with solutioin of $h = (A^{T}A)^{-1}A^{T}b$</li>
+<li>RANSAC (Random Sample Consensus)
+<ol>
+<li>Randomly choose a subset of data points to fit</li>
+<li>Within a threshold $\delta$ of model are consensus set (inliers). No. of inliers is $M$.</li>
+<li>Repeat for $N$ times. The model with biiggest $M$ is the most robust fit</li>
+</ol>
+<ul>
+<li>Assume $\epsilon = 10%$ outliers, goal: the probability $p$ for at least $1$ sample does not include any outliers
+For the case, $&gt;1$ outliners included in current sample, the probability is $1-(1-\epsilon)^{n}$, where $n$ is no. of point pairs
+For $N$ samples, at least $1$ sample is free of outliers, the probaility is $1-p = [1-(1-\epsilon)^{n}]^{N}\rightarrow N = \log_{1-(1-\epsilon)^{n}}{(1-p)}$</li>
+</ul>
+</li>
+<li>Hybrid Multi-Resolution Registration
+<ul>
+<li>Coarse-to-fine strategy: Pyramid from low resolution (downsampled) to high resolution (Upsampled)</li>
+<li>Image based registration for initial guess</li>
+<li>Feature based registration: feature detection (Harris corners) $\rightarrow$ feature matching $\rightarrow$ RANSAC$\rightarrow$ New estimate</li>
 </ul>
 </li>
 </ul>
 <h3 id="blending">Blending</h3>
-<h4 id="issue-drift">Issue: Drift</h4>
+<p>Directly averaging the overlapped pixels results in ghosting artifacts (moving objects, errors in registration, parallax, etc.)</p>
+<h4 id="alpha-blendingfeathering-i_blend--alpha-i_left--1-alphai_right">Alpha blending/feathering: $I_{blend} = \alpha I_{left} + (1-\alpha)I_{right}$</h4>
+<h4 id="issues">Issues</h4>
+<ul>
+<li>Drifing
 <ul>
 <li>Vertical error accumulation &lt;- Apply correction make zero sum in vertical displacement</li>
 <li>Horizontal error accumulation &lt;- Reuse 1st/last image for right panorama radius</li>
+</ul>
+</li>
+<li>Ghosting
+<ul>
+<li>Assign one input image to each output pixel (graph cut)</li>
+<li>Introducing new artifacts: inconsistency between pixels from images caused by exposure/white balance/vignetting</li>
+<li>Poisson blending: copy gradient field from inputimage, reconstruct the final image with Poisson equation ($E = \sum s^{x}[I_{x}-g_{x}]^{2} + s^{y}[I_{y}-g_{y}]^{2} + wI^{2}$, where $g_{x}$ and $g_{y}$ is the target gradient values, $s^{x}$ and $s^{y}$ are smoothness weights, $w$ is panelized parameter for encourage/disencourage to go back to original pixel value) in the coarse multi-spline domain.</li>
+<li>Laplacian pyramid blending:
+<ol>
+<li>$L_{A}$ and $L_{B}$ are Laplacian pyramids of images $A$ and $B$. (Laplacian: Gaussian-expanded deeper level of Gaussian)</li>
+<li>Gaussian pyramid $G_{M}$ for selection mask $M$</li>
+<li>The combined pyramid $L_{S}$: $L_{S} = G_{M}\cdot L_{A}+(1-G_{M})\cdot L_{B}$</li>
+<li>Collapse the $L_{S}$ pyramid to get the final blended image.</li>
+</ol>
+</li>
+<li>Multi-resolution fusion: two images with different exposure time, use Guassian pyramid as weight matrix weight Laplacian pyramid to get a fused Laplacian pyramid to get a final image.</li>
+<li>Two-band blening: high freq and low freq.</li>
+</ul>
+</li>
 </ul>
 <h2 id="hdr-imaging">HDR Imaging</h2>
 <h3 id="dynamic-range">Dynamic Range</h3>
@@ -360,20 +421,45 @@
 <li>Gamma correction</li>
 <li>Global tone mapping (various contrast for each image)</li>
 <li>Local tone mapping (Reinhard operator to avoid high light satrurated)</li>
-<li>Hitogram adjustment: lum not even -&gt; equalization, histogram in log space -&gt; issue: expand comtrast -&gt; trimming large bins (adjustment)</li>
-<li>Oppenheim: low contrast on low-freq, keep high-freq -&gt; issue: halo -&gt; bilateral filtering on intensity</li>
-<li>Exposure fusion: weights over 3 maps: Laplacian filter -&gt; contrast map; saturation on RGB respectively; exposure stretched based on gaussian distribution</li>
+<li>Hitogram adjustment: lum not even $\rightarrow$ equalization, histogram in log space $\rightarrow$ issue: expand comtrast $\rightarrow$ trimming large bins (adjustment)</li>
+<li>Oppenheim: low contrast on low-freq, keep high-freq $\rightarrow$ issue: halo $\rightarrow$ bilateral filtering on intensity</li>
+<li>Exposure fusion: weights over 3 maps: Laplacian filter $\rightarrow$ contrast map; saturation on RGB respectively; exposure stretched based on gaussian distribution</li>
 <li>Multi-resolution fusion: Laplacian pyramid $*$ Gaussian Pyramid generate fused pyramid</li>
 <li>HDR video: auto exposure, motion compensation (registration between frames), tone mapping</li>
 </ul>
 <h3 id="system-overview-1">System Overview</h3>
-<p>Reference frame selection -&gt; consistency detection -&gt; HDR generation -&gt; Poisson blending</p>
+<p>Reference frame selection $\rightarrow$ consistency detection $\rightarrow$ HDR generation $\rightarrow$ Poisson blending</p>
 <h3 id="hdr-optical-system">HDR optical system</h3>
 <ul>
 <li>Beam splitting prism breaks up the light into three parts, one for each sensor fitted with different filters</li>
 <li>With 2 beam splitters instead of prism to increase the light efficiency</li>
 </ul>
 <h2 id="camera-isp">Camera ISP</h2>
+<h3 id="pinhole-camera">Pinhole Camera</h3>
+<ul>
+<li>Without pinhole, all the sensor points would record similar colors (integral of light from every point on subject)</li>
+<li>Effect of pinhole size: large pinhole (geometric blur), optimal pinhole (too little light), small pinhole (diffraction blur)</li>
+<li>Lens
+<ul>
+<li>Gauss&rsquo;s ray diagram</li>
+<li>Focus distance: $\frac{1}{s_{o}}+\frac{1}{s_{i}} = \frac{1}{f}$</li>
+<li>At $s_{o} = s_{i} = 2f$, get $1:1$ imaging</li>
+<li>Depth of field: the range of distances that area in focus (can&rsquo;t focus on obejcts closer to the lens than $f$)</li>
+<li>Chromatic aberration
+<ul>
+<li>Different wavelengths refract at different rates $\rightarrow$ different focal lengths</li>
+<li>To align red and blue with achromatic doublet: Crown lens (strong positive lens) + Flint lens (weak negative lens)</li>
+</ul>
+</li>
+<li>Lens distortion
+<ul>
+<li>Radial change in magnification: pincushion, barrel distortion</li>
+<li>Vignetting:</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
   </article>
 

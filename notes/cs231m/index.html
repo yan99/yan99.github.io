@@ -11,7 +11,7 @@
     Stanford CS 231m - Yang Yan
   </title>
 
-  <meta name="description" content="Part of Notes for Course Mobile Computer Vision" /><meta name="generator" content="Hugo 0.121.1">
+  <meta name="description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments" /><meta name="generator" content="Hugo 0.121.1">
 
   <link rel="stylesheet" href="/main.css" />
 
@@ -49,7 +49,7 @@
   
 
   <meta property="og:title" content="Stanford CS 231m" />
-<meta property="og:description" content="Part of Notes for Course Mobile Computer Vision" />
+<meta property="og:description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://yan99.github.io/notes/cs231m/" /><meta property="article:section" content="Notes" />
 
@@ -58,19 +58,19 @@
 
 
   <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Stanford CS 231m"/>
-<meta name="twitter:description" content="Part of Notes for Course Mobile Computer Vision"/>
+<meta name="twitter:description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments"/>
 
 
   <meta itemprop="name" content="Stanford CS 231m">
-<meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision">
+<meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments">
 
-<meta itemprop="wordCount" content="1911">
+<meta itemprop="wordCount" content="2364">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Stanford CS 231m">
-<meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision">
+<meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments">
 
-<meta itemprop="wordCount" content="1911">
+<meta itemprop="wordCount" content="2364">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -116,14 +116,22 @@
     <li>
       <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
         href="/notes/" >
-        <span>Notes</span>
+        <span>Course Notes</span>
         
       </a>
     </li>
     
     <li>
-      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  text-slate-400 font-semibold pb-0 pl-1 border-b cursor-default pointer-events-none "
-        href="#" >
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="/othernotes/" >
+        <span>Other Notes</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="/projects/" >
         <span>Projects</span>
         
       </a>
@@ -406,7 +414,7 @@ For $N$ samples, at least $1$ sample is free of outliers, the probaility is $1-p
 <h2 id="hdr-imaging">HDR Imaging</h2>
 <h3 id="dynamic-range">Dynamic Range</h3>
 <ul>
-<li>$cd/m^{2} = lux$
+<li>Luminance: a photometric measure of the luminuous intensity per unit area of light travelling in a given direction (unit: candela per square metre $cd/m^{2} = lux$)
 * Eye can adapt from $10^{-6}$ to $10^{8} cd/m^{2}$
 * without adaptation from $1$ to $10^{4} cd/m^{2}$
 * with non-specular reflectance from $1$ to $10^{3} cd/m^{2}$
@@ -453,8 +461,75 @@ For $N$ samples, at least $1$ sample is free of outliers, the probaility is $1-p
 </li>
 <li>Lens distortion
 <ul>
-<li>Radial change in magnification: pincushion, barrel distortion</li>
-<li>Vignetting:</li>
+<li>Radial change in magnification: pincushion （corners stretching out）, barrel distortion (corners squeezing in)</li>
+<li>Vignetting
+<ul>
+<li>Irradiance: radiant flux received by a surface per unit area. (Unit: $W\cdot m^{-2}$)</li>
+<li>Radiant flux or radiant power: the radiant energy emitted, reflected, transmitted, or received per unit time                       * Irradiance is proportional to projected area of aperture as seen from pixel of image plane</li>
+<li>Irradiance is proportional to projected area of pixel as seen from aperture</li>
+<li>Irradiance is proportional to the distance^2 from aperture to pixel</li>
+<li>Each of above factor $\approx \cos \theta$. Thus, light drops as $cos^{4}\theta$, $\theta$ is the angle measured from center of the aperture to the pixel versus horizontal line</li>
+<li>Flat fielding: take a photo of a uniformly white object; resulting image shows attenuation</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="cmos-sensor">CMOS Sensor</h3>
+<ul>
+<li>Structures
+<ul>
+<li>Front-illuminated sensor: on-chip microlens $\rightarrow$ color filter $\rightarrow$ metal wiring $\rightarrow$ light receiving surface $\rightarrow$ Silicon substrate, photo-diode and potential well</li>
+<li>Back-illuminated sensor: on-chip microlens $\rightarrow$ color filter $\rightarrow$ light receiving surface $\rightarrow$ Silicon substrate, photo-diode and potential well $\rightarrow$ metal wiring</li>
+<li>Metal wiring includes: transistors (amplifier, row select bus, column bus, reset)</li>
+<li>Anti-aliasing filter: 2 layers of birefrigent material to split one ray into 4 rays (birefrigence: a refractive index that depends on the polarization and propagation direction of light)</li>
+<li>Front-illuminated sensor: similar to eyes</li>
+<li>Back-illuminated sensor:
+<ul>
+<li>Cons: Cross talk or color mixing with adjacent pixels; silicon waffer fragile</li>
+<li>Pros: Increase light; captured improve low-light performance</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>RAW
+<ul>
+<li>Pixel non-uniformity
+<ul>
+<li>Each pixel in a CCD has a slightly different sensitivity to light (within 1% to 2%)</li>
+<li>Can be calibrated wiith a flat-field image</li>
+<li>When calibrating with a flat-field image, the effects of vignetting eliminate as well as other optical variations</li>
+</ul>
+</li>
+<li>Stuck pixels: some pixels are turned always on or off $\rightarrow$ identify, replace with filtered values</li>
+<li>Dark floor (noise floor): tempearture adds noise; sensors usually have a ring of covered pixels around the pixels that exposed to source to capture the noise floor, subtract their signal</li>
+</ul>
+</li>
+<li>AD Conversion
+<ul>
+<li>Sensor converts analog light signal to analog electrical signal</li>
+<li>AD Conversion: $\leq10$ bits (often $12$ or more); linear response; No. of bits = No. of op-amp</li>
+<li>Op-amp: $V_{out} = A\cdot(V_{in})$; Note that for op-amp, $V_{in,+}\approx V_{in,-}$</li>
+<li>ISO = amplification in AD conversion
+<ul>
+<li>Before AD conversion, the signal can be amplified</li>
+<li>ISO 100 means no amplification; ISO 1600 means 16 amplification</li>
+<li>$+$ can see details in dark areas better</li>
+<li>$-$ noise is amplified as well; sensor more likely to saturate</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Color Filter Array: Bayer Pattern
+<ul>
+<li>$\begin{bmatrix} B&amp;G&amp;B&amp;G \\ G&amp;R&amp;G&amp;R \\B&amp;G&amp;B&amp;G \end{bmatrix}$</li>
+<li>$36$ megapixels contain $9$ megapixels of R, $18$ megapixels of G, and $9$ megapixels of B.</li>
+<li>Demosaicking: separate RGB into 3 channels
+<ul>
+<li>Bilinear interpolation</li>
+<li></li>
 </ul>
 </li>
 </ul>

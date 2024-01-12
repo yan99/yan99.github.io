@@ -17,6 +17,36 @@
 
   
   
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+      integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv"
+      crossorigin="anonymous"
+    >
+
+    <script defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+      integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+      crossorigin="anonymous"
+    ></script>
+
+    <script defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+      integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF"
+      crossorigin="anonymous"
+      onload="renderMathInElement(document.body);">
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+    </script>
+  
 
   <meta property="og:title" content="Depth Image Denoising" />
 <meta property="og:description" content="A Pytorch Realisation of A Paper" />
@@ -34,13 +64,13 @@
   <meta itemprop="name" content="Depth Image Denoising">
 <meta itemprop="description" content="A Pytorch Realisation of A Paper">
 
-<meta itemprop="wordCount" content="7">
+<meta itemprop="wordCount" content="0">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Depth Image Denoising">
 <meta itemprop="description" content="A Pytorch Realisation of A Paper">
 
-<meta itemprop="wordCount" content="7">
+<meta itemprop="wordCount" content="0">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -170,11 +200,7 @@
 
     
 
-    <h2 id="auto-focus">Auto Focus</h2>
-<h3 id="heading"></h3>
-<h2 id="auto-exposure">Auto Exposure</h2>
-<h2 id="auto-white-balance">Auto White Balance</h2>
-
+    
   </article>
 
 </div>

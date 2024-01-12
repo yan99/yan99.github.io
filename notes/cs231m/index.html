@@ -64,13 +64,13 @@
   <meta itemprop="name" content="Stanford CS 231m">
 <meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments">
 
-<meta itemprop="wordCount" content="2364">
+<meta itemprop="wordCount" content="2600">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Stanford CS 231m">
 <meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments">
 
-<meta itemprop="wordCount" content="2364">
+<meta itemprop="wordCount" content="2600">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -524,17 +524,60 @@ For $N$ samples, at least $1$ sample is free of outliers, the probaility is $1-p
 </li>
 <li>Color Filter Array: Bayer Pattern
 <ul>
-<li>$\begin{bmatrix} B&amp;G&amp;B&amp;G \\ G&amp;R&amp;G&amp;R \\B&amp;G&amp;B&amp;G \end{bmatrix}$</li>
+<li>$\begin{bmatrix} \color{blue}B&amp; \color{green}G&amp; \color{blue}B&amp;\color{green}G \\ \color{green}G&amp;\color{red}R&amp;\color{green}G&amp;\color{red}R \\\color{blue}B&amp;\color{green}G&amp;\color{blue}B&amp;\color{green}G \end{bmatrix}$</li>
 <li>$36$ megapixels contain $9$ megapixels of R, $18$ megapixels of G, and $9$ megapixels of B.</li>
 <li>Demosaicking: separate RGB into 3 channels
 <ul>
-<li>Bilinear interpolation</li>
-<li></li>
+<li>Bilinear interpolation: easy to implement; fails at sharp edges</li>
+<li>Dealing with edges: bilateral filtering</li>
+<li>Dealing with edges: compare the red value to its estimate from the bilinear interpolation with the nearest 4 read pixels; add a proportion of this difference to the interpolation results for green value estimation at the location. The difference indicates change of luminance. $\hat{g}(i,j) = \hat{g}(i,j) + \alpha \Delta_{\hat{R}}(i,j)$
+/<img src="/images/Demosaicing.png" alt="drawing" width="35%"/></li>
+</ul>
+</li>
+<li>Denoising using non-local means
+<ul>
+<li>Image self-similarity can be used to eliminate noise: average a group of squares which are almost indistinguishable</li>
+<li>BM3D (Block Matching 3D)</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
+<h3 id="color-science-more-details-can-be-find--course-notespurdue-ece-638notesece638">Color Science (More Details can be find → <a href="/../notes/ece638" >Course Notes/Purdue ECE 638</a>)</h3>
+<h3 id="3a-more-details-can-be-find--other-notes3aothernotes3a">3A (More Details can be find → <a href="/../othernotes/3a" >Other Notes/3A</a>)</h3>
+<h3 id="image-formatting">Image Formatting</h3>
+<ul>
+<li>JPEG Encoding
+<ol>
+<li>RGB $\rightarrow$ YUV/YIQ and subsample color</li>
+<li>DCT on $8\times8$ blocks</li>
+<li>Quantization</li>
+<li>Zig-zag ordering and run-length encoding</li>
+<li>Entropy coding</li>
+</ol>
+<ul>
+<li>Notes: Quantization tables and entropy coding tables are stored in between header and image data</li>
+</ul>
+</li>
+<li>Other formats:
+<ul>
+<li>JPEG2000: ISO = $2000$; better compression, inherently hierachical, random access; much more complex</li>
+<li>JPEG XR: Microsoft 2006; ISO/ITU-T, 2010; good compression, supports tiling (randomly access without having to decode whole image); better color accuracy  (including HDR); transparency; compressed domain editing</li>
+</ul>
+</li>
+</ul>
+<h3 id="camera-apis">Camera APIs</h3>
+<ul>
+<li>Traditional camera APIs
+<ul>
+<li>Real image sensors are pipelined</li>
+</ul>
+</li>
+</ul>
+<h2 id="references">References:</h2>
+<ol>
+<li>Malvar, H. S., He, L. W., &amp; Cutler, R. (2004, May). High-quality linear interpolation for demosaicing of Bayer-patterned color images. In 2004 IEEE International Conference on Acoustics, Speech, and Signal Processing (Vol. 3, pp. iii-485). IEEE.</li>
+</ol>
 
   </article>
 

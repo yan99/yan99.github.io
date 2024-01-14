@@ -11,7 +11,7 @@
     Purdue ECE 638 - Yang Yan
   </title>
 
-  <meta name="description" content="Simpilified Course Notes for Color Science Course ECE 638" /><meta name="generator" content="Hugo 0.121.1">
+  <meta name="description" content="Simpilified Course Notes for Digital Color Imaging Systems Course" /><meta name="generator" content="Hugo 0.121.1">
 
   <link rel="stylesheet" href="/main.css" />
 
@@ -49,7 +49,7 @@
   
 
   <meta property="og:title" content="Purdue ECE 638" />
-<meta property="og:description" content="Simpilified Course Notes for Color Science Course ECE 638" />
+<meta property="og:description" content="Simpilified Course Notes for Digital Color Imaging Systems Course" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://yan99.github.io/notes/ece638/" /><meta property="article:section" content="Notes" />
 
@@ -58,19 +58,19 @@
 
 
   <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Purdue ECE 638"/>
-<meta name="twitter:description" content="Simpilified Course Notes for Color Science Course ECE 638"/>
+<meta name="twitter:description" content="Simpilified Course Notes for Digital Color Imaging Systems Course"/>
 
 
   <meta itemprop="name" content="Purdue ECE 638">
-<meta itemprop="description" content="Simpilified Course Notes for Color Science Course ECE 638">
+<meta itemprop="description" content="Simpilified Course Notes for Digital Color Imaging Systems Course">
 
-<meta itemprop="wordCount" content="0">
+<meta itemprop="wordCount" content="758">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Purdue ECE 638">
-<meta itemprop="description" content="Simpilified Course Notes for Color Science Course ECE 638">
+<meta itemprop="description" content="Simpilified Course Notes for Digital Color Imaging Systems Course">
 
-<meta itemprop="wordCount" content="0">
+<meta itemprop="wordCount" content="758">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -200,7 +200,160 @@
 
     
 
-    
+    <h2 id="color-science">Color Science</h2>
+<h3 id="color-basic-concepts">Color Basic Concepts</h3>
+<ul>
+<li>Trichromatic theory of color: interaction of stimulus and 3 different types of receptors in eyes.</li>
+<li>Color matching experiment: half of the area display with $C_{Target}$, the other half display with $C_{match} = C_{1} + C_{2} + C_{3}$ for additive system. Let examer to match the two colors</li>
+<li>Spectral representation of color
+<ul>
+<li>Stimulus for eyes: $S(\lambda) = R(\lambda)\cdot I(\lambda)$, where $R$ is reflectance of the surface, $I$ is the illuminant ray shoot on the surface</li>
+<li>Have to be normal, due to angular dependence</li>
+</ul>
+</li>
+<li>Trichromatic sensor model, where $(R_{s}, G_{s}, B_{s})$ is stimulus vector, $Q$ is spectral response functions of the sensor (eyes/HVS, cameras, etc.)
+<ul>
+<li>$R_{s} = \int S(\lambda)Q_{R}(\lambda)d\lambda$</li>
+<li>$G_{s} = \int S(\lambda)Q_{G}(\lambda)d\lambda$</li>
+<li>$B_{s} = \int S(\lambda)Q_{B}(\lambda)d\lambda$</li>
+</ul>
+</li>
+<li>Metamerism: stimulus $S_{1}(\lambda)$ and $S_{2}(\lambda)$ are metameric with respect to $(Q_{R}(\lambda), Q_{G}(\lambda), Q_{B}(\lambda))$ is they have identical responses</li>
+<li>Sensor response: R,G,B axies are no need to be perpendicular to each other. We force the color plane constructed with $(1,0,0)$, $(0,1,0)$, and $(0,0,1)$. Scaling of color will only affect lightness.</li>
+<li>Sensor space: $R + G + B = K$ will appears equally light/bright; $R + G + B = 1$ for chromaticity diagram</li>
+<li>Chromaticity diagram
+<ul>
+<li>$C = (r,g,b)$ is a chromaticity coordinates</li>
+<li>$r = \frac{R}{R+G+B}$, $g = \frac{G}{R+G+B}$, $b = \frac{B}{R+G+B}$, thus, $r+g+b=1$</li>
+<li>The chromaticity diagram formed with $(1,0,0)$, $(0,1,0)$, and $(0,0,1)$ is an equilateral triangle with $\sqrt{2}$ for each side.</li>
+<li>The saturation is the distance from the origin to the color chromaticity coordinates, the hue is the angle between the G axis to the vector</li>
+</ul>
+</li>
+<li>Spectral locus: the resulting curve from the response of a sensor to an arbitrary stinulus in the chromaticity diagram.</li>
+<li>Chromaticity gamut: for a sensor, chromaticity gamut is the set of all points in the chromaticity space that correspond to the response of that sensor to some real stimulus.</li>
+<li>Primaries: a combined stimulis of $P(\lambda)=p_{R}P_{R}(\lambda)+p_{G}P_{G}(\lambda)+p_{B}P_{B}(\lambda)$, where $P_{R}$, $P_{G}$, and $P_{B}$ are primaries. Here, $R$, $G$, and $B$ are just arbitrary spectral densities</li>
+<li>Additive devices: CRT monitor, rear projection TV, LCD
+<ul>
+<li>Sensor response to additive primary
+<ul>
+<li>Snesor response to stimuli p: $\vec{C_{p}}=A\vec{p}$, wehre $\vec{C_{p}}=\begin{bmatrix} R_{P}&amp;G_{P}&amp;R_{P}\end{bmatrix}^{T}$, amount of each primary $\vec{p}=\begin{bmatrix} p_{R}&amp;p_{G}&amp;p_{B}\end{bmatrix}^{T}$</li>
+<li>Color matching function: $A = [a_{i,j}]$, $a_{i,j}=\int p_{j}(\lambda)Q_{i}(\lambda)d\lambda$, where $i,j\in {R, G, B}$, $i$ row is the response of channel $i$ to 3 primaries, $j$ column is the response of 3 channels to primary $j$, $Q$ is spectral response function of the sensor</li>
+</ul>
+</li>
+<li>Relation between sensor and color matching function
+<ul>
+<li>Color matching function is a sensor subspace: $\begin{bmatrix} \bar{r}(\mu) \\ \bar{g}(\mu) \\ \bar{b}(\mu)\end{bmatrix} = A^{-1}\begin{bmatrix} \bar{Q_{R}}(\mu) \\ \bar{Q_{G}}(\mu) \\ \bar{Q_{B}}(\mu)\end{bmatrix}$</li>
+<li>Color matching functions are a linear combination of the sensor response functions</li>
+<li>Color matching functions can be directly measured</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CIE RGB Observer
+<ul>
+<li>Color matching functions: $\hat{r}$ is negative in range of 435.8~546.1mm</li>
+<li>Chromaticity diagram: the shape distorted to negative in R direction</li>
+</ul>
+</li>
+<li>CIE XYZ Observer
+<ul>
+<li>Linear transformation from the color matching functions of CIE RGB observer</li>
+<li>Color matching functions $[\bar{x}(\lambda), \bar{y}(\lambda), \bar{z}(\lambda)]$ are non-negative at all wavelengths</li>
+<li>The chromaticity coordinates of all realizable stimuli are non-negative</li>
+<li>$\bar{y}(\lambda)$ color matching function is equal to the relative luminous efficiency function $V(\lambda)$</li>
+</ul>
+</li>
+</ul>
+<h3 id="discrete-wavelength-trichromatic-model">Discrete-Wavelength Trichromatic Model</h3>
+<ul>
+<li>Sensor output
+<ul>
+<li>Sensor output: $\vec{q}=S^{T}\vec{n}$, where, $S$ is sensor response for channels (HVS subspace, size of $31\times 3$), $\vec{n}$ sampled stimulus (size of $31\times 1$)</li>
+<li>Color matching condition: $\vec{n_{1}}=\vec{n_{2}} \iff \vec{q_{1}}=\vec{q_{2}} \iff \vec{n^{<em>}_{1}}=\vec{n^{</em>}_{2}}$</li>
+<li>The fundamental component (projection on $span(s)$): $\vec{n^{*}} = S[S^{T}S]^{-1}S^{T}\vec{n}$</li>
+<li>Introducing Primary set
+<ul>
+<li>$P = [\vec{p_{1}}, \vec{p_{2}}, \vec{p_{3}}]$ (size of $31\times 3$)</li>
+<li>Stimuli generated using primary set $P$: $P\vec{a}$, where $\vec{a}=[a_{1}, a_{2}, a_{3}]^{T}$ is primary mixture amount</li>
+<li>The fundamental component of $P$ $P^{*} = S[S^{T}S]^{-1}S^{T}\vec{P}$</li>
+<li>Sensor output: $\vec{q}=S^{T}\vec{n} = S^{T}P^{*}\vec{a} \implies \vec{a} = (S^{T}P)^{-1}S^{T}\vec{n}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Color matching matrix</li>
+<li>An image system interpretation</li>
+</ul>
+<h3 id="color-opponency">Color Opponency</h3>
+<ul>
+<li>YUV</li>
+<li>YC_{r}C_{b}</li>
+<li>CIE Lab</li>
+<li>YC_{x}C_{z}</li>
+</ul>
+<h3 id="characterization-of-illuminants">Characterization of Illuminants</h3>
+<ul>
+<li>Black-body radiator</li>
+<li>Color temperature</li>
+<li>Non-linear response of human visual system
+<ul>
+<li>Weber&rsquo;s Law</li>
+<li>Gamma correction</li>
+<li>MacAdam ellipse</li>
+<li>Uniform color space (ex. CIE Lab)</li>
+</ul>
+</li>
+</ul>
+<h3 id="color-management">Color Management</h3>
+<ul>
+<li>CRT display</li>
+<li>Forward model</li>
+<li>Get gamma value</li>
+<li>Get T</li>
+</ul>
+<h3 id="white-point-adjustment">White point adjustment</h3>
+<ul>
+<li>Desired reference white point</li>
+<li>From Source RGB to white balanced RGB</li>
+<li>From girven RGB to CIE XYZ</li>
+</ul>
+<h2 id="image-capture-devices">Image Capture Devices</h2>
+<h3 id="camera">Camera</h3>
+<h3 id="three-chips">Three chips</h3>
+<h3 id="foven-sensor">Foven sensor</h3>
+<h2 id="image-output-devices">Image Output Devices</h2>
+<h3 id="general-model-for-scanning-and-sampling">General Model for Scanning and Sampling</h3>
+<ul>
+<li>Line-continuous scanning; focal plane array</li>
+<li>Aperture effects</li>
+<li>Sampling effect</li>
+</ul>
+<h3 id="general-model-for-display-and-printing">General Model for Display and Printing</h3>
+<ul>
+<li>Ideal reconstruction</li>
+<li>Zero-order hold reconstruction</li>
+<li>Aliasing artifacts</li>
+</ul>
+<h3 id="digital-halftoning">Digital halftoning</h3>
+<ul>
+<li>Error diffusion</li>
+<li>Direct binary search (DBS)</li>
+<li>Tone correction</li>
+<li>Cluster dot periodic</li>
+<li>Supercell approach</li>
+<li>Hybrid screen</li>
+<li>HVS and error image</li>
+<li>Dual interpretation</li>
+<li>Screen frequency</li>
+<li>Media-colorant-light interaction</li>
+<li>Print modeling</li>
+<li>Measuring the accuracy of the color imaging pipeline</li>
+<li>Perceptual model-color device</li>
+</ul>
+<h2 id="image-quality">Image Quality</h2>
+<h2 id="computational-color">Computational Color</h2>
+<h2 id="color-image-formation">Color Image Formation</h2>
+
   </article>
 
 </div>

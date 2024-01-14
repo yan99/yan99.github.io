@@ -12,7 +12,7 @@
       <link>https://yan99.github.io/notes/ece638/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://yan99.github.io/notes/ece638/</guid>
-      <description></description>
+      <description>Color Science Color Basic Concepts Trichromatic theory of color: interaction of stimulus and 3 different types of receptors in eyes. Color matching experiment: half of the area display with $C_{Target}$, the other half display with $C_{match} = C_{1} + C_{2} + C_{3}$ for additive system. Let examer to match the two colors Spectral representation of color Stimulus for eyes: $S(\lambda) = R(\lambda)\cdot I(\lambda)$, where $R$ is reflectance of the surface, $I$ is the illuminant ray shoot on the surface Have to be normal, due to angular dependence Trichromatic sensor model, where $(R_{s}, G_{s}, B_{s})$ is stimulus vector, $Q$ is spectral response functions of the sensor (eyes/HVS, cameras, etc.</description>
     </item>
     <item>
       <title>Stanford CS 149</title>

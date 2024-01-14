@@ -64,13 +64,13 @@
   <meta itemprop="name" content="Stanford CS 231m">
 <meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments">
 
-<meta itemprop="wordCount" content="2600">
+<meta itemprop="wordCount" content="2888">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Stanford CS 231m">
 <meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments">
 
-<meta itemprop="wordCount" content="2600">
+<meta itemprop="wordCount" content="2888">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -570,7 +570,51 @@ For $N$ samples, at least $1$ sample is free of outliers, the probaility is $1-p
 <ul>
 <li>Traditional camera APIs
 <ul>
-<li>Real image sensors are pipelined</li>
+<li>Real image sensors are pipelined: while one frame exposing, next frame is being prepared and previous frame is being read out.</li>
+<li>Viewfinding/video mode: pipelined, high frame rate; settings changes take effect someime later</li>
+<li>Still capture mode: paramteres prepared; reset pipeline between shots</li>
+<li>Image sensor: (exposure, frame rate) configure $\rightarrow$ expose $\rightarrow$ (gain, digital zoom) readout</li>
+<li>Imaging pipeline: (format) receive $\rightarrow$ (Coefficients) Demosaic $\rightarrow$ (white balance) color corr</li>
+</ul>
+</li>
+<li>The FCam Architecture
+<ul>
+<li>A software architecture for programmable cameras: expose the maximum device capabilities</li>
+<li>Image sensor
+<ul>
+<li>no global state</li>
+<li>state travels in the requests through pipeline</li>
+<li>all parameters packed into requests from application processor</li>
+<li>at expose stage takes charge of lens, flash, etc. of the devices; The tags for device actions later outputs as metadata to application processor</li>
+</ul>
+</li>
+<li>Imaging Signal processor (ISP, imaging pipeline)
+<ul>
+<li>receives sensor data, optionally transform some data</li>
+<li>computes statistics</li>
+<li>output image and statistics to application processer</li>
+</ul>
+</li>
+<li>Visibility: full control over sensor settings; no autofocus/metering</li>
+</ul>
+</li>
+<li>Android camera architecture
+<ul>
+<li>Raw Bayer Input $\rightarrow$ statisitc ($\rightarrow$ 3A); camera devices; imaging processing; raw Bayer output (with scale &amp; crop)</li>
+<li>Raw Bayer Output $\rightarrow$ request control $\rightarrow$ output</li>
+<li>image processing $\rightarrow$ JPEG encoder; YUV (with scale &amp; crop)$\rightarrow$ request control $\rightarrow$ output</li>
+<li>image processing: hot pixel correction $\rightarrow$ demosaic $\rightarrow$ noise reduction $\rightarrow$ shading correction $\rightarrow$ geometric correction $\rightarrow$ color correction $\rightarrow$ tone curve adjustment $\rightarrow$ edge enhancement</li>
+</ul>
+</li>
+<li>HAL v3
+<ul>
+<li>Application framework (camera apps) $\rightarrow$ Request queue $\rightarrow$ camera HAl implementation $\rightarrow$ frame metadata queue and image buffers</li>
+<li>Camera2 API core operation model
+<ul>
+<li>1 request, 1 image captured; 1 reuslt metadata + N image buffers</li>
+<li>Camera-using app $\rightarrow$ camera2 API capture request queue input to camera device module $\rightarrow$ camera hardware (in-flight capture queue) $\rightarrow$ output image queues and <code>onCaptureComplete()</code> back to Camera2 API $\rightarrow$ Camera-using app</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

@@ -19,7 +19,7 @@
       <link>https://yan99.github.io/notes/cs149/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://yan99.github.io/notes/cs149/</guid>
-      <description>Introduction Moore&amp;rsquo;s Law CUDA threads &amp;amp; Atomics </description>
+      <description>Introduction Overall Parallel thinking Decomposing work into pieces that can safely be performed in parallel Assigning work to processors Managing communication/synchronization between the processors so that it does not limit speedup Writing code Performance characteristics of implementation Design trade-offs: performance vs. convenience vs. cost Hardware Fast != efficient Fast on parallel computer does not mean that it is using the hardware efficiently Make use of provided machine capabilities (Programmer&amp;rsquo;s perspective) vs choosing the right capabilities to put in system (HW designer&amp;rsquo;s perspective) Why parallel: recent 15 years, processor performance improved on exploiting instruction-level parallelism and increasing CPU clock frequency Machine code Structure: fetch/decode $\rightarrow$ ALU (execution unit) $\rightarrow$ execution context (Registers) ALU: performs the operation Registers: maintain program state; store value of variables Instruction level parallelism (ILP) Superscalar execution: Processor automatically find independent instructions in an instruction sequence and executes them in parallel on multiple execution units Superscalar processor: decode and execute multiple instructions per clock Out-of-order control logic $\rightarrow$ fetch/decode 1 // fetch/decode 2 $\rightarrow$ execution 1 // execution 2 $\rightarrow$ execution context Ex.</description>
     </item>
     <item>
       <title>Stanford CS 231m</title>

@@ -17,6 +17,36 @@
 
   
   
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+      integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv"
+      crossorigin="anonymous"
+    >
+
+    <script defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+      integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+      crossorigin="anonymous"
+    ></script>
+
+    <script defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+      integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF"
+      crossorigin="anonymous"
+      onload="renderMathInElement(document.body);">
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+    </script>
+  
 
   <meta property="og:title" content="Stanford CS 149" />
 <meta property="og:description" content="Parallel Computing" />
@@ -34,13 +64,13 @@
   <meta itemprop="name" content="Stanford CS 149">
 <meta itemprop="description" content="Parallel Computing">
 
-<meta itemprop="wordCount" content="7">
+<meta itemprop="wordCount" content="770">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Stanford CS 149">
 <meta itemprop="description" content="Parallel Computing">
 
-<meta itemprop="wordCount" content="7">
+<meta itemprop="wordCount" content="770">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -171,7 +201,119 @@
     
 
     <h2 id="introduction">Introduction</h2>
-<h3 id="moores-law">Moore&rsquo;s Law</h3>
+<h3 id="overall">Overall</h3>
+<ul>
+<li>Parallel thinking
+<ol>
+<li>Decomposing work into pieces that can safely be performed in parallel</li>
+<li>Assigning work to processors</li>
+<li>Managing communication/synchronization between the processors so that it does not limit speedup</li>
+</ol>
+</li>
+<li>Writing code
+<ul>
+<li>Performance characteristics of implementation</li>
+<li>Design trade-offs: performance vs. convenience vs. cost</li>
+<li>Hardware</li>
+</ul>
+</li>
+<li>Fast != efficient
+<ul>
+<li>Fast on parallel computer does not mean that it is using the hardware efficiently</li>
+<li>Make use of provided machine capabilities (Programmer&rsquo;s perspective) vs choosing the right capabilities to put in system (HW designer&rsquo;s perspective)</li>
+</ul>
+</li>
+<li>Why parallel: recent 15 years, processor performance improved on exploiting instruction-level parallelism and increasing CPU clock frequency</li>
+</ul>
+<h3 id="machine-code">Machine code</h3>
+<ul>
+<li>Structure: fetch/decode $\rightarrow$ ALU (execution unit) $\rightarrow$ execution context (Registers)</li>
+<li>ALU: performs the operation</li>
+<li>Registers: maintain program state; store value of variables</li>
+</ul>
+<h3 id="instruction-level-parallelism-ilp">Instruction level parallelism (ILP)</h3>
+<ul>
+<li>Superscalar execution:
+<ul>
+<li>Processor automatically find independent instructions in an instruction sequence and executes them in parallel on multiple execution units</li>
+<li>Superscalar processor: decode and execute multiple instructions per clock</li>
+<li>Out-of-order control logic $\rightarrow$ fetch/decode 1 // fetch/decode 2 $\rightarrow$ execution 1 // execution 2 $\rightarrow$ execution context</li>
+<li>Ex. Old Intel Pentium 4 CPU: instruction decoder has 2 simple instruction decoders, and 1 complex instruction decoder; 2 integer units, 1 floating-point unit, and 1 memory interface unit in execution unit block</li>
+<li>Number of ILP referring to depth of the instruction graph</li>
+</ul>
+</li>
+</ul>
+<h3 id="hardware-background-info">Hardware background info</h3>
+<ul>
+<li>Diminishing returns of super scalar execution when over 4 instructions issue to a processor per clock</li>
+<li>Moore&rsquo;s Law: no. of transistors on microchips doubles every two years</li>
+<li>ILP tapped out after around 2001; processor clock rate stops increasing after around 2005</li>
+<li>Building faster processors by adding more execution units that run in parallel or units that are specialized for a specific task (graphic, audio/video playback, etc.)
+<ul>
+<li>Ex. multi-core CPU: Intel &ldquo;Comet Lake&rdquo; i9 10-core CPU, AMD Ryzen Threaddripper 3990X 64 core (4 8-core chiplets),  NVIDIA AD102 GPU, GPU-accelerated supercomputing, Apple A15 Bionic 6-core CPU multi-core GPU, Raspberry Pi 3 quad-core ARM A53 CPU</li>
+</ul>
+</li>
+<li>Specialized processing is ubiquitous in mobile systems
+<ul>
+<li>Apple-designed multi-core GPU: neural engine (NPU) for DNN acceleartion + image/video encode/decode processor + motion(sensor) processor, TPU: tensor processing unit, a specialized processor for ML computations</li>
+<li>Specialized hardware to accelerate DNN inference/training: Google TPU3, GraphCore IPU, Intel deep learning inference accelerator, Apple neural engine</li>
+</ul>
+</li>
+<li>Software must be written to be parallel to see performance gains.</li>
+</ul>
+<h3 id="power-wall">Power wall</h3>
+<ul>
+<li>Power consumed by a trasistaor: dynamic power $\propto$ capacitive load, voltage<sup>2</sup>, frequency</li>
+<li>Static power: transistors burn power even when inactive due to leakage</li>
+<li>High power = high heat</li>
+</ul>
+<h3 id="memory">Memory</h3>
+<p>Efficient processing almost always comes down to accessing data efficiently</p>
+<ul>
+<li>Memory is organized as an array of bytes; each byte is identified by its address in memory</li>
+<li>Terminology
+<ul>
+<li>Memory access latency: the amount of time it takes the memory system to provide data to the processor</li>
+<li>Stalls: a processor stalls (can&rsquo;t make progress) when it cannot run the next instruction in an instruction stream because future instructions depend on a previous instruction that is not yet complete. $\rightarrow$ accessing memory is a major source of stalls</li>
+<li>Memory access times $~100$&rsquo;s of cycles (measure of latency)</li>
+<li>Caches
+<ul>
+<li>A cache is a hardware implementation detail that does not impact the output of a program, only its performance</li>
+<li>Cache is on-chip storage that maintains a copy of a subset of the values in memory</li>
+<li>Cache memory can be load/store more quickly than in DRAM (dynmamic random access memory) (on Kaby Lake CPU, latency on caches range from 4 to 38, DRAM around 248)</li>
+<li>Caches operate at the granularity of &ldquo;cache lines&rdquo;; Each line holds 4 bytes of data</li>
+<li>LRU (least recently used) replacement policy</li>
+<li>Spatial locality: loading data in a cache line &ldquo;preloads&rdquo; the data needed for subsequent accesses to <u>different addresses</u> in the same line, leading to cache hits; those instructions which are <u>stored nearby</u> to the recently executed instruction have high chances of execution.</li>
+<li>Temporal locality: repeated accesses to the <u>same address</u> result in hits; a instruction which is <u>recently</u> executed have high chances of execution again.</li>
+<li>Caches reduce length of stalls; caches provide high bandwidth data transfer</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Implementation of the linear memory address space abstraction on a modern computer
+<ul>
+<li>Common organization: hierarchy of caches: level 1 (L1, 32 KB), level 2 (L2, 256 KB), level 3 (L3, 20 MB); DRAM (64 GB)</li>
+<li>The instruction &ldquo;load the value stored at address X into register R0&rdquo; might involve a complex sequence of operations by multiple data caches and access to DRAM</li>
+</ul>
+</li>
+</ul>
+<h3 id="summary">Summary</h3>
+<ul>
+<li>Single-thread-of-control performance is improving very slowly
+<ul>
+<li>Ultilize multiple processing elements</li>
+<li>Specialized processing hardware</li>
+</ul>
+</li>
+<li>Parallel programing
+<ul>
+<li>Problem partitioning, communication, synchronization</li>
+<li>Knowledge of machine characteristics</li>
+<li>Understanding data movement</li>
+</ul>
+</li>
+</ul>
+<h2 id="a-modern-multi-core-processor">A Modern Multi-Core Processor</h2>
 <h3 id="heading"></h3>
 <h2 id="cuda-threads--atomics">CUDA threads &amp; Atomics</h2>
 

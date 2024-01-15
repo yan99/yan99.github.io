@@ -64,13 +64,13 @@
   <meta itemprop="name" content="Purdue ECE 638">
 <meta itemprop="description" content="Simpilified Course Notes for Digital Color Imaging Systems Course">
 
-<meta itemprop="wordCount" content="758">
+<meta itemprop="wordCount" content="920">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Purdue ECE 638">
 <meta itemprop="description" content="Simpilified Course Notes for Digital Color Imaging Systems Course">
 
-<meta itemprop="wordCount" content="758">
+<meta itemprop="wordCount" content="920">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -269,27 +269,42 @@
 <li>Sensor output
 <ul>
 <li>Sensor output: $\vec{q}=S^{T}\vec{n}$, where, $S$ is sensor response for channels (HVS subspace, size of $31\times 3$), $\vec{n}$ sampled stimulus (size of $31\times 1$)</li>
-<li>Color matching condition: $\vec{n_{1}}=\vec{n_{2}} \iff \vec{q_{1}}=\vec{q_{2}} \iff \vec{n^{<em>}_{1}}=\vec{n^{</em>}_{2}}$</li>
+<li>Color matching condition: $\vec{n_{1}}=\vec{n_{2}} \iff \vec{q_{1}}=\vec{q_{2}} \iff \vec{n_{1}^{\star}}=\vec{n_{2}^{\star}}$</li>
 <li>The fundamental component (projection on $span(s)$): $\vec{n^{*}} = S[S^{T}S]^{-1}S^{T}\vec{n}$</li>
 <li>Introducing Primary set
 <ul>
 <li>$P = [\vec{p_{1}}, \vec{p_{2}}, \vec{p_{3}}]$ (size of $31\times 3$)</li>
 <li>Stimuli generated using primary set $P$: $P\vec{a}$, where $\vec{a}=[a_{1}, a_{2}, a_{3}]^{T}$ is primary mixture amount</li>
-<li>The fundamental component of $P$ $P^{*} = S[S^{T}S]^{-1}S^{T}\vec{P}$</li>
+<li>The fundamental component of $P$: $P^{*} = S[S^{T}S]^{-1}S^{T}\vec{P}$</li>
 <li>Sensor output: $\vec{q}=S^{T}\vec{n} = S^{T}P^{*}\vec{a} \implies \vec{a} = (S^{T}P)^{-1}S^{T}\vec{n}$</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Color matching matrix</li>
-<li>An image system interpretation</li>
+<li>Color matching matrix
+<ul>
+<li>For monochromatic stimulus, let $I$ of size $31\times 31$ identity matrix to represent all levels of monochrom colors</li>
+<li>$S^{T}PA^{T} = S^{T}I$, where $A^{T} = [\vec{a_{1}},\cdots,\vec{a_{31}}]$ (size of $3\times 31$) is color matching matrix whose $i$-th row is amount of primary $P$ neede to match $i$-th wavelength</li>
+<li>$span(A)=span(S)$ This means that we can freely transform among color matching functions and the HVS sensitivity matrix $S$</li>
+<li>Transform between CIE RGB and RGB color spaces: $A_{XYZ}=T_{RGB-XYZ}A_{RGB}$, where $A_{XYZ}$ is color matching matrix of CIE XYZ color space.</li>
+<li>The fundamental component (projection on $span(A)$): $\vec{n^{*}} = A[A^{T}A]^{-1}A^{T}\vec{n}$</li>
+<li>The Projection operator is $R=A[A^{T}A]^{-1}A^{T}=S[S^{T}S]^{-1}S^{T}=P^{\star}(P^{\star T}P^{\star})^{-1}P^{\star T}$</li>
+</ul>
+</li>
+<li>An image system interpretation
+<ul>
+<li>Considering an image system with a capture device followed by a display device: stimulus $\vec{n} \rightarrow$ sensor $A^{T} \rightarrow$ Display $P^* \rightarrow fundamental component of the given stimulus \vec{n^{*}}$</li>
+<li>$\vec{q}=S^{T}PA^{T}=S^{T}I \implies S^{T}P^{\star}A^{T}=S^{T}R\implies P^{\star}A^{T}=R \implies \vec{n^{\star}}=P^{\star}\vec{a} \implies \vec{a}=A^{T}\vec{n}$</li>
+<li>A stimulus $\vec{n}$ has a physical realizable metamer $\iff$ its fundamental component can be written as a non-negative linear combination of the columns of $R$</li>
+</ul>
+</li>
 </ul>
 <h3 id="color-opponency">Color Opponency</h3>
 <ul>
 <li>YUV</li>
-<li>YC_{r}C_{b}</li>
+<li>YC<sub>r</sub>C<sub>b</sub></li>
 <li>CIE Lab</li>
-<li>YC_{x}C_{z}</li>
+<li>YC<sub>x</sub>C<sub>z</sub></li>
 </ul>
 <h3 id="characterization-of-illuminants">Characterization of Illuminants</h3>
 <ul>

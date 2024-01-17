@@ -64,13 +64,13 @@
   <meta itemprop="name" content="Stanford CS 231m">
 <meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments">
 
-<meta itemprop="wordCount" content="3144">
+<meta itemprop="wordCount" content="3497">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Stanford CS 231m">
 <meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments">
 
-<meta itemprop="wordCount" content="3144">
+<meta itemprop="wordCount" content="3497">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -543,8 +543,74 @@ For $N$ samples, at least $1$ sample is free of outliers, the probaility is $1-p
 </ul>
 </li>
 </ul>
-<h3 id="color-science-more-details-can-be-find--course-notespurdue-ece-638notesece638">Color Science (More Details can be find → <a href="/../notes/ece638" >Course Notes/Purdue ECE 638</a>)</h3>
-<h3 id="3a-more-details-can-be-find--other-notes3aothernotes3a">3A (More Details can be find → <a href="/../othernotes/3a" >Other Notes/3A</a>)</h3>
+<h3 id="color-science-more-details-can-be-found--course-notespurdue-ece-638notesece638">Color Science (More Details can be found → <a href="/../notes/ece638" >Course Notes/Purdue ECE 638</a>)</h3>
+<ul>
+<li>CIE Chromaticity Diagram
+<ul>
+<li>Intensity is imeasured as the distance from origin black $(0,0,0)$</li>
+<li>Chromaticiity coordinates given a notion of color independent of brightness</li>
+<li>$x+y+z=1$ yields a chromaticity value dependent on dominant wavelength (hue) and excitation purity (saturation, distance from equal energy white point $(1/3,1/3,1/3)$)</li>
+<li>Perceptural non-uniformity: the XYZ color space is not perceptually uniform (MacAdam ellipse, just noticeable difference)</li>
+</ul>
+</li>
+<li>CIE L*a*b* uniform color space
+<ul>
+<li>Approximate human vision, L component closely matches human perception of lightness</li>
+<li>a channel: red-green; b channel: blue-yellow</li>
+</ul>
+</li>
+<li>YUV, YC<sub>b</sub>C<sub>r</sub>, &hellip;
+<ul>
+<li>Family of color spaces for video encoding</li>
+<li>Eye is sensitive to luminance $\rightarrow$ separate luminance and chrominance</li>
+<li>Get low frequency UV compressed; Filters color down (2:1, 4:1)</li>
+<li>Channels: Y = luminance (linear); Y&rsquo; = luma (gamma corrected); UV/C<sub>b</sub>C<sub>r</sub> = chrominance (always linear)</li>
+<li>Y&rsquo;C<sub>b</sub>C<sub>r</sub> is not an absolute color space (the actual color depends on the RGB primaries used)</li>
+<li>YC<sub>b</sub>C<sub>r</sub> is YUV represented differently
+<ul>
+<li>YUV: luminance and BR luminance</li>
+<li>YC<sub>b</sub>C<sub>r</sub> (scaled YUV): luminance, blue minus luminance (B-Y), and red minus luminance (R-Y)</li>
+<li>YP<sub>b</sub>P<sub>r</sub> (physical YC<sub>b</sub>C<sub>r</sub>): analog version of YC<sub>b</sub>C<sub>r</sub>, physical component video cable used to transmit YC<sub>b</sub>C<sub>r</sub></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Gamma encoding</li>
+<li>Luminance from RGB
+<ul>
+<li>Green will appear the brightest, red will appear less bright, blue will be the darkest</li>
+<li>For luminance by NTSE, CIE, ITU are different for RGB gain</li>
+</ul>
+</li>
+<li>Cameras use sRGB
+<ul>
+<li>standard RGB color space (uses the same primaries as used in studio monitors and HDTV, gamma curve typical of CRTs, direct display)</li>
+<li>Need a map from sensor RGB to sRGB, need calibration</li>
+</ul>
+</li>
+<li>Linear or non-linear
+<ul>
+<li>linear: simulatinmg physical world</li>
+<li>non-linear: HVS, minimizing perceptual errors due to quantization</li>
+</ul>
+</li>
+<li>Film response curve (Density vs. Log exposure)
+<ul>
+<li>Toe region: chemical process</li>
+<li>Middle linear region: a given amount of light turned half of the grain crystals to silver, the same amount more turns half of the rest</li>
+<li>Shoulder region: close to saturation</li>
+<li>Toe and shoulder preserve more dynamic range at dark and bright areas at the cost of reduced contrast</li>
+<li>Film has more dynamic range than print (~12 bits)</li>
+</ul>
+</li>
+<li>Digital camera response curve(Intensity vs. irradiance)
+<ul>
+<li>Irradiance: radiant flux received by a surface per unit area</li>
+<li>Use different response curves at different exposures</li>
+</ul>
+</li>
+</ul>
+<h3 id="3a-more-details-can-be-found--other-notes3aothernotes3a">3A (More Details can be found → <a href="/../othernotes/3a" >Other Notes/3A</a>)</h3>
 <ul>
 <li>Auto focus
 <ul>
@@ -593,7 +659,7 @@ For $N$ samples, at least $1$ sample is free of outliers, the probaility is $1-p
 <li>Auto exposure
 <ul>
 <li>Parameters: exposure time, aperture, analog and digital gain, ND (nertral density) filters (modifies intensites without change in hue)</li>
-<li>Exposure metering: CDF of image intensity values, $P%$ of image pixels have an intensity lower than intensity $Y$; Separate highlights and shadows areas</li>
+<li>Exposure metering: CDF of image intensity values, $P$ percentile of image pixels have an intensity lower than intensity $Y$; Separate highlights and shadows areas</li>
 </ul>
 </li>
 </ul>

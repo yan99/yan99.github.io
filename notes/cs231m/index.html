@@ -64,13 +64,13 @@
   <meta itemprop="name" content="Stanford CS 231m">
 <meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments">
 
-<meta itemprop="wordCount" content="2888">
+<meta itemprop="wordCount" content="3144">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Stanford CS 231m">
 <meta itemprop="description" content="Part of Notes for Course Mobile Computer Vision with Additional Suppliments">
 
-<meta itemprop="wordCount" content="2888">
+<meta itemprop="wordCount" content="3144">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -348,7 +348,7 @@
 <li>Line $l$: $l^{T}x_{i} = 0$ and $x_{i}&rsquo; = Hx_{i}\implies l&rsquo;=H^{-T}l$</li>
 <li>Conics $C$: $x^{T}Cx = 0$ and $x = H^{-1}x&rsquo;\implies C&rsquo;=H^{-T}CH^{-1}$</li>
 <li>Maps a traight line to a straight line</li>
-<li>Projective Group $\rightarrow$ Affine Group $\rightarrow$ Similarity Group $\rightarrow$ Ecuslidean Group
+<li>Projective Group $\rightarrow$ Affine Group $\rightarrow$ Similarity Group $\rightarrow$ Euclidean Group
 <ol>
 <li>$H = \begin{bmatrix} A &amp; \vec{t}\\\vec{v^{T}} &amp; \nu \end{bmatrix}$</li>
 <li>Affine: $\begin{bmatrix} 0&amp;0&amp;1 \end{bmatrix}$ for last row of $H$, keeps parallel lines parallel</li>
@@ -361,12 +361,12 @@
 <li>By sending vanishing line to $l_{\infty}$ can remove affine distortion.</li>
 </ul>
 </li>
-<li>$x&rsquo; = Hx$for each corresponding point pairs. Rearrange the equations. $\rightarrow Ah = 0$, where $A_{i} = \begin{bmatrix} -x&amp;-y&amp;-1&amp;0&amp;0&amp;0&amp;xx&rsquo;&amp;yx&rsquo;&amp;x&rsquo;\\0&amp;0&amp;0&amp;-x&amp;-y&amp;-1&amp;xy&rsquo;&amp;yy&rsquo;&amp;y&rsquo;\end{bmatrix}$. Decomposite $A$ with SVD. Solution is the nullspace of A, the last column/row of $V$/$V^{T}$. Or solve the least square problem of $min|Ah|$ with $|h| = 1$. Or set $h_{3,3} = 1$, solve least square problem of $|Ah-b|$ with solutioin of $h = (A^{T}A)^{-1}A^{T}b$</li>
+<li>$x&rsquo; = Hx$ for each corresponding point pairs. Rearrange the equations. $\rightarrow Ah = 0$, where $A_{i} = \begin{bmatrix} -x&amp;-y&amp;-1&amp;0&amp;0&amp;0&amp;xx&rsquo;&amp;yx&rsquo;&amp;x&rsquo;\\0&amp;0&amp;0&amp;-x&amp;-y&amp;-1&amp;xy&rsquo;&amp;yy&rsquo;&amp;y&rsquo;\end{bmatrix}$. Decomposite $A$ with SVD. Solution is the nullspace of A, the last column/row of $V$/$V^{T}$. Or solve the least square problem of $min|Ah|$ with $|h| = 1$. Or set $h_{3,3} = 1$, solve least square problem of $|Ah-b|$ with solutioin of $h = (A^{T}A)^{-1}A^{T}b$</li>
 <li>RANSAC (Random Sample Consensus)
 <ol>
 <li>Randomly choose a subset of data points to fit</li>
 <li>Within a threshold $\delta$ of model are consensus set (inliers). No. of inliers is $M$.</li>
-<li>Repeat for $N$ times. The model with biiggest $M$ is the most robust fit</li>
+<li>Repeat for $N$ times. The model with biggest $M$ is the most robust fit</li>
 </ol>
 <ul>
 <li>Assume $\epsilon = 10%$ outliers, goal: the probability $p$ for at least $1$ sample does not include any outliers
@@ -504,13 +504,13 @@ For $N$ samples, at least $1$ sample is free of outliers, the probaility is $1-p
 </ul>
 </li>
 <li>Stuck pixels: some pixels are turned always on or off $\rightarrow$ identify, replace with filtered values</li>
-<li>Dark floor (noise floor): tempearture adds noise; sensors usually have a ring of covered pixels around the pixels that exposed to source to capture the noise floor, subtract their signal</li>
+<li>Black level substraction: tempearture adds noise; sensors usually have a ring of covered pixels around the pixels that exposed to source to capture the noise floor, subtract their signal</li>
 </ul>
 </li>
 <li>AD Conversion
 <ul>
 <li>Sensor converts analog light signal to analog electrical signal</li>
-<li>AD Conversion: $\leq10$ bits (often $12$ or more); linear response; No. of bits = No. of op-amp</li>
+<li>AD Conversion: $\geq10$ bits (often $12$ or more); linear response; No. of bits = No. of op-amp</li>
 <li>Op-amp: $V_{out} = A\cdot(V_{in})$; Note that for op-amp, $V_{in,+}\approx V_{in,-}$</li>
 <li>ISO = amplification in AD conversion
 <ul>
@@ -545,12 +545,64 @@ For $N$ samples, at least $1$ sample is free of outliers, the probaility is $1-p
 </ul>
 <h3 id="color-science-more-details-can-be-find--course-notespurdue-ece-638notesece638">Color Science (More Details can be find → <a href="/../notes/ece638" >Course Notes/Purdue ECE 638</a>)</h3>
 <h3 id="3a-more-details-can-be-find--other-notes3aothernotes3a">3A (More Details can be find → <a href="/../othernotes/3a" >Other Notes/3A</a>)</h3>
+<ul>
+<li>Auto focus
+<ul>
+<li>Filter pixels with configuragle IIR filters (infinite impulse response) to produce a low-resolution sharpness map of the image</li>
+<li>The sharpness map helps estimate the best lens position by summing the sharpness values (=focus value) either over the entire image or over a rectangular area. (coarse to fine strategy)</li>
+</ul>
+</li>
+<li>Auto white balance
+<ul>
+<li>Illuminant determines the color normally associated with white by HVS</li>
+<li>RAW image has more green color</li>
+<li>Identify the illuminant color $\rightarrow$ neutralize the color of the illuminant
+<ul>
+<li>Prior knowledge of illuminant color tempurature</li>
+<li>Known reference object in the picture: find some white or gray</li>
+<li>Gray world assumption (gray in sRGB space)</li>
+</ul>
+</li>
+<li>Methods
+<ul>
+<li>Grey card (a picture of a white or grey obejct, deduct the weight of each channel)</li>
+<li>An object with known $(r_{w},g_{w},b_{w})$</li>
+<li>Use brightest pixels that is not saturated/clipped, make it white</li>
+</ul>
+</li>
+<li>Mapping the colors
+<ul>
+<li>For a given sensor: pre-compute the transformation matrices between the sensor color space and sRGB at different temperatures</li>
+<li>For an unknown sensor: interpolating between pre-computed matrices</li>
+</ul>
+</li>
+<li>Estimating color temperature
+<ul>
+<li>Use gray world assumption (make average of all pixels gray $R=G=B$) in sRGB space (just using $R=B$)</li>
+<li>Estimate color temperature in a given image
+<ol>
+<li>Apply pre-computed matrix to get sRGB for $T_{1}$ and $T_{2}$</li>
+<li>Calculate the average values $R$, $B$</li>
+<li>Solve $\alpha$</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Auto exposure
+<ul>
+<li>Parameters: exposure time, aperture, analog and digital gain, ND (nertral density) filters (modifies intensites without change in hue)</li>
+<li>Exposure metering: CDF of image intensity values, $P%$ of image pixels have an intensity lower than intensity $Y$; Separate highlights and shadows areas</li>
+</ul>
+</li>
+</ul>
 <h3 id="image-formatting">Image Formatting</h3>
 <ul>
-<li>JPEG Encoding
+<li>JPEG encoding
 <ol>
 <li>RGB $\rightarrow$ YUV/YIQ and subsample color</li>
-<li>DCT on $8\times8$ blocks</li>
+<li>DCT (discrete cosine transform) on $8\times8$ blocks</li>
 <li>Quantization</li>
 <li>Zig-zag ordering and run-length encoding</li>
 <li>Entropy coding</li>

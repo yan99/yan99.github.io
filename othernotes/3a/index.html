@@ -64,13 +64,13 @@
   <meta itemprop="name" content="3A">
 <meta itemprop="description" content="3A Literature Review">
 
-<meta itemprop="wordCount" content="7">
+<meta itemprop="wordCount" content="785">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="3A">
 <meta itemprop="description" content="3A Literature Review">
 
-<meta itemprop="wordCount" content="7">
+<meta itemprop="wordCount" content="785">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -200,8 +200,113 @@
 
     
 
-    <h2 id="auto-focus">Auto Focus</h2>
-<h3 id="heading"></h3>
+    <h2 id="slr">SLR</h2>
+<h3 id="structure">Structure</h3>
+<ul>
+<li>With half-silvered mirror down,
+<ul>
+<li>some light is shunted to AF, remainder reflected up to form image on diffuse <u>focusing screen</u></li>
+<li>AE and viewfinder sees from the same side of the mirror.</li>
+<li>AE light meter sees focusing screen; viewfinder sees with the same perspective as main sensor</li>
+</ul>
+</li>
+<li>With mirror rotated up, light exposes to the main sensor. Taking pictures.</li>
+</ul>
+<h3 id="viewfinders">Viewfinders</h3>
+<ul>
+<li>Coverages and Magnification
+<ul>
+<li>Coverage is fraction of sensor image covered by the viewfinder: $\frac{\text{area of focusing screen}}{\text{main sensor area}}$</li>
+<li>Magnification is apparent size of objects in viewfinder relative to unaided eye: $\frac{\theta_{\text{viewfinder angle range}}}{\theta_{\text{eye angle range}}}$</li>
+</ul>
+</li>
+<li>Electronic viewfinders
+<ul>
+<li>Pros: same view as lens <u>without</u> reflex mirror; tone map to show effect of chosen exposure</li>
+<li>Cons: poor resolution, low dynamic range relative to optical</li>
+</ul>
+</li>
+</ul>
+<h3 id="tilt-shift-lenses">Tilt-shift Lenses</h3>
+<ul>
+<li>Adjust the plane of focus to make the entire scene sharp</li>
+<li>Simulate a macro lens with a shallow depth of field, hence makes any scene look like a miniature model</li>
+<li>Not a tilt-shift lens, gradient blur can &ldquo;fake&rdquo; the tilt-shift lens effect</li>
+</ul>
+<h2 id="auto-focus">Auto Focus</h2>
+<h3 id="active-or-passive-the-uposition-and-directionsu-of-the-illumination-is-known-or-unknown">Active or Passive: the <u>position and directions</u> of the illumination is known or unknown</h3>
+<ul>
+<li>Active systems: some kind of radiation is send towards the scene (sonar, laser, structured light, etc.) Its refection from objects in the scene is captured by the camera&rsquo;s main sensor or another sensor and analyzed using triangulation to determine the objects&rsquo; distance from the camera.
+<ul>
+<li>Polaroid system uses ultrasound</li>
+<li>Sonar: sound navigation and ranging</li>
+<li>(Not AF) RealSense emitter mode with projecting known structured IR light onto the scene</li>
+<li>limited range, stopped by glass</li>
+</ul>
+</li>
+<li>Passive systems: nothing is sent towards the scene. The scene is captured under its own abmient illumination. This image is analyzed to determine distance.
+<ul>
+<li>Some passive system uses additional illumination during focusing, called an <u>autofocus assist light</u> (pariticularly useful if the scene is dark)</li>
+<li>Some passive system projects a grid or texture onto the scene to aid with analysis (useful for textureless surfaces)</li>
+</ul>
+</li>
+</ul>
+<h3 id="triangulation-rangefindingactive-autofocus">Triangulation Rangefinding(active autofocus)</h3>
+<ul>
+<li>Infrared LED flash reflects from subject; angle of returned reflection depends on distance; fails on dark or shiny objects</li>
+<li>Laser sheet illuminates a curve on the object; distance from left edge of image gives distance from laser; move object or sweep laser to create range image $z(x,y)$</li>
+<li>Commonly used to digitaltize physical maquettes to ease creation of 3D CG models</li>
+</ul>
+<h3 id="phase-detection-shape-from-stereo-algorithm-passive-autofocus">Phase Detection (shape from stereo algorithm, passive autofocus)</h3>
+<ul>
+<li>Most common type of passive autofocus method used in single-lens reflex (SLR) cameras.</li>
+<li>In AF module
+<ul>
+<li>Two or more small image sensors (1D i.e. a row of pixels, in pairs), each one having a microlens above it</li>
+<li>Each pair of sensors constitiutes one <u>AF point</u>, looks at one part of the camera&rsquo;s FOV</li>
+<li>As lens moves, ray bundles from an object onverge to a different point in the camera and change in the optical axis</li>
+<li>This change causes them to refocus through two lenslets to different positions on a separate AF sensor</li>
+<li>A certain spacing (<b>disparity</b>) between these images is &ldquo;in focus&rdquo; $\rightarrow$ similar to simple stereo for a camera</li>
+</ul>
+</li>
+<li>Process: 1D images are captured and read off the chip $\rightarrow$ embedded processor (cross-correlation, etc.)</li>
+<li>Pros and cons
+<ul>
+<li>Pros: Fast</li>
+<li>Cons: Only be used when relfex mirror is down</li>
+</ul>
+</li>
+<li>Algorithm also used for tracking motions and light field(set of all positions and directions of light rays traveling through space, using a microlens array in the optical train in the optical train of a camera/microscope, i.e. Shack-Hartmann wavefront sensor)</li>
+</ul>
+<h3 id="contrast-detection-shape-from-focus-algorithms-passive-autofocus">Contrast Detection (shape from focus algorithms, passive autofocus)</h3>
+<ul>
+<li>Processed after main sensor capturing; no limit on the number and placement of the autofocus points</li>
+<li>Process
+<ul>
+<li>Assume the unseen object is a single bright point on a black background</li>
+<li>As the position moves closer to the focus, the breadth of the spot formed on the sensor decreases and its center becomes brighter $\rightarrow$ find the maximum intensity or <b>gradient</b> (local maximum)</li>
+<li>Find the gradient within a small neighborhood of pixels, if exceeds a certain threshold, the system is declared well focused</li>
+<li>For objects naturally has slowly varying intensities (e.g., skies, human skin), the gradients will be modest even in good focus</li>
+</ul>
+</li>
+<li>Pros and cons
+<ul>
+<li>Pros: requires only local operatprs; accuracy and potentially larger array of AF points; flexibility (can choose point on screen); not affected by front and back focusing issues</li>
+<li>Cons: requries capturing multiple images; goes beyond focus and come back (hunting) $\rightarrow$ slow</li>
+</ul>
+</li>
+</ul>
+<h3 id="canons-dual-pixel-cmos-af">Canon&rsquo;s Dual Pixel CMOS AF</h3>
+<ul>
+<li>Each CMOS unit pixel consists of two independent photodiodes</li>
+<li>One gathers light, the other serves as <u>phase detection AF</u></li>
+<li>If the two beams of light don&rsquo;t converge to the center of the sensor, out of focus</li>
+<li>Fast</li>
+</ul>
+<h3 id="hybrid-af">Hybrid AF</h3>
+<ul>
+<li>Phase detection to achieve a fast AF $\rightarrow$ Activate contrast AF to fine-tune</li>
+</ul>
 <h2 id="auto-exposure">Auto Exposure</h2>
 <h2 id="auto-white-balance">Auto White Balance</h2>
 

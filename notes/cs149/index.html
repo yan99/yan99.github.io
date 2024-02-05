@@ -64,13 +64,13 @@
   <meta itemprop="name" content="Stanford CS 149">
 <meta itemprop="description" content="Parallel Computing">
 
-<meta itemprop="wordCount" content="1706">
+<meta itemprop="wordCount" content="2396">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Stanford CS 149">
 <meta itemprop="description" content="Parallel Computing">
 
-<meta itemprop="wordCount" content="1706">
+<meta itemprop="wordCount" content="2396">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -334,7 +334,7 @@
 <li>Loop iterations are independent</li>
 <li>The same loop body will be executed on a large number of data elements</li>
 <li>All the iterations of the loop carry out the exact same sequence of instructions</li>
-<li>This abstraction can facilitate automatic generation of both <u>multi-core parallel code</u> and <u>vector instructions</u> to make use of SIMD processing capabilities within a core.</li>
+<li>This abstraction can facilitate automatic generation of both <u>multi-core parallel code</u> and <u>vector instructions</u> to make use of SIMD proc  essing capabilities within a core.</li>
 </ul>
 </li>
 </ul>
@@ -435,6 +435,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#111">my_thread</span><span style="color:#111">.</span><span style="color:#111">join</span><span style="color:#111">();</span>
 </span></span><span style="display:flex;"><span><span style="color:#111">}</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Data-parallel expression
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Taylor&#39;s expansion of sin(x) function for each element of an array of N floating-point numbers
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">void</span> <span style="color:#75af00">sinx</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">N</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">terms</span><span style="color:#111">,</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">x</span><span style="color:#111">,</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">y</span><span style="color:#111">)</span> <span style="color:#111">{</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">//substitute for (int i = 0; i &lt; N; ++i) { with forall function
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// declares that loop iterations are independent
@@ -445,9 +446,13 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">denom</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span><span style="color:#111">;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">sign</span> <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">j</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">j</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">terms</span><span style="color:#111">;</span> <span style="color:#f92672">++</span><span style="color:#111">j</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">j</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#111">j</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">terms</span><span style="color:#111">;</span> <span style="color:#111">j</span> <span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">value</span> <span style="color:#f92672">+=</span> <span style="color:#111">sign</span> <span style="color:#f92672">*</span> <span style="color:#111">numer</span> <span style="color:#f92672">/</span> <span style="color:#111">denom</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">numer</span> <span style="color:#f92672">*=</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">*</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">denom</span> <span style="color:#f92672">*=</span> <span style="color:#111">(</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#111">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#111">)</span> <span style="color:#f92672">*</span> <span style="color:#111">(</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#111">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">sign</span> <span style="color:#f92672">*=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span> 
 </span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">y</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">value</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">y</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">value</span><span style="color:#111">;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#111">}</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Vector program (using AVX intrinsics)
@@ -455,15 +460,22 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">void</span> <span style="color:#75af00">sinx</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">N</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">terms</span><span style="color:#111">,</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">x</span><span style="color:#111">,</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">y</span><span style="color:#111">)</span> <span style="color:#111">{</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">float</span> <span style="color:#111">three_fact</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span><span style="color:#111">;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">N</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">8</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">_m256</span> <span style="color:#111">origx</span> <span style="color:#f92672">=</span> <span style="color:#111">_mm256_load_ps</span><span style="color:#111">(</span><span style="color:#ae81ff">8</span><span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">_m256</span> <span style="color:#111">origx</span> <span style="color:#f92672">=</span> <span style="color:#111">_mm256_load_ps</span><span style="color:#111">(</span><span style="color:#f92672">&amp;</span><span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]);</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#111">_m256</span> <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">origx</span><span style="color:#111">;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#111">_m256</span> <span style="color:#111">numer</span> <span style="color:#f92672">=</span> <span style="color:#111">_mm256_mul_ps</span><span style="color:#111">(</span><span style="color:#111">origx</span><span style="color:#111">,</span> <span style="color:#111">_mm256_mul_ps</span><span style="color:#111">(</span><span style="color:#111">origx</span><span style="color:#111">,</span> <span style="color:#111">origx</span><span style="color:#111">));</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#111">_m256</span> <span style="color:#111">denom</span> <span style="color:#f92672">=</span> <span style="color:#111">_mm256_broadcast_ss</span><span style="color:#111">(</span><span style="color:#f92672">&amp;</span><span style="color:#111">three_fact</span><span style="color:#111">);</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">sign</span> <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">j</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#111">j</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">terms</span><span style="color:#111">;</span> <span style="color:#f92672">++</span><span style="color:#111">j</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// value += sign * numer / denom
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#111">_m256</span> <span style="color:#111">tmp</span> <span style="color:#f92672">=</span> <span style="color:#111">_mm256_div_ps</span><span style="color:#111">(</span><span style="color:#111">_mm256_mul_ps</span><span style="color:#111">(</span><span style="color:#111">_mm256_set1ps</span><span style="color:#111">(</span><span style="color:#111">sign</span><span style="color:#111">),</span> <span style="color:#111">numer</span><span style="color:#111">),</span> <span style="color:#111">denom</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">_mm256_add_ps</span><span style="color:#111">(</span><span style="color:#111">value</span><span style="color:#111">,</span> <span style="color:#111">tmp</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">numer</span> <span style="color:#f92672">=</span> <span style="color:#111">_mm256_mul_ps</span><span style="color:#111">(</span><span style="color:#111">numer</span><span style="color:#111">,</span> <span style="color:#111">_mm256_mul_ps</span><span style="color:#111">(</span><span style="color:#111">origx</span><span style="color:#111">,</span> <span style="color:#111">origx</span><span style="color:#111">));</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">denom</span> <span style="color:#f92672">=</span> <span style="color:#111">_mm256_mul_ps</span><span style="color:#111">(</span><span style="color:#111">denom</span><span style="color:#111">,</span> <span style="color:#111">_mm256_broadcast_ss</span><span style="color:#111">((</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#111">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#111">)</span> <span style="color:#f92672">*</span> <span style="color:#111">(</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#111">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span><span style="color:#111">)));</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">sign</span> <span style="color:#f92672">*=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>    
-</span></span><span style="display:flex;"><span>  <span style="color:#111">_mm256_store_ps</span><span style="color:#111">(</span><span style="color:#f92672">&amp;</span><span style="color:#111">y</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">],</span> <span style="color:#111">value</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">_mm256_store_ps</span><span style="color:#111">(</span><span style="color:#f92672">&amp;</span><span style="color:#111">y</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">],</span> <span style="color:#111">value</span><span style="color:#111">);</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#111">}</span>
 </span></span></code></pre></div><h3 id="accessing-memory">Accessing Memory</h3>
@@ -500,14 +512,124 @@
 <ul>
 <li>Terminology
 <ul>
-<li>Memory bandwidth</li>
+<li>Bandwidth: the rate at which the memory system cam provide data to a processor (e.g. $20$ $GB/s$; analogy: no. of lanes of traffic)</li>
+<li>Latency: time completing one instruction (analogy: time cost driving from one city to another)</li>
+<li>Throughput: instructions/cycle (analogy: within a unit time, total no. of cars drived from one city to another)</li>
+</ul>
+</li>
+<li>High bandwidth memories: modern GPUs leverage high bandwidth memories located near processor</li>
+<li>In modern computing, bandwidth is the critical resource</li>
+<li>Performant paralle program:
+<ul>
+<li>Organize computation to fetch data from memory less
+<ul>
+<li>Reuse data previously loaded by the same thread (temporal locality optimizations)</li>
+<li>Share data across threads (inter-thread cooperation)</li>
+</ul>
+</li>
+<li>Favor performing additional arithmetic to storing/restoring values (math does not require bandwidth)</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 <h2 id="parallel-programming-abstractions">Parallel Programming Abstractions</h2>
-
+<ul>
+<li>Abstraction vs. implementation
+<ul>
+<li>Semantic (abstraction): given a program, and given the semantics of th e operations used, the program computations</li>
+<li>Implementation (scheduling): potentailly parallel which a program&rsquo;s operations be executed per thread, per execution unit, per lane of a vector instruction</li>
+</ul>
+</li>
+<li>ISPC (Intel SPMD Program Compiler)
+<ul>
+<li>SPMD (Single Program Multiple Data)</li>
+<li>Check this link (<a href="https://pharr.org/matt/blog/2018/04/30/ispc-all.html"  target="_blank" rel="noopener" >https://pharr.org/matt/blog/2018/04/30/ispc-all.html</a>) and fill this part</li>
+<li>Function <code>sinx()</code> Example:
+<ul>
+<li><code>main()</code> call to <code>ispc_sinx()</code>: control transferred to <code>ispc_sinx()</code> function (sequential execution, C code)
+<ul>
+<li>Begin executing <code>programCount</code> instances of <code>ispc_sinx()</code> (ISPC code)</li>
+<li><b>SPMD programming abstraction</b>:
+<ul>
+<li>Call to ISPC function spawns &ldquo;gang&rdquo; of ISPC &ldquo;program instances&rdquo;</li>
+<li>All instances run ISPC code concurrently</li>
+<li>Each instance has its own copy of local variables</li>
+<li>Upon return, all instances have completed</li>
+</ul>
+</li>
+<li><b>ISPC implements</b> the gang abstraction using SIMD instructions
+<ul>
+<li>No. of instances in a gang is the SIMD width of the hardware (or multiple of SIMD width)</li>
+<li>ISPC compiler generates a C++ function binary(.o) whose body contains SIMD instructions</li>
+<li>C++ linking against generated object files as usual</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Return to <code>main()</code>: control transferred back to <code>main()</code> function (sequential execution, C code)</li>
+</ul>
+</li>
+<li>ISPC keywords:
+<ul>
+<li><code>programCount</code>: no. of simultaneously executing instances in the gang (uniform value), here <code>programCount</code> is $8$</li>
+<li><code>programIndex</code>: id of the current instance in the gang (a non-uniform value)</li>
+<li><code>uniform</code>: A type modifier; all instances have the same value for this variable; purely for optimization, not needed for correctness</li>
+</ul>
+</li>
+<li>Interleaved assignment</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// ISPC code
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Interleaved assignment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">export</span> <span style="color:#00a8c8">void</span> <span style="color:#75af00">ispc_sinx</span> <span style="color:#111">(</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">N</span><span style="color:#111">,</span>            <span style="color:#75715e">// N = 1024 as input value
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">terms</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">X</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">result</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// assume N % programCount = 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">N</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">+=</span> <span style="color:#111">programCount</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">idx</span> <span style="color:#f92672">=</span> <span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#111">programIndex</span><span style="color:#111">;</span>             <span style="color:#75715e">// Local variable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">float</span> <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">];</span>                   <span style="color:#75715e">// Local variable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">float</span> <span style="color:#111">numer</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">]</span> <span style="color:#f92672">*</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">]</span> <span style="color:#f92672">*</span><span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">];</span>  <span style="color:#75715e">// Local variable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">denom</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">sign</span> <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">j</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#111">j</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">terms</span><span style="color:#111">;</span> <span style="color:#f92672">++</span><span style="color:#111">j</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">value</span> <span style="color:#f92672">+=</span> <span style="color:#111">sign</span> <span style="color:#f92672">*</span> <span style="color:#111">numer</span> <span style="color:#f92672">/</span> <span style="color:#111">denom</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">numer</span> <span style="color:#f92672">*=</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">]</span> <span style="color:#f92672">*</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">denom</span> <span style="color:#f92672">*=</span> <span style="color:#111">(</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#111">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#111">)</span> <span style="color:#f92672">*</span> <span style="color:#111">(</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#111">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">sign</span> <span style="color:#f92672">*=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">result</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">value</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Blocked assingment of array elements to program instances
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Assign multiple elements to each instance
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">export</span> <span style="color:#00a8c8">void</span> <span style="color:#75af00">ispc_sinx_v2</span> <span style="color:#111">(</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">N</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">terms</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">x</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">result</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Assume N % programCount = 0;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">count</span> <span style="color:#f92672">=</span> <span style="color:#111">N</span> <span style="color:#f92672">/</span> <span style="color:#111">programCount</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">int</span> <span style="color:#111">start</span> <span style="color:#f92672">=</span> <span style="color:#111">programIndex</span> <span style="color:#f92672">*</span> <span style="color:#111">count</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">count</span><span style="color:#111">;</span> <span style="color:#f92672">++</span><span style="color:#111">i</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">idx</span> <span style="color:#f92672">=</span> <span style="color:#111">start</span> <span style="color:#f92672">+</span> <span style="color:#111">i</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">float</span> <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">float</span> <span style="color:#111">numer</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">]</span> <span style="color:#f92672">*</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">]</span> <span style="color:#f92672">*</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">denom</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">sign</span> <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">j</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#111">j</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">terms</span><span style="color:#111">;</span> <span style="color:#f92672">++</span><span style="color:#111">j</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">value</span> <span style="color:#f92672">+=</span> <span style="color:#111">sign</span> <span style="color:#f92672">*</span> <span style="color:#111">numer</span> <span style="color:#f92672">/</span> <span style="color:#111">denom</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">numer</span> <span style="color:#f92672">*=</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">]</span> <span style="color:#f92672">*</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">denom</span> <span style="color:#f92672">*=</span> <span style="color:#111">(</span><span style="color:#111">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span><span style="color:#111">)</span> <span style="color:#f92672">*</span> <span style="color:#111">(</span><span style="color:#111">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">4</span><span style="color:#111">);</span> <span style="color:#75715e">// block assignment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#111">sign</span> <span style="color:#f92672">*=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">result</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">value</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div>
   </article>
 
 </div>

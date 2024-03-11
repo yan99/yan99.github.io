@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="icon" href="/favicon.ico">
+
+  <title>
+    Smartphone Imaging Technology and its Applications - Yang Yan
+  </title>
+
+  <meta name="description" content="by Vladan Blahnik and Oliver Schindelbeck" /><meta name="generator" content="Hugo 0.121.1">
+
+  <link rel="stylesheet" href="/main.css" />
+
+  
+  
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+      integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv"
+      crossorigin="anonymous"
+    >
+
+    <script defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+      integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+      crossorigin="anonymous"
+    ></script>
+
+    <script defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+      integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF"
+      crossorigin="anonymous"
+      onload="renderMathInElement(document.body);">
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+    </script>
+  
+
+  <meta property="og:title" content="Smartphone Imaging Technology and its Applications" />
+<meta property="og:description" content="by Vladan Blahnik and Oliver Schindelbeck" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yan99.github.io/othernotes/smartphone_imaging_tech_review/" /><meta property="article:section" content="Othernotes" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Smartphone Imaging Technology and its Applications"/>
+<meta name="twitter:description" content="by Vladan Blahnik and Oliver Schindelbeck"/>
+
+
+  <meta itemprop="name" content="Smartphone Imaging Technology and its Applications">
+<meta itemprop="description" content="by Vladan Blahnik and Oliver Schindelbeck">
+
+<meta itemprop="wordCount" content="5519">
+<meta itemprop="keywords" content="" />
+
+  <meta itemprop="name" content="Smartphone Imaging Technology and its Applications">
+<meta itemprop="description" content="by Vladan Blahnik and Oliver Schindelbeck">
+
+<meta itemprop="wordCount" content="5519">
+<meta itemprop="keywords" content="" />
+</head><body class="flex relative h-full min-h-screen"><aside
+  class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
+  <p class="font-bold mb-5 flex items-center gap-2">
+    <button aria-label="Close sidebar"
+      class="md:hidden menu-trigger-close p-1 rounded text-slate-800 dark:text-slate-50 hover:bg-slate-200 dark:hover:bg-slate-700"><svg class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+  fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" />
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+</svg></button>
+    <a href="https://yan99.github.io/" class="px-2">
+      <span>Yang Yan</span>
+    </a>
+    <button aria-label="Toggle dark mode"
+      class="dark-mode-toggle p-2 rounded border dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700"><svg class="h-4 w-4" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+  fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" />
+  <circle cx="12" cy="12" r="4" />
+  <path d="M3 12h1M12 3v1M20 12h1M12 20v1M5.6 5.6l.7 .7M18.4 5.6l-.7 .7M17.7 17.7l.7 .7M6.3 17.7l-.7 .7" />
+</svg></button>
+  </p>
+
+  
+  <ul class="list-none flex flex-col gap-1">
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="/" >
+        <span>Home</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  text-slate-400 font-semibold pb-0 pl-1 border-b cursor-default pointer-events-none "
+        href="#" >
+        <span>Content</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="/notes/" >
+        <span>Course Notes</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="/othernotes/" >
+        <span>Other Notes</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="/projects/" >
+        <span>Projects</span>
+        
+      </a>
+    </li>
+    
+  </ul>
+
+  <div class="flex-1"></div>
+
+  
+
+  <ul class="list-none flex flex-wrap justify-center gap-1 pt-2 border-t border-slate-200 dark:border-slate-600">
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm block text-slate-800 dark:text-slate-50  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="" target="_blank" rel="noopener noreferrer">
+        <span class="sr-only">Github</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm block text-slate-800 dark:text-slate-50  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="" target="_blank" rel="noopener noreferrer">
+        <span class="sr-only">LinkedIn</span>
+        
+        <span><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+  stroke-linecap="round" stroke-linejoin="round">
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+  <rect x="2" y="9" width="4" height="12" />
+  <circle cx="4" cy="4" r="2" />
+</svg></span>
+        
+      </a>
+    </li>
+    
+  </ul>
+</aside>
+
+<div
+  class="fixed bg-slate-700 bg-opacity-5 transition duration-200 ease-in-out inset-0 z-10 pointer-events-auto md:hidden left-0 top-0 w-full h-full hidden menu-overlay">
+</div>
+
+<button aria-label="Toggle Sidebar"
+  class="md:hidden absolute top-3 left-3 z-10 menu-trigger p-1 rounded text-slate-800 dark:text-slate-50 hover:bg-slate-100"><svg class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+  fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" />
+  <line x1="4" y1="6" x2="20" y2="6" />
+  <line x1="4" y1="12" x2="20" y2="12" />
+  <line x1="4" y1="18" x2="16" y2="18" />
+</svg></button>
+
+
+
+
+
+<div class="flex max-h-screen relative overflow-y-auto h-full w-full">
+  
+  <article class="px-6 py-20 w-full mx-auto prose lg:prose-lg dark:prose-invert h-fit prose-img:mx-auto">
+    
+    <a href="https://yan99.github.io/othernotes/" class="!no-underline !text-slate-500 !mb-2 !inline-block !font-normal !text-sm hover:!text-slate-700 dark:hover:!text-slate-400">← Back to list</a>
+
+    
+    <h1 class="!mb-2">Smartphone Imaging Technology and its Applications</h1>
+    
+
+    
+
+    <h2 id="background-evolution-of-the-mobile-phone-imaging-syetem-for-the-mass-consumer-market">Background: Evolution of the mobile phone imaging syetem for the mass consumer market</h2>
+<h3 id="from-mobile-phone-to-smartphone">From mobile phone to smartphone</h3>
+<h3 id="smartphone-today">Smartphone today</h3>
+<h3 id="tomorrows-smartphones">Tomorrow&rsquo;s smartphones</h3>
+<h2 id="mobile-imaging">Mobile Imaging</h2>
+<h3 id="market-development">Market development</h3>
+<h3 id="supply-chain">Supply chain</h3>
+<h2 id="background-brief-history-and-milestones-of-smartphone-imaging-technology">Background: Brief history and milestones of smartphone imaging technology</h2>
+<h2 id="physical-prroperties-and-requirements-of-smartphone-photography">Physical prroperties and requirements of smartphone photography</h2>
+<h3 id="camera-form-factor-and-image-sensor-size">Camera form factor and image sensor size</h3>
+<ul>
+<li>Smartphone flat housing 7-10 mm thick $\rightarrow$ cell phone optic $&lt; 5-6$ mm</li>
+<li>Relative flatness factor: $r = \frac{L}{\Theta_{im}}$
+<ul>
+<li>$L$: overall length</li>
+<li>$\Theta_{im}$: still feasible full image diagonal</li>
+</ul>
+</li>
+<li>&ldquo;The image sensor should be as large as possible so that as much light as possible falls on a pixel. This reduces fundamental disadvantages such as image noise, a reduced by dynamic range or longer exposure times and thus motion blur.&rdquo;</li>
+<li>Factor $r$ depends on the field of view of the lens and its layout (standard upright, periscopic, etc.)</li>
+<li>Wide-angle lenses: $r=0.83$ (iPhone 6, an image diagonal $\Theta_{im}$ of 6 mm, an overall length $L$ of 5 mm)</li>
+<li>Thicker or a slightly protruding camera housing and complex 7-lens designs: $r = 0.65$ (an image diagonal $\Theta_{im} &gt; 12$ mm)</li>
+<li>Image sensor sizes of the main camera (standard wide-angle) are integrated into several high-end smartphone models.</li>
+</ul>
+<h3 id="image-sensor-resolution">Image sensor resolution</h3>
+<ul>
+<li>Standard image resolution of 12 megapixels</li>
+<li>Aspect ratio (square format adjustable for both landscape and portrait format)
+<ul>
+<li>SPC: 4:3</li>
+<li>Full-format/APS-C: 3:2</li>
+</ul>
+</li>
+<li>Image sensor formats (&ldquo;inch values&rdquo;)
+<ul>
+<li>$\Theta_{im}=$ 6 mm (width 4.8 mm, height 3.6 mm) $\leftrightarrow$ 1/3</li>
+<li>Inch specification was taken from old Vidicon video tubes from 1950s and corresponded to the outer glass diameter of the photoelectric front surface.</li>
+<li>The sensor diagonal corresponds to about 2/3 of the inch value. (Misleading! $\rightarrow$ dimensions in mm better!)
+&lt;img src=&quot;/images/Vidicon_camera_tube.png&quot; alt=&ldquo;drawing&rdquo; width=&ldquo;50%&rdquo;/&gt;</li>
+</ul>
+</li>
+<li>Why 12 MP in 1 $\mu m$ pixel pitch era
+<ul>
+<li>Keeping the same image sensor size (~6 mm), the pixel pitch reduced from about 6 $\mu m$ down to 1 $\mu m$.</li>
+<li>Pixel amounts far greater than 12 MP are not beneficial due to practically unused resolution.</li>
+<li>Consequences of reversed pixel race: reasonable amount of image data, better image noise, and better dynamic range</li>
+<li>SPC image sensors with high number of pixels are not made up of adjacent Bayer patternsm but rather &ldquo;multicell sensors&rdquo; (Tetracell by Samsung, Quad-Bayer by Sony, 4-Cell by OmniVision)
+<ul>
+<li>Enhance light sensitivity (but similar can be achieved by using larger pixels)</li>
+<li>Flexivility: can be read out in various ways (by selecting different sensitivities/exposure time , the dynamic range can be increased, or noise can be reduced through pixel binning, or output with very hgih-resolution image)</li>
+<li>Pixels available when recording and pixels used to display the images</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Why 12 MP when 0.7 $\mu m$ pixel pitch by 2020
+<ul>
+<li>Additional cameras of different focal lengths can achieve the disired resolution of 8 or 12 MP in standard Bayer Pattern.</li>
+<li>The multi-cell sensors mastering since smaller pixel pitch is challenging in mass production.</li>
+<li>12 MP still good in terms of the physiological limits of the human eye. (at best no more than 2000 x 1000 pixels are required for 6.2&rsquo; display)</li>
+<li>Significant more pixels are necessary for enlargement or VR &ldquo;under a magnifying glass&rdquo;</li>
+</ul>
+</li>
+</ul>
+<h3 id="optical-resolution-and-required-aperture">Optical resolution and required aperture</h3>
+<ul>
+<li>Definitions:
+<ul>
+<li>Airy dist (airy diffraction disk) : &ldquo;When light passes through any size aperture (every lens has a finite aperture), diffraction occurs. The resulting diffraction pattern, a bright region in the center, together with a series of concentric rings of decreasing intensity around it, is called the Airy disk&rdquo;</li>
+<li>Point spread function (PSF): impulse response (function) of a focused optical imaging system. The Fourier transform of it is optical transfer function (OTF) of an imaging system.</li>
+<li>Relative encircled energy $= 0.73$: a significant portion of the light distribution inside a square-shaped pixel.</li>
+<li>Effective encircled brightness $&gt; 0.8$: the intensity transferred to a grey value distribution by the photo conversion curve and opto-electronic conversion fucntion.</li>
+<li>Modulation transfer function (MTF): measure contrast as part of image quality evaluation</li>
+</ul>
+</li>
+<li>Diameter of the airy disk of the ideal image is $d_{airy} = 2.44 \lambda \frac{f}{d_{pupil}}$, where $\lambda$ is the wavelength and $f$ is focal length, $\frac{f}{d_{pupil}}$ is f-number (e.g. f-number is 1.4, written as f/1.4)</li>
+<li>An appropriate relationship between the diameter of the airy spot and the sensor pixel pitch $p$: $d_{airy} = 2 \cdot p$</li>
+<li>Set the corresponding critical f-number as: $\frac{f}{d_{pupil}} = \frac{p}{1.22\cdot\lambda}$, which for 6 mm image sensor and $p = 1.2\mu m$, is $1.8$ (or written as f/1.8)</li>
+<li>Telephoto lenses (normal focal lengths and short/long portrait focal lengths) with f-stops of $2.4$ or more and smaller pixels (e.g. $p = 0.8\mu m$)</li>
+<li>Nyquist frequency: $f_{Nyq} = \frac{1}{2p}$
+<ul>
+<li>Depending on the exact position relative to the pixel grid, a vastly differing contrast can be created.$\rightarrow$ specify image quality starting at $~f_{Nyq}/2$.</li>
+<li>The system constrast is often displayed simultaneously with different fine structure periods (for $p = 1.2\mu m$, $f_{Nyq}/8$ = 52 lp/mm, $f_{Nyq}/4$ = 104 lp/mm)</li>
+<li>Optics MTF * Sensor MTF has an increasingly statistical character near $f_{Nyq}$ due to relative position dependence with pixel grid</li>
+<li>Moir$\acute{e}$: briefringent structured filters are expensive; point spread function of SPC lens is already larger, has a low-pass effect</li>
+</ul>
+</li>
+<li>A limited spatial frequency for ideal incoherent optical system: $\nu_{max} = \frac{1}{\lambda f_{f-number}}$, unit is lp/mm.
+<ul>
+<li>$MTF_{ideal}(\nu) = \frac{1}{\pi}[acrcos(\frac{\nu}{\nu_{max}}) - \frac{\nu}{\nu_{max}\sqrt{1-(\frac{\nu}{\nu_{max}})^{2}}}]$ for $\nu\leq2\nu_{max}$</li>
+<li>Monotonous, almost linear for large spatial frquencies</li>
+<li>The same figure for SPC also for full-frame cameras</li>
+<li>SPCs are physically limited by their size alone. $\leftrightarrow$ diffraction-limited.</li>
+</ul>
+</li>
+<li>Abberation is so small that stopping down (f stopping down) would lead to a weaker contrast
+<ul>
+<li>SPCs have no iris diaphragms</li>
+<li>Exposure is adjusted solely via the <em>exposure time</em> and the <em>ISO</em> sensitivity via the read-out AD amplififer on image sensor.</li>
+<li>For full-frame, maximum contrast is obtained at around f/4, f/5.6, or f/8 before stopping down to the diffraction limit.</li>
+<li>Loss of contrast with an open aperture is due to the fact: larger aberrations are allowed for simpler, compact design.</li>
+</ul>
+</li>
+<li>Resolution is not independent from SNR of the image sensor</li>
+</ul>
+<h3 id="portrait-photography-perspective-bokeh-and-depth-of-field">Portrait photography: perspective, bokeh, and depth of field</h3>
+<ul>
+<li>Wide-angle lens: full diagonal field of view: $tan(FOV/2) = \frac{\Theta_{im, ff}/2}{f}\rightarrow FOV = 2arctan(\Theta_{im, ff}/(2f))$
+<ul>
+<li>ff: full-format</li>
+<li>$f$: focal length (e.g. 35 mm, 28 mm)</li>
+<li>The full image diagonal for a classic standard wide-angle lens (&ldquo;allrounder lens&rdquo;) of 35 mm: $\Theta_{im, ff} = \sqrt{36^{2} + 24^{2}} = 43.3$ mm</li>
+<li>$FOV \approx 75\deg$ for $f = 28$ mm</li>
+<li>Equivalent SPC focal length: $f = f_{eq}\frac{\Theta_{im, SPC}}{\Theta_{im, ff}} = 3.9$ mm</li>
+</ul>
+</li>
+<li>Close-up portrait (face almost fills the vertical image field)
+<ul>
+<li>The distance from entrance pupil to the object: $\frac{s}{y_{ob}} = \frac{f}{y_{im, SPC}} \rightarrow s \approx 400$ mm, where $2y_{im}$ is the total length of the side of the vertical (short direction).</li>
+<li>40 cm is a typical distance at which one holds a smartphone (selfies, video calls etc.). So, an equivalent focal length of 28 mm is suitable as a front camera.</li>
+<li>Typical normal portrait distances with a vertical side length of 0.72 m are about twice as large (i.e. 0.8 m). To have people completely in the picture, $y_{ob} = 2.16$ m (i.e. 2.4 m).</li>
+<li>Wide-angle lenses are not well suited for portraits: $f_{eq} = 28$ mm and $s = 0.4$ m. The nose will be 10-20 % of the object distance in front of the ears, so it is imaged magnified and leads to deformations on the face.</li>
+<li>Classic portrait focal lengths: equivalent focal length $f_{eq} \approx 85$ mm, which is 3 times longer.</li>
+</ul>
+</li>
+<li>DSLR
+<ul>
+<li>The person is detached from background due to shallow depth of field</li>
+<li>Defocused point spread function is larger with a longer focal length $\rightarrow$ spot diameter of the light source in the background with the same f-number and the same image format scales approximately in the ratio of the focal lengths.</li>
+<li>SPC lenses have large depth of field.
+/<img src="/images/Calculate_size_point_spread_in_depth.png" alt="drawing" width="50%"/></li>
+</ul>
+</li>
+<li>Calculation of the size of the point spread in the depth and from the depth of field
+<ul>
+<li>Definitions
+<ul>
+<li>$s$ and $s&rsquo;$ are for out-of-focus, $s_{F}$ and $s_{F}&rsquo;$ are for focused.</li>
+<li>Pupil magnification: $m_{p} = \frac{\Theta_{AP}}{\Theta_{EP}}$, typically [0.5, 1]</li>
+<li>$\Theta_{AP}$: exti pupil, $\Theta_{EP}$: entrance pupil</li>
+<li>$K$ is f-number (e.g. 1.8, 2.2)</li>
+<li>Numerical aperture: $NA&rsquo; = \frac{1}{2K}$</li>
+<li>Etendue: a property of light in an optical system, which characterizes how &ldquo;spread out&rdquo; the light in area and angle</li>
+</ul>
+</li>
+<li>By comparing trianlges, the ratio of the radius of the defocused point image $r_{spot}$ to the position of the defocus in the image space $(s&rsquo;-s_{F}&rsquo;)$: $\frac{r_{spot}}{|s&rsquo; - s_{F}&rsquo;|} = \frac{\Theta_{AP}/2}{s_{F}&rsquo;} = \frac{1}{2K} \rightarrow r_{spot} = \frac{|s&rsquo; - s_{F}&rsquo;|}{2K}$</li>
+<li>Focusing conditions: $\frac{1}{f_{ob}} + \frac{1}{f_{im}} = \frac{1}{f} \rightarrow -\frac{1}{m_{p}s} + \frac{m_{p}}{s&rsquo;} = \frac{1}{f}$ and $-\frac{1}{m_{p}s_{F}} + \frac{m_{p}}{s_{F}&rsquo;} = \frac{1}{f}$</li>
+<li>By substitution, $r_{spot} = frac{f^{2}}{2K}\frac{|s - s_{F}|}{(f/m_{p} + s)(f/m_{p}+ s_{F})}$</li>
+<li>With $f/m_{f} \approx 0$, the diameter of the image&rsquo;s <strong>circle of confusion</strong>: $\Theta_{spot} = 2r_{spot} = \frac{f^{2}}{K}\frac{|s_{F}-s|}{s_{F}s}$</li>
+<li>For easier comparing the imaging lenses with different image formats, <strong>relative circle of confusion</strong>: $\Theta_{rel.spot} = \frac{\Theta_{spot}}{\Theta_{im}}$, directly indicates the spot size ion the defocused area as it appears in the photo</li>
+<li>For a infinitely distant background, $\Theta_{rel.spot, \inf} = \lim_{s\rightarrow\inf}\frac{f^{2}}{\Theta_{im}Ks_{F}}$</li>
+<li>With definition of f-number: $K = \frac{f}{\Theta_{EP}}$ and magnification $m = \frac{\Theta_{im}}{\Theta_{ob, Portrait}} \approx \frac{f}{s_{F}}$, $\Theta_{rel.spot, \inf} = \frac{\Theta_{EP}}{\Theta_{im}}m$</li>
+<li>For approximate object distance 700 mm: $\Theta_{rel.spot, \inf} = \frac{\Theta_{EP}}{700 \text{ mm}}$</li>
+<li>$\Theta_{EP, ff} = \frac{f}{K} = \frac{135\text{ mm}}{2} = 67.5 \text{ mm}$, $\Theta_{rel, spot, ff} \approx 10%$; $\Theta_{EP, SPC} = \frac{f}{K} = \frac{4\text{ mm}}{2} = 2.3 \text{ mm}$, $\Theta_{rel, spot, SPC} \approx 0.3%$</li>
+<li>With $\tan(FOV/2) = \frac{\Theta_{im}/2}{f}$, $\Theta_{rel.spot, \inf} = \frac{\Theta_{im}NA&rsquo;}{700\text{ mm}\cdot\tan(FOV/2)}$. With a given FOV, the <strong>relative diameter of the circle of confusion</strong> is directly proportional to the product of <strong>image field diameter</strong> and the <strong>numerical aperture</strong> of the image.</li>
+<li>Optical systems <strong>Etendue</strong> (&ldquo;throughput&rdquo;/&ldquo;collecting power&rdquo;/&ldquo;A$\Omega$ product&rdquo;): $G = \frac{\pi}{4}\Theta_{im}^{2}NA&rsquo;^{2} \rightarrow $\Theta_{rel.spot, \inf} = \frac{\sqrt{G}}{700\text{ mm}\cdot \tan{FOV/2}}\rightarrow \Theta_{rel.spot, \inf}\propto\sqrt{G}\rightarrow$ 7x smaller image diameter and 7x larger NA&rsquo; achieve the same background circle of confusion. But not feasible for high-aperture lenses (SPC lens)</li>
+<li>Depth-of-field: threshold the size of the circle of confusion $\Theta_{thres} = \Theta_{im}/1500$.</li>
+<li>Hyperfocal distance: $s_{F, hyp} = \frac{f^{2}}{K\Theta_{thres}} + f \rightarrow \frac{f}{2K\tan{FOV/2}/1500} + f$. The image is shape from $s_{F, hyp}/2$ to infinity.</li>
+<li>Autofocus is only required for close range.</li>
+<li>SPC &ldquo;portrait mode&rdquo; achieved with depth and/or high-resolution 3D sensors</li>
+</ul>
+</li>
+</ul>
+<h3 id="acutee-tendue-and-photographic-exposure">$\acute{E}$ tendue and photographic exposure</h3>
+<ul>
+<li>Exposure controlled by ISO (sensitivity of the image sensor), exposure time, and amount of light described by $\acute{E}$tendue $H\propto ISO\times (\frac{1}{K})^{2}\times T$</li>
+<li>SPC does not have iris diaphragms for controlling aperture size</li>
+<li>ISO
+<ul>
+<li>Sensitivity of the image sensor $\rightarrow$ depends on the area of a pixel (pixel pitch size) $\leftarrow$ No. of photons strike each time</li>
+<li>Efficency for a pixel absorbs light and converts into an electrical voltage</li>
+<li>No. of photon per pixel is inversely proportional to $c^{2}$, where $c$ is <strong>crop factor</strong>. Crop factor (format factor/focal length multiplier) $c$ of an image sensor format is the ratio of the dimensions of a camera&rsquo;s imaging area compared to a  reference formrat, usually 35 mm format (full-frame)</li>
+<li>$c = 7\rightarrow$ 49 times fewer photons. This corresponds to 5-6 exposure values ($EV = \log_{2}(K^{2}/T)$). $\rightarrow$ issues in low light and/or with fast-moving objects</li>
+<li>High level of sensitivity $\rightarrow$ short exposure time and increased image noise</li>
+</ul>
+</li>
+<li>Sunny 16 rule
+<ul>
+<li>On a sunny day with an ISO 100 film and f/16, the required exposure time is about 0.01 second</li>
+<li>E.g. increase 3 f-stops in aperture to f/5.6 $\rightarrow$ 8 times shorter exposure (1/800 second) or ISO of 50 and 1/400 s</li>
+</ul>
+</li>
+<li>Long exposure times cause issues in shaking hand in still photographs $\rightarrow$ reduced in SPC through <strong>optical and electronical image stabilization</strong></li>
+<li>Image sensor technology (&ldquo;binning&rdquo;, &ldquo;deep trench isolation&rdquo;, &ldquo;dual conversion gain&rdquo;, &ldquo;higher quantum efficiency&rdquo;)
+<ul>
+<li>Binning: squares of pixels are binned into larger pixels. Artificially increase pixel size, gather more signal, flexibility of a camera sensor
+<ul>
+<li>CCD/EMCCD sensor is binned on the sensor <strong>before readout</strong>, meaning that it occurs before read noise is introduced by converting photoeletrons into grey levels. improving SNR and increased frame rate.</li>
+<li>CMOS sensor is binned off the sensor <strong>after readout</strong>, meanning that read noise has been introduced to each pixel. Combining a 2x2 section of pixels together results in <strong>double</strong> the read noise for resulting super-pixel. <strong>4 times signal 2 times read noise</strong> $\rightarrow 2:1$ boost in SNR, no speed benefits. However, CMOS camera is already far faster than CCD/EMCCD.</li>
+<li>CMOS Binning. 3 noise sources: photon shot noise ($\sqrt{s}$), read noise (a fixed value for the sensor), and dark current; Noise are <strong>adding in quadrature</strong> ($\sqrt{\sum{n^{2}}}$)</li>
+</ul>
+</li>
+<li>Deep trench isolation: suppress electrical crosstalk; a DTI sidewalls passivation step is needed to avoid any degradation on dark current and white pixel number due to additional interface degects caused by DTI etch</li>
+<li>Dual conversion gain licensed by Sony: 2 readout modes: one that includes a capacitor in the path, to provide extra electron storage capacity for bright, high DR conditions; the other that disengages this capacitor, delivers less dynamic range but increases the conversion gain, boosting the signal for low light conditions; before readout noise introduced</li>
+<li>Higher quantum efficiency (QE): measure of effectiveness of an imaging device to convert incident photons into electrons (95% means sensor exposed to 100 photons producing 95 electrons of signal, from 95% to 20% varies by photons wavelengths)
+<ul>
+<li>Blue response is reduced due to front surface recombination. Front surface passivation (fabrication prrocess) affects carriers generated near the surface, and since blue light is absorbed very close to the surface.</li>
+<li>Green response is reduced causing by reflection and a low diffusion length. Green light is absorbed in the bulk of a solar cell and a low diffusion length will affect the collection probability from the solar cell bulk and then reduce the QE in the green protion.</li>
+<li>Red response is reduced due to rear surface recombination, reduced absorption at long wavelengths and low diffusion lengths.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="david-versus-goliath-the-pros-and-cons-of-miniaturization">David versus Goliath: the pros and cons of miniaturization</h3>
+<ul>
+<li>Crop factor
+<ul>
+<li>$c = \frac{\Theta_{im, ff}}{\Theta_{im, SPC}} = \frac{43.3\text{ mm}}{\Theta_{im, SPC}}$, $c = 3.5$ to $12$</li>
+<li>Depends on SPC sensor size, and lens FOV</li>
+<li>With the assumption of containing equal number of pixels (12 MP), pixel pitch is larger by $c$ for full-format sensor</li>
+<li>Further assumptions of same f-number $K$ and same FOV, $\bar{f} = f/c$, $\bar{\Theta_{im}} = \Theta_{im}/c$, $\bar{L} = L/c$ are scaled inversely with crop factor; Entendue/throughput and sensor area are scaled by $/c^{2}$.</li>
+<li>Advantages
+<ul>
+<li>Geometrical scaling including weight and volume reduction</li>
+<li>Optical distance (can focus on much smaller subjects)</li>
+<li>depth-of-field scales linearly with focal length $f$ meaning that the hyperfocal distance $s_{F, hyp}$ is a factor of $c$ further away from the miniature lens. This increases image quality (less focusing errors). However, not capable for creating an artistic shallow depth of field.</li>
+</ul>
+</li>
+<li>Disadvantages
+<ul>
+<li>sees much less ligiht ($1/c^{2}$ since pixel area reduction, either $c^{2}$ larger exposure time or ISO, large ISO introducing more noise by $c$; $H~ISO\times (1/K^{2})\times T$)</li>
+<li>Not capable for shallow depth of field</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Lens aberrations
+<ul>
+<li><strong>Ray aberration spot</strong> scaled down by $1/c$ and <strong>pixel pitch</strong> scaled down by $1/c$</li>
+<li><strong>Airy spot size</strong> (diameter of airy diffraction disk, $\Theta_{airy} = 2.44\lambda K$; diffration point spread function) stays the same</li>
+<li>Though ray aberration spot stays the same relative to the scale of pixel, the <strong>resolution</strong> is dropped linearly by $1/c$ due to the diffraction-limited lens design.</li>
+<li>Lohmann&rsquo;s scaling law, the spot area $A_{p}&rsquo; = \lambda^{2} K^{2} + (1/c)^{2}\bar{\epsilon^{2}}$, where $\bar{\epsilon^{2}}$ is the second moment of the ray deviation distribution.</li>
+</ul>
+</li>
+<li>Multi-camera systems containing many thin lenses in parallel.
+<ul>
+<li>Increase effective image sensor area</li>
+<li>Combining the images of various cameras to improve the image performance in various directions (e.g. noise reduction, HDR)</li>
+<li>Stereographic 3D depth</li>
+</ul>
+</li>
+</ul>
+<h3 id="spc-lenses-quality-evaluation">SPC lenses: quality evaluation</h3>
+<ul>
+<li>A common choice of spatial frequencies for MTF evaluations at full format is 10, 20, and 40 lp/mm, which are corresponding to $Nyq/8$, $Nyq/4$, $Nyq/2$ for full-frame format camera pixel pitch size $p = 6.25\text{ } \mu m$, respectively ($Nyq = 1000/2p$ lp/mm, $p$ in $\mu m$)</li>
+<li>MTF at original size (ff/8) is only slightly maller compared to the upscaled version of the lens $\rightarrow$ upscaled SPC to full-frame is comparable with excellent full format lenses</li>
+<li>According to the Lohmann&rsquo;s scaling law, at t he original size with respect to imaging with smaller pixel pitch is moly moderately limited by diffraction compared to the aberration level of the lens design.</li>
+<li>When the lens size is scaled down the overall performance severely drops. The diffraction contribution in Lohmann&rsquo;s scaling law becomes dominant.
+<ul>
+<li>Strehl ratio ([0,1]): evaluate lens performance in comparison to the diffraction limit. Strehl ratio $\uparrow$, diffraction limited $\uparrow$</li>
+<li>Performance is pirncipally limited for yet smaller lens sizes</li>
+<li>Predominantly diffrection-limited</li>
+</ul>
+</li>
+<li>Makes little sense to achieve pixel resolutions far below $0.7-0.8\mu m$, which is the current state of the art for image sensor CMOS technology</li>
+</ul>
+<h2 id="the-multicamera-system-in-modern-smartphones">The multicamera system in modern smartphones</h2>
+<ul>
+<li>Standard wide-angle camera as main camera: 28 mm, FOV 75$\deg$</li>
+<li>Multicamera system for rear: a main camera, a shorter focal length with FOV of 120$\deg$, a longer focal length (55 mm or 70 m or 125 mm), a 3D depth sensor (based on ToF measurement) for a real-time depth maps of a scene</li>
+<li>Multicamera system for front: standard wide-angle lens + larger camera with a high-resolution image sensor (multicell for HDR) and autofocus, 3D sensing camera for face recognition (next to the visual cameras)</li>
+<li>Diagonal field of view, equivalent focal length, sensor size, sensor pixel number, pixel pitch, f-number, focal length, MOD (minimum optical distance), depth of field, image stabilisation</li>
+</ul>
+<h2 id="optical-system-design">Optical system design</h2>
+<h3 id="optical-design-structure-of-a-smartphone">Optical design structure of a smartphone</h3>
+<ul>
+<li>Criteria
+<ul>
+<li>Substracting the housing and image sensor thickness, the overall length of the lens must not be longer than about 5-6 mm</li>
+<li>The image sensor should be as large as possible for reducing the disadvantages of a small image sensors (noise, dynamic range, see less photon)</li>
+<li>The aperture ofoo the lens must be relatively large, about f/2 or larger, so that the system resolution is not limited with image pixel sizes</li>
+</ul>
+</li>
+<li>Relative flatness factor $r = \frac{L}{\Theta_{im}} \approx 0.65 \cdots 0.85$; Despite the highly miniaturized desing, the crop factor is around $4$ away frorm ff image sensors</li>
+<li>Why plastic asperical lens for SPCs
+<ul>
+<li>No sperical lens type has large aperture of around f/2 and a small length-to-image-diameter ratio at the same time.</li>
+<li>Asperical lens for SPCs are shorter in length and better in performance:
+<ul>
+<li>Higher contrast and lower peripheral light intensity drop (both due to lack of vignetting)</li>
+<li>Both distortion and chromatic aberrations are comparably very good</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Plastic spherical lens$\rightarrow$ Plastic aspherical lens; FOVs around $60\deg$ and $75\deg\rightarrow$ $20\deg-150\deg$</li>
+<li>As pixel shrinking: Doublets/triplets$\rightarrow$ 4 lenses$\rightarrow$ 7 lenses and more; f-number decreased</li>
+<li>The optical design of SPC lenses is rarely dealt with in the literature</li>
+<li>Comparisons between Biogon lens and SPC lens
+<ul>
+<li>Biogon lens
+<ul>
+<li>Negative outer lens + positive inner lens group</li>
+<li>Negtive outer element: chiefray is bent to a smaller angle inside the lens $\rightarrow$ smaller aberration contributions; off-axis entrance pupil becomes larger, improving illumination</li>
+<li><strong>Asymmetrical aberrations</strong> including <strong>distortion, coma, and lateral chromatic</strong> are elimiated by the quasi-symmetric arrangement around the stop in the center of the system. They get cancelled.</li>
+<li><strong>Longitudinal</strong> and <strong>high-order chromatic aberrations</strong> are corrected by low-dispersion glasses for the outer negative lens and the achromats of the inner positive lens</li>
+<li><strong>Spherical aberration</strong> and <strong>astigmatism</strong> are remainning to be corrected by fine-tunning all lens parameters.</li>
+<li>Astigmatism: one where rays that propagate in two perpendicularr planes have different foci.</li>
+</ul>
+</li>
+<li>SPC lens
+<ul>
+<li>Both have field of view about $80\deg$</li>
+<li>Ray angle at the entrance of the lens $\approx$ at the lens exit</li>
+<li>Half of the system structure to the image plane is sufficient: aberrations (in particular distortion and coma) are corrected by the <strong>aspheres</strong>.</li>
+<li>With the strong aspherical design, the digital correction would bring almost <strong>no advantage</strong>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Wide-angle lenses for SLR cameras are forced to use a retrofocus type becuase of the space required for folding mirrow between the last lens and the image sensor</li>
+<li>Modern lenses for mirrorless cameras are increasingly asymmetrical.</li>
+<li>Correction distortion, curvature, and astigmatism $\rightarrow$ aspherical lenses are placed directly in front of the image plane</li>
+<li>SPC lens
+<ul>
+<li>High-order awberrations are used here to reduce low-order aberrations</li>
+<li>All lens surfaces are aspherical</li>
+<li>Standard surface description of aspheres: $z = \frac{xrr^{2}}{1 + \sqrt{1-(1+k)c^{2}r^{2}}} + a_{4}R^{4} + a_{6}r^{6}+ \cdots$, where $c$ denotes the curvature at the apex of the surface, $k$ denotes the conical constant and $r$ denotes the radial distance from the optical axis.
+<ul>
+<li>The first term: different conic shapes: $k = 0$, sphere; $-1&lt;k&lt;0$, ellipsoid with main axis on the optical axis; $k = -1$, paraboloid; $k &lt; -1$, hyperboloid</li>
+<li>Typical asphere for SPC: w-shaped lens</li>
+<li>The low aberration orders are largely compensated for with high-order aspheres, but residual high-order aberrations remain</li>
+</ul>
+</li>
+<li>The pupil and the field must be sampled sufficiently</li>
+<li>SPC optics must <strong>hardly</strong> have any <strong>vignetting</strong> by lens edges or aprtures $\rightarrow$ reducing the aperture and loss of resolution towards the image corners</li>
+<li>Mobile wide-angle lenses
+<ul>
+<li>The geometric light path to the corner of the image is more than 20% langer than it is to the center of the image</li>
+<li>The numerical aperture size remains the same up to the edge of the image $\rightarrow$ keep the diffraction-limited resolution almost constant up to the corner of the image $\rightarrow$ change the refractive power depending on the image field height $\rightarrow$ w-shaped last lens (refractive power at edge: positive, center: negative; varies over the field height) $\rightarrow$ aperture at the field edge &raquo; conventional spherical optic</li>
+<li>Characteristic of standard wide-angle lenses: chief rays strike the image plane at a simiarly high angle as they enter the lens ($\pm 35\deg-40\deg$)</li>
+<li>For standard wide-angle lense, the chief ray runs along a line through the lens; for telephoto and extreme wide-angle types, chief ray has a global bending $\rightarrow$ standard wide-angle lenses are the most compact lens type among SPC lenses; image sensor used for standard wide-angle lens iat he largest within the multicamera systme</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="optical-design-imaging-performance">Optical design imaging performance</h3>
+<ul>
+<li>Optical image performance evaluation of camera lens design: <strong>MTF</strong> (vs. FOV, spatial frequencies, distance to the image plane), <strong>distortion</strong> (radial distortion, TV distortion, and distortion grid plot), <strong>relative illumination</strong>, <strong>aberrration</strong> (spot diagrams, ray aberration curves, chromatic focus and lateral shift), <strong>angle of incidence at image sensor</strong></li>
+<li>MTF vs. spacial frequencies up to the cut-off frequency ($1/(\lambda K)$)
+<ul>
+<li>Image performance of all lenses if diffraction-limited near the image center and drops off</li>
+<li>The through-focus region with very high contrast is roughly only about $\pm 10 \mu m$ for all lenses</li>
+</ul>
+</li>
+<li>Distortion graph
+<ul>
+<li>Not noticeable (&lt;1%)</li>
+<li>Barreldistortion of the extreme wide-angle lens is about 20%, which is not corrected by software as well $\rightarrow$ perspective distortion</li>
+</ul>
+</li>
+<li>Relative illumination
+<ul>
+<li>Drops more towards toe corner of the image field for wide-angle lenses (&ldquo;shading&rdquo;). This is corrected by software and cause an in crease noise sensitivity by 1 or 2 EV ofr wide-angle photography</li>
+<li>Includes a natural geometrical loss according to approxinmately $\cos^{4}{angle-of-incidence}=\cos^{4}{35\deg}\approx 0.45$</li>
+</ul>
+</li>
+<li>Angle-of-incidence graph shows the chief ray and marginal ray angles in the image plane
+<ul>
+<li>Avoiding light loss, the chief ray incidence angle is limited to $&lt;35\def$</li>
+<li>The <strong>oblique incidence</strong> on the image sensor results in further intensity losses (included in the software-corrected shading) $\leftarrow$ improved by <strong>back-side-illuminated</strong> image sensors, <strong>specific architexture</strong> (e.g. deep-trench structures), and <strong>slightly shifting the micro lenses</strong> according to the incidence angle</li>
+</ul>
+</li>
+<li>Ray aberration on the tangential and sagittal image plane for different wavelengths versus field
+<ul>
+<li>Averration curves are very &ldquo;wiggly&rdquo; as <strong>residual aberrations</strong> of the compensation principle of low-order aberrations by high-order aberrations through usage of high-order aspherical lens surface deformations</li>
+<li>Chromatic aberrations can be physically evaluated (image simulations of edge or line spread functions vs. field and through focus; &ldquo;color fringe widths&rdquo;)</li>
+</ul>
+</li>
+</ul>
+<h3 id="extreme-wide-angle-lenses">Extreme wide-angle lenses</h3>
+<ul>
+<li>Short flatness factor $r = L/\Theta_{im}&lt;1$; with additional negative &ldquo;bending lens&rdquo; at the front, $r$ is even larger</li>
+<li>Beam path is comparable with standard wide-angle lens; chief ray angles $\approx 35 \deg$ on the image plane</li>
+<li>Optical desings of extreme wide-angle lenses with an even larger FOV of up to around $150\deg$ and $160\deg$ with ~50% distortion</li>
+</ul>
+<h3 id="tele-lenses">Tele lenses</h3>
+<ul>
+<li>Smaller image sensors and smaller apertures</li>
+<li>Difficulties of compact telephoto lenses: longer $f$, samller the required telefactor($TF = L/f$)
+<ul>
+<li>TF&lt;1: refractive power is positive in the front part and lens and negative in the rrear; The smaller TF more positive orr negative refractive power required, then leads to greater lens curvaturres and larger aberrations</li>
+<li>Optical performance is severely limited as the $f\uparrow$</li>
+</ul>
+</li>
+</ul>
+<h3 id="periscope-tele-lenses-and-alternative-tele-concepts">Periscope tele lenses and alternative tele concepts</h3>
+<ul>
+<li>Periscope layout: with $45\deg$ mirror or with $45\deg$ prism mirror
+<ul>
+<li>Mirror size and entrance pupil size &lt; depth of the housing</li>
+<li>$f\uparrow\rightarrow K\uparrow\rightarrow$ the diffraction limited resolution weaker</li>
+<li>e.g. $\Theta_{EP} = 4$ mm, relative small aperture of $f/3.4$, $f = K\cdot\Theta_{EP}=13.2$ mm</li>
+</ul>
+</li>
+<li>Entrance pupil can be made rectangular with a larger f-number in the long direction</li>
+<li>Catadioptric layout: 2 mirrors in the front or with several reflections between the mirrors ($TF&lt;0.5$)
+<ul>
+<li>Allows a very large entrance pupil diameter $\rightarrow$ high aperture ratio</li>
+<li>Aperture ratios can reach to f/1 with large cetral obscuration $\rightarrow$ distinct loss of contrast in the lower spatial frequencies $\rightarrow$ fine structures would be displayed with a higher contrast (irrelevant to SP dimensions, this high resolution cannot be used due to the available pixel sizes)</li>
+<li>Pors: loss of contrast; &ldquo;donut bokeh&rdquo; bused by obscuration (i.e. ring-shaped out-of-focus highlights)</li>
+</ul>
+</li>
+</ul>
+<h2 id="zoom">Zoom</h2>
+<ul>
+<li>Very good optical zoom systems for compact digital system cameras (DSC) also integrated in mobile phone</li>
+<li>Digital zoom was also available very early on cell phones</li>
+<li>Since 2016, standard: hybrid zooms through multi-camera systems using lenses of different focal lengths</li>
+</ul>
+<h3 id="hybrid-zoom-in-multicamera-systems">Hybrid zoom in multicamera systems</h3>
+<ul>
+<li>The combination of different fixed focal lengths in modern SP multicamera systems</li>
+<li>The achievable optical resolution of SPC lenses is heavily dependent on the specific optical design, in turns depends on an equivalent $f$.
+<ul>
+<li>Assuming a diffraction-limited optical resolution of $res_optics = 0.5\cdot \Theta_{airy} = 1.22\cdot\lambda\cdot K$</li>
+<li>All these resolved area on the image sensor surface (4:3 aspect ratio) $A_{im} = \pi\cdot(\Theta_{im}/2)^{2}\cdot 0.48 = \pi/4\cdot0.48\cdot\Theta_{im}^{2}$</li>
+<li>The number of &ldquo;optical pixels&rdquo; (i.e. resolved areas, optical resolution ) $NP_{optics} = \frac{A_{im}}{\frac{\pi}{4}res_{optics}^{2}}\approx 0.32\frac{\Theta_{im}^{2}}{\lambda^{2}K^{2}}$</li>
+</ul>
+</li>
+<li>Simplified consideration for digital zoom and the image sensorr resolution to estimate the total resolution of a <strong>hybrid multi-camera zoom system</strong> over the entire focal length range: $NP_{\text{optics digital zoomed}} = NP_{potics, 0}\frac{f_{0}^{2}}{f^{2}}$, where index 0 corresponding to lens index 0
+<ul>
+<li>Digital zoom reduces the resolution according to the cropped FOV, whcih is directly scales with $f$</li>
+<li>For image sensor that has 4-pixel of a Quad-Bayer sensor structure $NP_{sensor} = \frac{NP_{sensor, total}}{NP_{macro-pixel}}$, $NP_{macro-pixel} = 1$ for standard Bayer sensor and $NP_{macro-pixel} = 4\text{ or }{9}$ for 2x2 or 3x3 multi-cell sensor.</li>
+</ul>
+</li>
+<li>A well-balanced system should have about the <strong>same</strong> resolution of <strong>optics</strong> and <strong>image sensor</strong>
+<ul>
+<li>Roughly the case for <strong>extreme wide-angle</strong> and <strong>standard tele camera lenses</strong></li>
+<li>For main camera, the <strong>optical resolution</strong> is clearly bettern than the image sensor resolution. Sensor limits the overall resolution</li>
+<li>For periscopic long tele camera, the image sensor limits the overall resolution</li>
+<li>Optical performance of wide-angle lens &gt; tele and periscope tele lenses even at the same effective focal length when zoomed in digitally</li>
+<li>The actual resolution of the complete wide-angle camera system &lt; tele cameras, since the digitally zoomed-in pixel resolution is worse for $f_{eq}&gt;56$ mm</li>
+<li>$NP_{effective} = min(NP_{optics digital zoomed}, NP_{sensor})$</li>
+</ul>
+</li>
+<li>Improve image performance with image fusion in the common FOV of both cameras
+<ul>
+<li>Simulate of all steps in camera ISP and the specific algorithm how images are fused by multiple cameras</li>
+<li>Requires joined camera module calibration</li>
+<li>Hard at close range due to the parallax of the images caused by the spacing of the camera modules</li>
+</ul>
+</li>
+</ul>
+<h3 id="optical-zoom-systems">Optical zoom systems</h3>
+<ul>
+<li>A classical optical zoom changes the imaged object frame (i.e. FOV) by changing $f$ of the system $\rightarrow$ changing the distance between the lens between the lens elements</li>
+<li>Two optical groups with $f_{1}$ and $f_{2}$: $\frac{1}{f} = \frac{1}{f_{1}} + \frac{1}{f_{1}} - \frac{d}{f_{1}f_{2}}$</li>
+<li>For SP, the realized image performance of an optical zoom system can decrease significantly <strong>at long focal lengths</strong>; The image sharpness drops due to the diffraction limitation</li>
+<li>For DSC, excellent image performance can be achieved with relatively loose space constraints
+<ul>
+<li>Digital-optical co-optimization</li>
+<li>A significant portion of lens elements are aspherical</li>
+<li>Digital aberration corrections are made (wid-angle range, a distortion of approx 20-30%) $\rightarrow$ image is cropped somewhat depending on the zoom</li>
+<li>Zooms with a large zoom factor, the aperture in the long focal length area is reduced to limit the diameter in the front area and the overall length</li>
+<li>Can reach to 20x or 50x which SPCs unachievable</li>
+</ul>
+</li>
+</ul>
+<h2 id="opto-mechanical-layout-and-manufacturing">Opto-mechanical layout and manufacturing</h2>
+<h3 id="plastic-lenses-key-miniature-opto-mechanical-layout">Plastic lenses: Key miniature opto-mechanical layout</h3>
+<ul>
+<li>Pros:
+<ul>
+<li>Distinctly aspherical lens shape</li>
+<li>Key to the small depth of SPC optics</li>
+<li>High complexity of the structural shapes</li>
+<li>Possible to implemnt and mechanical mount</li>
+<li>Accuracy in the sub-$\mu m$ ranges</li>
+</ul>
+</li>
+<li>Special noncontact interferometric measurement technology for measuring small, complex components at steep angles of incidence</li>
+<li>Contact-mode measurement devices for measure component shapes</li>
+</ul>
+<h3 id="opto-mechanical-layout">Opto-mechanical layout</h3>
+<ul>
+<li>No measurements during assumbly process. MTF measurements are carried out once assembly is complete</li>
+<li>Improve quality, individual lens elements are matched to another from the injection molding cavities.</li>
+<li>The lens elements are positioned directly on top of each other on the flat plastic mountint rings (the ring stops to prevent straylight)</li>
+<li>SPC lenses: high accuracy, sensitive to decentering or tilting</li>
+<li>Plastic lenses manufacturing by injection/pression into precise molds while still in liquid form; not stable as glass; manufactured after about 1 minute</li>
+<li>Plastic lenses cons: relatively low refractive indices with a large dispersion $\rightarrow$ mitigated in the future with nano composites</li>
+<li>Limitations
+<ul>
+<li>No cemented lense like  for glass lenses</li>
+<li>Thermal sensitivity $\rightarrow$ refractive index and expansion coeffcient $\rightarrow$ aberration type: focus shift $\rightarrow$ compensated by autofocus</li>
+</ul>
+</li>
+</ul>
+<h3 id="active-optical-assembly">Active optical assembly</h3>
+<ul>
+<li>The lenses are aligned with the image sensor and glued in with UV adhesive; Automatically in a few second</li>
+<li>During the assembly process on the sensor, the barrel is aligned in the degrees of freedom
+<ul>
+<li>centering x/y, tilt x/y and focus distance until the specified spatial frequency response (SFR) values are reached simultaneously over the image field</li>
+<li>The MTF values is monitored over long periods of time</li>
+</ul>
+</li>
+<li>In 6 axes, the optical axis between camera modules</li>
+</ul>
+<h3 id="tolerancing-and-yield-analysis">Tolerancing and yield analysis</h3>
+<ul>
+<li>Set permitted deviations from the theorertically achievable image performance</li>
+<li>Inspection process:
+<ul>
+<li>During the production processm, the quality of the optics is qualified on the basis of MTF values during the final inspection done by the optics module supplier for the system integrator. (not yet connected to image sensor)</li>
+<li>The system integrrator adjusts the optics to the image sensor so that the final image performance of the SPC qualified with SFR measurements.</li>
+<li>SFR is the common notation of the MTF of the complete system optics/sensor</li>
+</ul>
+</li>
+<li>Yield analyses (reject analyses)
+<ul>
+<li>Done in the final stages of optical design with Monte Carlo analyses</li>
+<li>The optical desingers use their own sensitivity analyses to set tolerances for the lens (radius, thickness, aspherical deviations, deviations in the regractive index, dispersion of the plastic) and their relative positioning errors in assembly (decentering, tilting, spacing deviations, etc.) and probability distributions of individual errors.</li>
+<li>&ldquo;Rolls&rdquo; many different systems</li>
+<li>MTF data for these systems gives a statistical distribution $\rightarrow$ system MTF specification</li>
+</ul>
+</li>
+</ul>
+<h3 id="wafer-level-manufacturing">Wafer-level Manufacturing</h3>
+<ul>
+<li>Low-cost; thin</li>
+<li>Micro-electromechanical systems (MEMS)-based sensors (e.g. gyroscope, accelerrometer), photonic chips (photonic integrated circuits (PICs))</li>
+</ul>
+<h3 id="anti-reflection-coating-for-plastic-lenses">Anti-reflection coating for plastic lenses</h3>
+<ul>
+<li>Important in scenes with a large dynamic range, especially with bright light sources (residual light reflections straylight or &ldquo;ghosts&rdquo; on the image plane)</li>
+<li>Reflections on optical surfaces $\leftarrow$ destructive interference from a single or multilayer coating by properly choosing layer thicknesses and material refractive index
+<ul>
+<li>Camera lenses have AR coatings with multilayer coating of 2 or 3 materials of thicknesses of about 10 to a few 100 nm</li>
+<li>Coating process cannot easily transferred to glass (adhesion, lower melting temp, etc.)</li>
+<li>A uniform coating thickness is difficult $\rightarrow$ atomic layer deposition (ALD)</li>
+</ul>
+</li>
+</ul>
+<h2 id="image-sensor">Image sensor</h2>
+<ul>
+<li>A CMOS sensor is a matrix of semiconductor photodiodes that detects the irradiance distribution on the sensor chip and the exposure time ($T$), electrons are generated as charge carriers in the individual photodiodes and converted by capacitors a voltage is finally generated. Then, amplified and AD converted.</li>
+<li>Quantum Efficiency (QE, $\eta$, [0,1]): the probability of whether a photon, which enters the sensor finally generates an electron in the photo-electric layer
+<ul>
+<li>Transmission (coating and material absoption)</li>
+<li>Geometry of microlens and the entire light path</li>
+<li>$\lambda$</li>
+<li>Angle of incidence</li>
+<li>Numerical aperture of the incident light</li>
+</ul>
+</li>
+<li>Deep trench isolation: walls are built between the pixels enhancing the QE and reducing <strong>cross-talk</strong></li>
+<li>Stacking technology: <strong>light sensitive</strong> rear illuminated photodiode array is separated from the electronics (Back-side illuminated sensors, BSI, due to <strong>shorter</strong> and <strong>undisturbed</strong> path)</li>
+</ul>
+<h2 id="image-processing">Image processing</h2>
+<h2 id="noise-and-noise-reduction">Noise and noise reduction</h2>
+<h2 id="focusing">Focusing</h2>
+<h3 id="autofocus-methods-contrast-and-phase-detection">Autofocus methods: Contrast and phase detection</h3>
+<h3 id="optical-system-changes-focus-position">Optical system changes focus position</h3>
+<h3 id="focusing-mechanism-voice-coil-motors-and-other-concepts">Focusing mechanism: Voice coil motors and other concepts</h3>
+<h2 id="image-stabilization">Image stabilization</h2>
+<h3 id="hand-shaking-and-image-blur">Hand-shaking and image blur</h3>
+<h3 id="optical-image-stabilization-implementations">Optical image stabilization implementations</h3>
+<h2 id="dynamic-range">Dynamic range</h2>
+<h3 id="hdr-imaging">HDR imaging</h3>
+<h3 id="lens-flare-and-ghosts">Lens flare and ghosts</h3>
+<h2 id="portrait-mode">Portrait mode</h2>
+<h3 id="3d-depth-acquisition-technology">3D depth acquisition technology</h3>
+<h3 id="simulation-of-lens-bokeh-camera-3d-point-spread-function">Simulation of lens bokeh: Camera 3D point spread function</h3>
+<h3 id="portrait-look-a-quality-evaluation">Portrait look: a quality evaluation</h3>
+<h2 id="image-performance-specification-and-test">Image performance specification and test</h2>
+<h3 id="lab-evaluation-during-rd">Lab evaluation during R&amp;D</h3>
+<h3 id="evaluation-of-image-quality-in-the-imaging-pipeline">Evaluation of image quality in the imaging pipeline</h3>
+<h2 id="smartphone-camera-interface-with-telescopes-microscopes-and-accessory-lenses">Smartphone camera interface with telescopes, microscopes, and accessory lenses</h2>
+<h2 id="summary-and-outlook">Summary and outlook</h2>
+<ul>
+<li>Parallel</li>
+</ul>
+<h2 id="references">References:</h2>
+<ol>
+<li>Walasek-Hoehne, B., K. Hoehne, and R. Singh. &ldquo;Video Cameras used in Beam Instrumentation&ndash;an Overview.&rdquo; arXiv preprint arXiv:2005.04977 (2020).</li>
+<li><a href="https://www.edmundoptics.com/knowledge-center/application-notes/imaging/limitations-on-resolution-and-contrast-the-airy-disk/"  target="_blank" rel="noopener" >https://www.edmundoptics.com/knowledge-center/application-notes/imaging/limitations-on-resolution-and-contrast-the-airy-disk/</a></li>
+<li><a href="https://www.photometrics.com/learn/camera-basics/binning"  target="_blank" rel="noopener" >https://www.photometrics.com/learn/camera-basics/binning</a></li>
+<li>Tournier, A., et al. &ldquo;Pixel-to-pixel isolation by deep trench technology: application to CMOS image sensor.&rdquo; Proc. Int. image sensor workshop. 2011.</li>
+<li><a href="https://www.dpreview.com/articles/1570070253/what-is-dual-gain-and-how-does-it-work"  target="_blank" rel="noopener" >https://www.dpreview.com/articles/1570070253/what-is-dual-gain-and-how-does-it-work</a></li>
+<li><a href="https://www.photometrics.com/learn/imaging-topics/quantum-efficiency"  target="_blank" rel="noopener" >https://www.photometrics.com/learn/imaging-topics/quantum-efficiency</a></li>
+<li><a href="https://www.pveducation.org/pvcdrom/solar-cell-operation/quantum-efficiency"  target="_blank" rel="noopener" >https://www.pveducation.org/pvcdrom/solar-cell-operation/quantum-efficiency</a></li>
+<li><a href="https://optcorp.com/blogs/telescopes-101/the-basic-telescope-types"  target="_blank" rel="noopener" >https://optcorp.com/blogs/telescopes-101/the-basic-telescope-types</a></li>
+</ol>
+
+  </article>
+
+</div>
+
+
+  
+<script type="text/javascript" src="/main.js" defer></script>
+
+
+</body>
+
+</html>

@@ -64,13 +64,13 @@
   <meta itemprop="name" content="Smartphone Imaging Technology and its Applications">
 <meta itemprop="description" content="by Vladan Blahnik and Oliver Schindelbeck">
 
-<meta itemprop="wordCount" content="5519">
+<meta itemprop="wordCount" content="9138">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Smartphone Imaging Technology and its Applications">
 <meta itemprop="description" content="by Vladan Blahnik and Oliver Schindelbeck">
 
-<meta itemprop="wordCount" content="5519">
+<meta itemprop="wordCount" content="9138">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -495,7 +495,8 @@
 <ul>
 <li>Negative outer lens + positive inner lens group</li>
 <li>Negtive outer element: chiefray is bent to a smaller angle inside the lens $\rightarrow$ smaller aberration contributions; off-axis entrance pupil becomes larger, improving illumination</li>
-<li><strong>Asymmetrical aberrations</strong> including <strong>distortion, coma, and lateral chromatic</strong> are elimiated by the quasi-symmetric arrangement around the stop in the center of the system. They get cancelled.</li>
+<li><strong>Asymmetrical aberrations</strong> including <strong>distortion, coma, and lateral chromatic</strong> are elimiated by the quasi-symmetric arrangement around the stop in the center of the system. They get cancelled.
+&lt;img src=&quot;/images/chromatic_aberration.png&quot; alt=&ldquo;drawing&rdquo; width=&ldquo;50%&rdquo;/&gt;</li>
 <li><strong>Longitudinal</strong> and <strong>high-order chromatic aberrations</strong> are corrected by low-dispersion glasses for the outer negative lens and the achromats of the inner positive lens</li>
 <li><strong>Spherical aberration</strong> and <strong>astigmatism</strong> are remainning to be corrected by fine-tunning all lens parameters.</li>
 <li>Astigmatism: one where rays that propagate in two perpendicularr planes have different foci.</li>
@@ -739,7 +740,36 @@
 </ul>
 <h2 id="image-sensor">Image sensor</h2>
 <ul>
-<li>A CMOS sensor is a matrix of semiconductor photodiodes that detects the irradiance distribution on the sensor chip and the exposure time ($T$), electrons are generated as charge carriers in the individual photodiodes and converted by capacitors a voltage is finally generated. Then, amplified and AD converted.</li>
+<li>A CMOS sensor is a matrix of semiconductor photodiodes that detects the irradiance distribution on the sensor surface.
+<ul>
+<li>According to the irradiance distribution on the sensor chip and the exposure time ($T$), electrons are generated as charge carriers in the individual photodiodes and converted by capacitors, a voltage is finally generated. Then, A to D.</li>
+<li>Each individual photodiode is provided with its own electronic circuit: <strong>readout amplifier</strong> read out individually at each XY coordinates</li>
+<li>A higher bit value in AD converter does not necessarily lead to better image quality; image quality depends on <strong>noise behavior</strong> of the image sensor and <strong>image motif</strong></li>
+<li>Only portion of the cell surface is sensitive to light due to wiring</li>
+<li>Microlens covers the the entire sensor for collecting as much of the incident light as possible and <strong>avoiding shadowing</strong> within the cell structure</li>
+<li>The voltage level ($\rightarrow$ image signal) on the individual photodiodes depend <strong>solely</strong> on the respective <strong>brightness</strong> and the <strong>exposure time ($T$)</strong></li>
+<li>Color filter array (Bayer pattern, RGGB) $\rightarrow$ de-Bayering/demosaicing; The color cameras with a Bayer mask have a lower resolution thanmonochrome cameras $\rightarrow$ some SPC multicamera systems equiped with monochrome camera modules for high-resolution image and color information from second camera</li>
+<li>DSLR with mechanical shutter $\rightarrow$ almost simultaneous exposure; SPC with purely electronically exposure control, exposure is done during <strong>readout</strong> $\rightarrow$ individual photodiodes are not exposed and readout at the same time $\rightarrow$ runtime effects i.e. <strong>rolling shutters</strong> limiting in <strong>slow motion mode</strong>; electrronic &ldquo;global shutter&rdquo; (Sony 2017)</li>
+<li>Additional IR band pass filter to block residual significant portion of light in IR (silicon has a monotonically increasing sensitivity from blue towards IR); For 3D face or iris recognition, IR cut-off at e.g. 840 nm or 950 nm.</li>
+</ul>
+</li>
+<li>OECF (Opto-Electronic Converrsion Function) response/characteristic curve
+<ul>
+<li>Horizontal axis: physical intensity of the light received by the image sensor; Irradiance (radiation power per area, $W/m^{2}$) or Luminous efficiency function (CIE standard, luminance intensity per area, $cd/m^{2}$); in linear scale or log scale</li>
+<li>Vertical axis: digital numeric value (0-255 for 8 bits, 0 to 1000 for 10 bits)</li>
+</ul>
+</li>
+<li>Photoconversion curve/camera response function
+<ul>
+<li>Horizontal axis: exposure value (EV, $EV = \log_{2}(k^{2}/T)$)</li>
+<li>Vertical axis: no. of electrons ($\equiv$ digital numeric value)</li>
+<li>Relation between the number of electrons and the luminance</li>
+<li><strong>Noise limit</strong>: minimum brightness on the pixel (minimum signal); signal rises from the noise limit; forr SPC CMOS sensors: 1-2 electrons</li>
+<li><strong>FWC</strong> (full well capacity): the capacity of the potential well of the diode; CMOS sensors: 4k - 5k electrons</li>
+<li>0 EV set at FWC or close to the saturation value $\rightarrow$ noise limit/value can be readout</li>
+<li>Dynamic range: ratio of the maximum and minimum signal (e.g. here is $10$ EV)</li>
+</ul>
+</li>
 <li>Quantum Efficiency (QE, $\eta$, [0,1]): the probability of whether a photon, which enters the sensor finally generates an electron in the photo-electric layer
 <ul>
 <li>Transmission (coating and material absoption)</li>
@@ -750,36 +780,347 @@
 </ul>
 </li>
 <li>Deep trench isolation: walls are built between the pixels enhancing the QE and reducing <strong>cross-talk</strong></li>
-<li>Stacking technology: <strong>light sensitive</strong> rear illuminated photodiode array is separated from the electronics (Back-side illuminated sensors, BSI, due to <strong>shorter</strong> and <strong>undisturbed</strong> path)</li>
+<li>Stacking technology: <strong>light sensitive</strong> rear illuminated photodiode array is separated from the electronics (back-side illuminated sensors, i.e. BSI, higher sensitivity due to <strong>shorter</strong> and <strong>undisturbed</strong> path)</li>
 </ul>
 <h2 id="image-processing">Image processing</h2>
+<ul>
+<li>Create the most natural image possible of the object; enhance in terms of contrast or color rendition</li>
+<li>Computational imaging
+<ul>
+<li>Combines several images from the same or different camera modules (3D sensors etc.)</li>
+<li>Encoded or phase-distorted apertures can be deployed in combination with deconvolution (e.g. extend the depth of field i.e. EDoF)</li>
+<li>3D acquisition and image recognition; AR</li>
+</ul>
+</li>
+<li>Pipeline: noise reduction, linearization, shading correction, white balancing; demosaicing, distortion correction, to sRGB, gamma correction, sharpening, jpeg compression (more details can be found $\rightarrow$ <a href="/../notes/cs231m" >Course Notes/CS231m</a>)
+<ul>
+<li>Photoconversion curve is fitted to an 8-bit brightness scale by a tone value curve</li>
+<li>Greater sharpening to medium or low spatial frequencies (human are particularly responsive); Moderately on high-frequency areas (This limits for complex motifs for low-light shots)</li>
+<li>Different tone value curves are generally used for different photographed scenes to optimize the image (contrast, brightness, color)</li>
+</ul>
+</li>
+</ul>
 <h2 id="noise-and-noise-reduction">Noise and noise reduction</h2>
+<ul>
+<li>Small pixels: more sensitive to light; lower SNR; lower FWC $\rightarrow$ smaller dynamic range</li>
+<li>SPCs compensated by image processing and sensor technology (e.g. deep trench isolation, binning, dual conversion gain, and higher quantum efficiency)</li>
+<li>Noise from electrons is minor in CIS (contact image sensor) in good lighting conditions; Photon noise dominates for all cameras</li>
+<li>Software-based noise reduction irrevocably smooth out small image details (i.e. resolution smaller, structures with less contrast $\rightarrow$ human skin appear unnatural)</li>
+</ul>
 <h2 id="focusing">Focusing</h2>
-<h3 id="autofocus-methods-contrast-and-phase-detection">Autofocus methods: Contrast and phase detection</h3>
+<ul>
+<li>Depth of field of SPC lenses is significantly greater than that of full-frame camera lenses</li>
+<li>Previous rule of thumb: for SPCs object distances of &gt;1 m, no focusing is required</li>
+<li>For high-end standard wide-angle lens FOV = 75$\deg$, $\Theta_{im} = 12$ mm, $f = 7.82$ mm, f-number $K = 1.7$, then the hyperfocal distance is $4.5$ m. $\rightarrow$ if the lens is focused to an object distance of 4.5 m, the image is sharp for all object distances between 2.24 m to infinity</li>
+<li>Focusing range and accuracy &ndash; key parameters
+<ul>
+<li>Focusing accuracy: no. of depth rranges within the complete focusing range</li>
+<li>1st depth range: 2.25 m to infinity</li>
+<li>2nd depth range: 2.25 m set as far distance, calculate the lower limit of the depth range
+<ul>
+<li>$s_{F, hyp} = h = 4.5 = \frac{f^{2}}{Kr\Theta_{im}}$</li>
+<li>Realtive PSF spot size for sharp resulting image: $r = 1/1500$</li>
+<li>$s_{near} = \frac{s_{F}}{1+s_{F}/h}$</li>
+<li>$s_{far} = \frac{s_{F}}{1-s_{F}/h}$</li>
+<li>Index $j$: successive depth ranges; $s_{near, j} = s_{far, j+1}$, with $s_{F, 0} = h = 4.5$, so $s_{F, 1} = h/3$&hellip;$s_{F, j} = h/(2j + 1)$ for adjacent depth ranges</li>
+<li>The depth range quickly decreases: $s_{F, 3} = 0.9$ m (-15 cm, +23 cm) to the foreground and background is still sharp</li>
+<li>Focusing distance $s_{F, 23} = 0.1$ m (-22 $\mu$ m, +23 $\mu$ m)</li>
+<li>Depth ranges in terms of magnification instead of $s_{F}$: $m_{F} = \frac{s_{F}&rsquo;}{s_{F}} = \frac{f}{s_{F} + f}$ with $s_{F}&raquo;f \rightarrow m_{F}\approx \frac{f}{s_{F}}$</li>
+<li>The depth range number $j$ linearly related to the magnification $m_{F} = (2j+1)\frac{f}{h}$</li>
+<li>With minimum optical distance $s_{F, j} = s_{MOD} = h/(2j + 1)$, total number of depth ranges $J = \frac{h}{2S_{MOD}}$; SPC lens $J = \frac{4500mm}{2\cdot 100mm}\approx 23$</li>
+</ul>
+</li>
+<li>3 focus steps per depth range $\rightarrow$ $3J\approx70$ focus postions; With total movement of lens actuator $\approx$ $0.28$ mm $\rightarrow$ positioning accuracy $0.28/70=4$ $\mu$ m $\rightarrow$ focusing accuracy $\Delta m_{F, acc}\approx \frac{f}{3h} = \frac{K}{2250\tan{(FOV/2)}}\approx 0.001$</li>
+<li>Focusing accuracy depends on f-number $K$ and FOV according to the equation; also depend on actual size of the lens</li>
+</ul>
+</li>
+<li>Front cameras: fixed focus, depth map cameras with a larger f-number providing greater depth of field</li>
+<li>Focusing: autofocus system, modification of the optical imaging system for movement, mechatronic implementation of the drive</li>
+</ul>
+<h3 id="autofocus-methods-contrast-and-phase-detection-more-details-can-be-found-rightarrow-other-notes3aothernotes3a">Autofocus methods: Contrast and phase detection (more details can be found $\rightarrow$ <a href="/../othernotes/3a" >Other Notes/3A</a>)</h3>
+<ul>
+<li>Phase detection on reflex cameras: &ldquo;phase contrast measurement&rdquo;; with a mirror attached to the beam splitter and a separate image sensor, the deviation from the focus is quantitatively determined using triangulation
+<ul>
+<li>Pros: acquire optimal focal point exactly from the target shift from a single measurement</li>
+<li>Cons: need folding mirror between lens and image plane (required space, larger lenses)</li>
+</ul>
+</li>
+<li>Contrast detection in digital age: in the read-out image, until contrast is at its maximum
+<ul>
+<li>Pros: compact design</li>
+<li>Cons: slow, need multiple measurements; swing back and forth; &ldquo;bad direction move&rdquo;; error-prone or fails for low-contrast objects (especially low-light conditions)</li>
+</ul>
+</li>
+<li>SPC Phase detection auto focus (PDAF)
+<ul>
+<li>contrast detection $\rightarrow$ phase contrast pixels $\rightarrow$ dual pixel AF</li>
+<li>Phase contrast pixels: &ldquo;light version&rdquo; of SLR phase contrast; some masked pixels at 4 different orientations (5-10%) are used as focus pixels (not available as normal senosr pixels); left &ldquo;blind spots&rdquo; to be interpolated</li>
+<li>Dual pixel AF
+<ul>
+<li>Under a common mirolens have two separate neighbored pixels (&ldquo;photodiode twin&rdquo;); does not suffer from blind spots</li>
+<li>Towards outer field regions, PDAF becomes problematic due to the oblique incidence of light (35 $\deg$ in the image corners)</li>
+<li>Cooptimization of pixel architecture, microlens design, and data processing can be supported by ray-tracing and wave-calculation-based image simulations</li>
+</ul>
+</li>
+<li>ToF or lidar for active distance measuring systems to improving spatial resolution</li>
+<li>Taking a whole stack of pictures (&ldquo;live image&rdquo; or &ldquo;motion still&rdquo;), once the object is in focus, switch to high resolution, save the image, and delete the image stack from the buffer.</li>
+</ul>
+</li>
+</ul>
 <h3 id="optical-system-changes-focus-position">Optical system changes focus position</h3>
-<h3 id="focusing-mechanism-voice-coil-motors-and-other-concepts">Focusing mechanism: Voice coil motors and other concepts</h3>
+<ul>
+<li>Entire lens (&ldquo;total lens focusing&rdquo;) or partial individual optical groups (&ldquo;floating element focusing&rdquo;, adpoted for SPC)</li>
+<li>Deforming lens with liquid lenses (electrowetting); A pair of aspherical components that can be moved laterally</li>
+<li>Focusing distance: $-\frac{1}{s}+\frac{1}{s&rsquo;} = \frac{1}{f}$, where $s$ is the object distance, $s&rsquo;$ is the image distance from the front or rear principal plane</li>
+<li>The lens is moved forward in order to focus on an object that is closer to the lens</li>
+<li>The distance required for focusing scales almost quadratically with the focal length, not linear: $\Delta s&rsquo;<em>{MOD} = s&rsquo;</em>{MOD} - f = -\frac{f}{s_{MOD}+f}$</li>
+<li>Even with same f, but differently sized image sensors have different distances to move for focusing</li>
+<li>With magnification equation $m = \frac{s&rsquo;}{s} = \frac{f}{s+f}$, the focus offset $\Delta s&rsquo;_{MOD} = -mf$, $\rightarrow$ a lens with focal length f, the <strong>focus movement</strong> distance directly scales with <strong>magnification</strong></li>
+<li>DSLR: the typical close distance magnification is about 1:10; SPC: a close distance of 100 mm magnification is about 1:15</li>
+<li>The longer focal lengths, more space is required for the focus movement</li>
+<li>Preferably with 2 moving groups to achieve sufficient image performance</li>
+</ul>
+<h3 id="focusing-mechanism-voice-coil-motors-vcm-and-other-concepts">Focusing mechanism: Voice coil motors (VCM) and other concepts</h3>
+<ul>
+<li>VCMs
+<ul>
+<li>Almost exclusively used in SPCs as drives for the focus movement of the lens</li>
+<li>Structure: AF VCM and housing attached on the image sensor plane, the outer case has folded connector cable and gimbal vois coils</li>
+<li>Issues with predictability in its location ($10 \mu$ m) due to <strong>directional hysteresis</strong> (image depth of field, temperature, coil resistance variation) $\rightarrow$ open-loop control before correct focus</li>
+</ul>
+</li>
+<li>Alternative actuator types: stepper motors, piezo motors, MEMS, EDoF</li>
+<li>EDoF (extended depth-of-focus) by computational imaging
+<ul>
+<li>3rd order profile aspherical extends the DoF at the expense of contrast</li>
+<li>Recovered by deconvolution with a priori data of the phase mask</li>
+<li>2 DoF extension, which in turn translates to a significant extension of DoF in object distance equal to minimum optical distance (MOD = 30 cm). Less than a standard AF with barrel shift (MOD $\approx 10$ cm)</li>
+<li>Moving the lens to a desired focus position is obsolete</li>
+<li>Cons: noise from decomvolution (especially in low-light condition, can cause unrecoverable contrast)</li>
+</ul>
+</li>
+</ul>
 <h2 id="image-stabilization">Image stabilization</h2>
+<ul>
+<li>During image exposure, imageing performance limited by human hand-shaking, low light conditions, etc. due to <strong>intrinsically low etendue</strong> and a <strong>lower FWC</strong> $\rightarrow$ longer exposure ($\times$ squared crop factor, approx 50 for same f-number), ISO $\uparrow$ introducing additional noise</li>
+<li>The weight of SLR also helps reduce hand shaking</li>
+<li>Electronic image stabilization (EIS) and optical image stabilization (OIS) used simultaneously
+<ul>
+<li>Front cameras may not contain OIS</li>
+<li>EIS: Hand shaking as measured with on-board gyroscope and accelerometer; image frame is slightly cropped and conpensated by frame shift</li>
+<li>EIS cons
+<ul>
+<li>Cannot help in movement during one-frame exposure, would result in blur $\rightarrow$ can be reduced by deconvolution of the intergral PSF (computationally intensive task)</li>
+<li>Limited to FOV portion since working on reduction of FOV $\rightarrow$ larger hand-shaking amplitudes result in residual errors</li>
+</ul>
+</li>
+<li>OIS: residual aberrations since the degrees of freedom used in the OIS system are not the same (<strong>pitch, yaw, roll</strong>)</li>
+</ul>
+</li>
+</ul>
 <h3 id="hand-shaking-and-image-blur">Hand-shaking and image blur</h3>
+<ul>
+<li>Human tremor: involuntary oscillatory movement of body parts directly caused by muscles contracting and relaxing repetitively</li>
+<li>The key for EIS and OIS is the availability of on-board MEMS-based (micro-electro mechanical systems, gyroscope, accelerometer, etc.) miniature sensors.</li>
+<li>With differential capacities in comb-drive actuator design, the sensitivities of the sensors are <strong>linear</strong> and <strong>high-voltage sensitivity</strong>, leading to <strong>low power</strong> consumption</li>
+<li>6 degree of freedom: 3 transitions (<strong>x, y, z</strong>), 3 angular directions (<strong>pitch, yaw, roll</strong>) denoted $\theta_{x}$, $\theta_{y}$, $\theta_{z}$
+<ul>
+<li>Image point $(x&rsquo;, y&rsquo;)$, object point $(x, y)$</li>
+<li>$dx&rsquo; = f&rsquo;d\theta_{y} + \frac{f&rsquo;}{s}dx + yd\theta_{z}$</li>
+<li>$dy&rsquo; = f&rsquo;d\theta_{x} + \frac{f&rsquo;}{s}dy + xd\theta_{z}$</li>
+<li>1st components: pitch and yaw, measured by gyroscope</li>
+<li>2nd components: measured by accelerometer</li>
+<li>3rd components: roll (azimuthal-oriented blur, increases linearly in a radial direction from the image center)</li>
+<li>$\theta_{x}$, $\theta_{y}$, $\theta_{z}$ are simliar in amplitude $\rightarrow$ the roll-induced blur in the image corner is purely geometrically related to the yaw and pitch induced blur offsets (e.g. $\tan{(FOV/2)} = \Theta_{im}/(2f&rsquo;)$, lens with FOV of $\75\deg$ has a factor of about 0.75 smaller blur in the image corner compared to yaw and pitch induced blur)</li>
+</ul>
+</li>
+<li>Most OIS systems are not able to compensate for this component (&ldquo;usual&rdquo; situation is &lt; $1\deg$; most OIS is $0.5$-$1\deg$)</li>
+<li>&ldquo;Normal&rdquo; object distances (e.g. 1m), angular dominates; close-distance, decenter components dominate; at about $0.3$ m the contributions are comparable</li>
+<li>Typical hand-shaking blur is not a purely random walk, containing some <strong>systematic components</strong></li>
+<li>SPCs interior images: exposure time 1/10 s; night scenes: 1 s; image blur is in the order of 10 pixels</li>
+</ul>
 <h3 id="optical-image-stabilization-implementations">Optical image stabilization implementations</h3>
+<ul>
+<li>OIS systems: barrel decenter (most common); image sensor decenter (in SLR referred to as body image stabilization BIS); gimbal</li>
+<li>In a first-order approximationd a <strong>tilt and shift</strong> of the barrel is <strong>equvalent</strong> $\rightarrow$ correction of a hand-shaking tilt or decenter</li>
+<li>Barrel decenter: compensating movement of the entire lens barrel in x, y with a voice coil motor; some systems, barrel is tilted
+<ul>
+<li>Stiffness of the springs: correctable amplitude frequency distribution (e.g. very stiff spring $\rightarrow$ high-freq corrections but smaller amplitudes at low freq)</li>
+<li>Yoke: tight adjustment incresases friction and hysteresis; loose adjustment may lead to parasitic tilts</li>
+</ul>
+</li>
+<li>Image sensor decenter: iPhone 12 Pro, image sensor is actively moved</li>
+<li>Gimbal syetem: vivo X51,tilts the complete barrel together with the fixed-to-barrel image sensor</li>
+</ul>
 <h2 id="dynamic-range">Dynamic range</h2>
 <h3 id="hdr-imaging">HDR imaging</h3>
+<ul>
+<li>The limited dynamic range of image sensors in relation to the range of irradiances in a scene
+<ul>
+<li>Typical outdoor scenes: 9-12 EV, rarely above 14 EV</li>
+<li>Strong light source: &gt; 20 EV</li>
+<li>High-end, full-frame digital consumer cameras: DR $\approx$ 14-15 EV (DxO Mark)</li>
+<li>SPCs: DR $\approx$ 10-12 EV (DxO Mark)</li>
+</ul>
+</li>
+<li>DR as low ISO sensitivity: DR decreases as ISO increases (0.6-1.1 EV per ISO step, e.g. ISO 6400 DR 6-9)</li>
+<li>Calculate HDR images from a sequence of different exposoure times</li>
+<li>The tone values of these HDR recordings, which extend over a very large value range (e.g. 16 bits) are reduced to a much smaller brightness range (e.g. 8 bits)</li>
+<li>Scene recorded several times with different exposure times and combined for the extended dynamic range according to the brightness range shown</li>
+<li>Unsuitable for fast-moving subjects and more tend to loss of resolution due to hand shaking</li>
+<li>Mitigated with multicell sensors (exposure times of different lengths to be parallelized with different pixel clusters, with <strong>pixel binning</strong>)</li>
+</ul>
 <h3 id="lens-flare-and-ghosts">Lens flare and ghosts</h3>
+<ul>
+<li>When the sum or another very birght light source is in or just outside the frame, DR &gt; 25 or 30 EV</li>
+<li>Lens quality is crucial: residual light reflection on lens surfaces from a bright light source may superpose or cover up parts of the image; even for multilayer coated surface (&lt;0.2% reflectivity)</li>
+<li>Double reflex: with image sensor 5% reflectivity $\rightarrow$ 1/10000 weaker $\rightarrow$ -14 EV from the light source; but the maximum irradiance within normal scene is about 15 EV smaller than the light source</li>
+<li>No. of lens surface-surface reflections inside lens with $n$ surfaces: $n + (n - 1) + \cdot \cdot \cdot + 2 + 1 = \frac{1}{2}n(n + 1)$; all surfaces including in and between micro lens, IR filters, etc.</li>
+<li>Shapes: Caustics or crescent-shaped (large aperture); egg-shaped (smartphone); often purple (from higher coating reflectivity in blue and red)</li>
+<li>Every scene with a large dynamic range</li>
+<li>Good hardware (i.e. AR coatings, straylight-blocking rings), the straylight performance can be optimized on optical design phase to avoid in-focus ghosts (modifications on the optical surface shapes, opto-mechanical layout of the system)</li>
+<li>May appear inside a very small portion of the full FOV (distinct local differrences in reflection direction at the wiggly lens surfaces; surfaces exceeding the total reflection angle)</li>
+<li>Testing in the lab: local variation of straylight can easily be observed when rotating the lens relative to a very bright light surface</li>
+</ul>
 <h2 id="portrait-mode">Portrait mode</h2>
+<ul>
+<li>Subject recognition $\rightarrow$ portraits of people, portraits of pets, etc; context-by-context basis; shape of edges (face contours); combined with 3D acquisition to improve depth maps</li>
+<li>Computationally blurring out-of-focus regions according to the depth map data; depth dependent PSF stored in the memory; dependent on both depth and the selected focus to resemble the real images</li>
+<li>The depth map should accurately reproduce the scene in all its details</li>
+<li>The depth of field of an PSC is many times greater than that of the DSLR due to the much smaller image format
+<ul>
+<li>Relative size of the circle of confusion (diameter of the PSF): $\Theta_{rel, spot , \inf} = \frac{\Theta_{EP}}{\Theta_{ob, portrait}} = \frac{\Theta_{EP}}{700 mm}$</li>
+<li>SPC equivalent focal length of 85 mm requires 85 mm / crop factor = 8.8 mm, resulting in entrance pupil diameter $\Theta_{EP} = 8.8 mm / 3 \approx 3 mm \rightarrow \Theta_{rel, spot , \inf} \approx 0.42%$</li>
+<li>DSLR portrait lens with entrance pupil diameter of $85mm/1.4\approx 60mm$ and a relative background blur spot diameter of $\Theta_{rel, spot , \inf} \approx 8.7%$, which is 20 times larger for SPC</li>
+</ul>
+</li>
+</ul>
 <h3 id="3d-depth-acquisition-technology">3D depth acquisition technology</h3>
+<ul>
+<li>Can be deterrmined stereoscopically on the common image portion of the cameras</li>
+<li>Distance to objects can be determined for the directional component of the neighboring cameras and not in the direction perpendicular to it $\rightarrow$ with more cameras, the disparity can be captured along different directions, improves the quality of the depth map</li>
+<li>Multi-cameras: occluded area reduced, disparity more robust</li>
+<li>Classic multiview stereo processing is <strong>computationally expensive</strong>, challenging on mobile; involving feature extraction, feature matching, camera calibration and pose estimation, depth estimation, surface reconstruction, and texturing</li>
+<li>Lightfield imaging
+<ul>
+<li>Conventional lens is combined with a micro lens array with a much smaller focal length</li>
+<li>Micro lens array is positioned closely in front of an image sensor</li>
+<li>The raw image consists of many small partly overlapping fields of view of a scene</li>
+<li>Correlation analysis between adjacent fields of view $\rightarrow$ dispartiy and depth</li>
+<li>Smaller focal length results in small achievable disparities (&lt;1%) and inferior higher depth resolution</li>
+<li>Extended depth of field with different focal lengths</li>
+</ul>
+</li>
+<li>Disparity calculation
+<ul>
+<li>Object points distances $s_{1}$, $s_{2}$; base distance between the cameras $b$; image positions $y_{1}$, $y_{2}$</li>
+<li>$\frac{s_{1}}{b} = \frac{f}{y_{1}}$</li>
+<li>$\frac{s_{2}}{b} = \frac{f}{y_{2}}$</li>
+<li>Disparity $d = y_{2} - y_{1} = fb(\frac{1}{s_{2}} - \frac{1}{s_{1}})$</li>
+<li>With $f = \frac{y_{max}}{\tan{(FOV/2)}}$, the disparity relative tot he image frame $\frac{d}{y_{max}} = \frac{b}{\tan{(FOV/2)}}(\frac{1}{s_{2}} - \frac{1}{s_{1}})$</li>
+<li>Assume $s_{1}\rightarrow \inf$, $s = \frac{by_{max}}{d\tan{(FOV/2)}}$</li>
+<li>$b$, $d$, $y_{max}$, FOV are known from lens, calibrated camera (positioning, axis-orientation)</li>
+<li>Typical SPC $b$: 1-2 cm</li>
+<li>For normal tele lens, a relative disparity of $d/y_{max} = 0.354$ (3.54% of the distance between image center and corner), which is about portrait distance for FOV $= 44\deg$; 2.5 m object distance, 20 pixels; 10 distance disparity, 2 pixels</li>
+<li>Depth resolution decreases as distance from the lens increases</li>
+<li>Depth resolution depends on the depth of field and actual focus position</li>
+<li>For unstructured objects (e.g. clear blue sky), machine learning</li>
+<li>Quality of the depth map highly dependent on the contrast and light intensity, spectral distribution of the illumination in the scene</li>
+</ul>
+</li>
+<li>Incorrect depth data unnatural blurring at the edge between foreground and background</li>
+<li>Face recognition requires 3D depth data: structured light camera system, ToF sensors (time of flight, range imaging camera, lower power light source infrared light; LiDAR: laser beams)
+<ul>
+<li>Light source: VCSEL (vertical cavity surface-emitting laser) at a power of ~150mW in near IR light</li>
+<li>Modulated light for deduce temporally pulsed or continuous waved</li>
+</ul>
+</li>
+</ul>
 <h3 id="simulation-of-lens-bokeh-camera-3d-point-spread-function">Simulation of lens bokeh: Camera 3D point spread function</h3>
+<ul>
+<li>Equation of the diameter of the geometrical PSF (&ldquo;circle of confusion&rdquo;): $\Theta_{rel, spot} = \frac{f^{2}}{\Theta_{im}K}\frac{|S_{F} - s|}{s_{F}s}$ for &ldquo;normal imaing&rdquo; without considering macro distances $\rightarrow$ when object distance $s &lt; s_{F}$, $s\uparrow$, circle of confusion $\Theta_{rel, spot}\downarrow$; Further move the object, $s\uparrow$, circle of confusion $\Theta_{rel, spot}\uparrow$</li>
+<li>Bokeh (暈け/ボケ)
+<ul>
+<li>Non-uniform intensity distribution within an out-of-focus hightlight source is due to <strong>lens aberrations</strong>
+<ul>
+<li><strong>Overlapping</strong> out-of-focus highlights</li>
+<li>&ldquo;<strong>Cat&rsquo;s-eye bokeh</strong>&rdquo; due to <strong>vignetting</strong> usually for high-aperture lenses (<strong>lens&rsquo; field stops</strong> in the front and rear part of camera lenses)</li>
+<li>&ldquo;<strong>Edgy bokeh</strong>&rdquo; due to <strong>iris stop</strong> (diaphragm with blades)</li>
+<li><strong>Softar bokeh</strong> (softar filter scatters light out of nominal light path)</li>
+<li>&ldquo;<strong>Donut bokeh</strong>&rdquo; (spherical aberration, red color fringe due to chromatic aberration) due to overcorrected low-order spherical aberration (redistribution of intensity in the presence of aberrations)</li>
+<li>&ldquo;<strong>Christmax ball bokeh</strong>&rdquo; (spherical aberration)</li>
+<li>&ldquo;<strong>Fine structured bokeh</strong>&rdquo; including &ldquo;<strong>onion ring bokeh</strong>&rdquo; (optical manufacturing induced residual surface deformations)</li>
+</ul>
+</li>
+<li>light intensity: not a problem when not exceeding DR; exceeding DR, irradiance is physically <strong>redistributed</strong> inversely proportional to the surface area of the out-of-focus spot $\rightarrow$ synthetic bokeh of an SPC spot brigihtness must be <strong>guessed</strong></li>
+</ul>
+</li>
+</ul>
 <h3 id="portrait-look-a-quality-evaluation">Portrait look: a quality evaluation</h3>
+<ul>
+<li>Synthetic bokeh: depth map quality, inferior low-light, reduced DR</li>
+<li>Challenging in low-light: noisy face due to the low ambient light; unpleasant differences between artifitial smoothed background and noisy face; overexposed bright colored highlight on the background loss its DR appearing white $\rightarrow$ computed blurred background incorrectly displayed as white (unexpected larger defocusing area with less intensity than saturation value of the DR, not uniform, failed bokeh)</li>
+<li>DxO computational bokeh test setup
+<ul>
+<li>Critical objects for high-resolution depth acquisition in topologically enclosed areas like holes or tiny eyelets</li>
+<li>Structured stipes which are placed diagonally into the depth for checking natrually and continuously sharpness transition in the depth</li>
+</ul>
+</li>
+<li>Criteria based on the ideal of the natural bokeh
+<ul>
+<li>Depth map quality:
+<ul>
+<li>Subject background segmentation</li>
+<li>Repeatability</li>
+<li>Blur gradient smoothness (also 3D DSF model)</li>
+</ul>
+</li>
+<li>3D PSF model
+<ul>
+<li>Bokeh shape</li>
+<li>Equivalent aperture</li>
+</ul>
+</li>
+<li>&ldquo;Noise&rdquo; uniformity: Noise consistency (face noise and background smoothness)</li>
+</ul>
+</li>
+</ul>
 <h2 id="image-performance-specification-and-test">Image performance specification and test</h2>
-<h3 id="lab-evaluation-during-rd">Lab evaluation during R&amp;D</h3>
+<p>Lab evaluation during <strong>R&amp;D</strong>; qualification in <strong>mass production</strong> (mentioned in 8.3, active optical assembly); qualification of the <strong>image quality</strong>, including signal and image processing in the SP</p>
+<h3 id="lab-evaluation-during-rd-objectively-checking-measurable-optical-and-sensor-properties">Lab evaluation during R&amp;D: <strong>Objectively</strong> checking measurable optical and sensor properties</h3>
+<ul>
+<li>Tests and standardized test charts
+<ul>
+<li>Resolution and contrast: CIPAA resolution (wedge) test chart, OECF/noise chart with 20 gray patches</li>
+<li>Color reproduction: X-Rite color checker digital SG</li>
+<li>Field of view (FOV) and distortion: 19/14-grid test chart</li>
+<li>Dynamic range</li>
+<li>Auto exposure (AE)</li>
+<li>Autofocus (AF)</li>
+<li>Auto white balance (AWB)</li>
+<li>Lens shading</li>
+<li>Color shading</li>
+<li>Flare: Flare target, round dots forming a cross</li>
+<li>Ghosts</li>
+</ul>
+</li>
+<li>Other tests and inspections: material tests, dust and environmental tests, shock and vibration, continuous run, lifetime, electromagnetic compatibility, electronic tests (software and sensor interfaces to the camera, drives for VCM and OIS)</li>
+</ul>
 <h3 id="evaluation-of-image-quality-in-the-imaging-pipeline">Evaluation of image quality in the imaging pipeline</h3>
+<ul>
+<li>Subjective quality tests: test motifs including natural objects, special image arrangements, and people</li>
+<li>As objective as possible: <strong>trained person</strong> according to precisely specified <strong>test</strong> and <strong>evaluation procedures</strong> (lighting, viewing time, etc.)</li>
+<li>Image processing software takes place practically until the device is sold $\rightarrow$ assess as early as possible</li>
+<li>No recognized stantards forr the overall evaluation of a camera system</li>
+<li>DxOMark (broad public perception, commercial), VCX (nonprofit, consortium)</li>
+</ul>
 <h2 id="smartphone-camera-interface-with-telescopes-microscopes-and-accessory-lenses">Smartphone camera interface with telescopes, microscopes, and accessory lenses</h2>
 <h2 id="summary-and-outlook">Summary and outlook</h2>
-<ul>
-<li>Parallel</li>
-</ul>
 <h2 id="references">References:</h2>
 <ol>
 <li>Walasek-Hoehne, B., K. Hoehne, and R. Singh. &ldquo;Video Cameras used in Beam Instrumentation&ndash;an Overview.&rdquo; arXiv preprint arXiv:2005.04977 (2020).</li>
 <li><a href="https://www.edmundoptics.com/knowledge-center/application-notes/imaging/limitations-on-resolution-and-contrast-the-airy-disk/"  target="_blank" rel="noopener" >https://www.edmundoptics.com/knowledge-center/application-notes/imaging/limitations-on-resolution-and-contrast-the-airy-disk/</a></li>
+<li>Kapłonek, Wojciech, et al. &ldquo;Optical profilometer with confocal chromatic sensor for high-accuracy 3D measurements of the uncirculated and circulated coins.&rdquo; Journal of Mechanical and Energy Engineering 2 (2018).</li>
 <li><a href="https://www.photometrics.com/learn/camera-basics/binning"  target="_blank" rel="noopener" >https://www.photometrics.com/learn/camera-basics/binning</a></li>
 <li>Tournier, A., et al. &ldquo;Pixel-to-pixel isolation by deep trench technology: application to CMOS image sensor.&rdquo; Proc. Int. image sensor workshop. 2011.</li>
 <li><a href="https://www.dpreview.com/articles/1570070253/what-is-dual-gain-and-how-does-it-work"  target="_blank" rel="noopener" >https://www.dpreview.com/articles/1570070253/what-is-dual-gain-and-how-does-it-work</a></li>

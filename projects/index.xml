@@ -12,7 +12,7 @@
       <link>https://yan99.github.io/projects/depthimagedenoise/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://yan99.github.io/projects/depthimagedenoise/</guid>
-      <description>The github page is ImagePreparation.</description>
+      <description>The github page is ImagePreparation. This implementations include three parts, the middlebury dataset together with noise models, an implementation of a CNN denoising model MSMF, and an implementation of a diffusion model DDVM (with a simple Unet, will implement with efficient Unet and the patchwise training method in the near future).&#xA;Noise Models References:&#xD;@article{Barron:etal:2013A,&#xD;author = {Jonathan T. Barron and Jitendra Malik},&#xD;title = {Intrinsic Scene Properties from a Single RGB-D Image},&#xD;journal = {CVPR},&#xD;year = {2013},&#xD;}&#xD;@article{Bohg:etal:2014,&#xD;title = {Robot arm pose estimation through pixel-wise part classification},&#xD;author = {Bohg, Jeannette and Romero, Javier and Herzog, Alexander and Schaal, Stefan},&#xD;journal = {ICRA},&#xD;year = {2014},&#xD;} MSMF, the CNN model:</description>
     </item>
   </channel>
 </rss>

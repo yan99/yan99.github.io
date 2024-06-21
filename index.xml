@@ -19,7 +19,28 @@
       <link>https://yan99.github.io/projects/depthimagedenoise/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://yan99.github.io/projects/depthimagedenoise/</guid>
-      <description>The github page is ImagePreparation.</description>
+      <description>The github page is ImagePreparation. This implementations include three parts, the middlebury dataset together with noise models, an implementation of a CNN denoising model MSMF, and an implementation of a diffusion model DDVM (with a simple Unet, will implement with efficient Unet and the patchwise training method in the near future).&#xA;Noise Models References:&#xD;@article{Barron:etal:2013A,&#xD;author = {Jonathan T. Barron and Jitendra Malik},&#xD;title = {Intrinsic Scene Properties from a Single RGB-D Image},&#xD;journal = {CVPR},&#xD;year = {2013},&#xD;}&#xD;@article{Bohg:etal:2014,&#xD;title = {Robot arm pose estimation through pixel-wise part classification},&#xD;author = {Bohg, Jeannette and Romero, Javier and Herzog, Alexander and Schaal, Stefan},&#xD;journal = {ICRA},&#xD;year = {2014},&#xD;} MSMF, the CNN model:</description>
+    </item>
+    <item>
+      <title>Diffusion Models for Imaging and Vision</title>
+      <link>https://yan99.github.io/othernotes/diffusionmodels/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://yan99.github.io/othernotes/diffusionmodels/</guid>
+      <description>VAE (Variational Auto-Encoder) Setting Input $x$ (e.g. image) $\rightarrow$ Encoder $\rightarrow$ Latent Variables $z$ $\rightarrow$ Decoder $\rightarrow$ Generated $\hat{x}$ Autoencoder: an input variable $x$ and a latent variable $z$ latent space/latent feature space/embedding space: an embedding of a set of items within a manifold in which items resembling each other are positioned closer to one another &amp;ldquo;Variational&amp;rdquo;: use probabiity distriution $p(x)$ for $x$ and $p(z)$ for latent variable $z$ - $p(z|x)$: associated with the encoder.</description>
+    </item>
+    <item>
+      <title>Notes for Computational Imaging</title>
+      <link>https://yan99.github.io/othernotes/computationalimaging/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://yan99.github.io/othernotes/computationalimaging/</guid>
+      <description> </description>
+    </item>
+    <item>
+      <title>Notes for Ray Tracing</title>
+      <link>https://yan99.github.io/othernotes/raytracing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://yan99.github.io/othernotes/raytracing/</guid>
+      <description> </description>
     </item>
     <item>
       <title>Purdue ECE 638</title>

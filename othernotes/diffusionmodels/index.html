@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="icon" href="/favicon.ico">
+
+  <title>
+    Diffusion Models for Imaging and Vision - Yang Yan
+  </title>
+
+  <meta name="description" content="Notes for Tutorial on Diffusion models for Imaging and Vision by Stanley Chan" /><meta name="generator" content="Hugo 0.121.1">
+
+  <link rel="stylesheet" href="/main.css" />
+
+  
+  
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+      integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv"
+      crossorigin="anonymous"
+    >
+
+    <script defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+      integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+      crossorigin="anonymous"
+    ></script>
+
+    <script defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+      integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF"
+      crossorigin="anonymous"
+      onload="renderMathInElement(document.body);">
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+    </script>
+  
+
+  <meta property="og:title" content="Diffusion Models for Imaging and Vision" />
+<meta property="og:description" content="Notes for Tutorial on Diffusion models for Imaging and Vision by Stanley Chan" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yan99.github.io/othernotes/diffusionmodels/" /><meta property="article:section" content="Othernotes" />
+
+
+
+
+
+  <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Diffusion Models for Imaging and Vision"/>
+<meta name="twitter:description" content="Notes for Tutorial on Diffusion models for Imaging and Vision by Stanley Chan"/>
+
+
+  <meta itemprop="name" content="Diffusion Models for Imaging and Vision">
+<meta itemprop="description" content="Notes for Tutorial on Diffusion models for Imaging and Vision by Stanley Chan">
+
+<meta itemprop="wordCount" content="1341">
+<meta itemprop="keywords" content="" />
+
+  <meta itemprop="name" content="Diffusion Models for Imaging and Vision">
+<meta itemprop="description" content="Notes for Tutorial on Diffusion models for Imaging and Vision by Stanley Chan">
+
+<meta itemprop="wordCount" content="1341">
+<meta itemprop="keywords" content="" />
+</head><body class="flex relative h-full min-h-screen"><aside
+  class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
+  <p class="font-bold mb-5 flex items-center gap-2">
+    <button aria-label="Close sidebar"
+      class="md:hidden menu-trigger-close p-1 rounded text-slate-800 dark:text-slate-50 hover:bg-slate-200 dark:hover:bg-slate-700"><svg class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+  fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" />
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+</svg></button>
+    <a href="https://yan99.github.io/" class="px-2">
+      <span>Yang Yan</span>
+    </a>
+    <button aria-label="Toggle dark mode"
+      class="dark-mode-toggle p-2 rounded border dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700"><svg class="h-4 w-4" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+  fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" />
+  <circle cx="12" cy="12" r="4" />
+  <path d="M3 12h1M12 3v1M20 12h1M12 20v1M5.6 5.6l.7 .7M18.4 5.6l-.7 .7M17.7 17.7l.7 .7M6.3 17.7l-.7 .7" />
+</svg></button>
+  </p>
+
+  
+  <ul class="list-none flex flex-col gap-1">
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="/" >
+        <span>Home</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  text-slate-400 font-semibold pb-0 pl-1 border-b cursor-default pointer-events-none "
+        href="#" >
+        <span>Content</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="/notes/" >
+        <span>Course Notes</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="/othernotes/" >
+        <span>Other Notes</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm flex items-center justify-between  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="/projects/" >
+        <span>Projects</span>
+        
+      </a>
+    </li>
+    
+  </ul>
+
+  <div class="flex-1"></div>
+
+  
+
+  <ul class="list-none flex flex-wrap justify-center gap-1 pt-2 border-t border-slate-200 dark:border-slate-600">
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm block text-slate-800 dark:text-slate-50  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="" target="_blank" rel="noopener noreferrer">
+        <span class="sr-only">Github</span>
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="px-2 py-1.5 rounded-md text-sm block text-slate-800 dark:text-slate-50  hover:bg-slate-200 dark:hover:bg-slate-700 "
+        href="" target="_blank" rel="noopener noreferrer">
+        <span class="sr-only">LinkedIn</span>
+        
+        <span><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+  stroke-linecap="round" stroke-linejoin="round">
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+  <rect x="2" y="9" width="4" height="12" />
+  <circle cx="4" cy="4" r="2" />
+</svg></span>
+        
+      </a>
+    </li>
+    
+  </ul>
+</aside>
+
+<div
+  class="fixed bg-slate-700 bg-opacity-5 transition duration-200 ease-in-out inset-0 z-10 pointer-events-auto md:hidden left-0 top-0 w-full h-full hidden menu-overlay">
+</div>
+
+<button aria-label="Toggle Sidebar"
+  class="md:hidden absolute top-3 left-3 z-10 menu-trigger p-1 rounded text-slate-800 dark:text-slate-50 hover:bg-slate-100"><svg class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+  fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" />
+  <line x1="4" y1="6" x2="20" y2="6" />
+  <line x1="4" y1="12" x2="20" y2="12" />
+  <line x1="4" y1="18" x2="16" y2="18" />
+</svg></button>
+
+
+
+
+
+<div class="flex max-h-screen relative overflow-y-auto h-full w-full">
+  
+  <article class="px-6 py-20 w-full mx-auto prose lg:prose-lg dark:prose-invert h-fit prose-img:mx-auto">
+    
+    <a href="https://yan99.github.io/othernotes/" class="!no-underline !text-slate-500 !mb-2 !inline-block !font-normal !text-sm hover:!text-slate-700 dark:hover:!text-slate-400">← Back to list</a>
+
+    
+    <h1 class="!mb-2">Diffusion Models for Imaging and Vision</h1>
+    
+
+    
+
+    <h1 id="vae-variational-auto-encoder">VAE (Variational Auto-Encoder)</h1>
+<h2 id="setting">Setting</h2>
+<ul>
+<li>Input $x$ (e.g. image) $\rightarrow$ Encoder $\rightarrow$ Latent <strong>Variables</strong> $z$ $\rightarrow$ Decoder $\rightarrow$ Generated $\hat{x}$</li>
+<li>Autoencoder: an input variable $x$ and a latent variable $z$</li>
+</ul>
+<ul>
+<li>latent space/latent feature space/embedding space: an embedding of a set of items within a manifold in which items resembling each other are positioned closer to one another</li>
+<li>&ldquo;Variational&rdquo;: use probabiity distriution $p(x)$ for $x$ and $p(z)$ for latent variable $z$
+- $p(z|x)$: associated with the <strong>encoder</strong>. Not the encoder, but encoder has to make sure $p(z|x)$ behave consistently. Have no access to it.
+- $p(x|z)$: associated with the <strong>decoder</strong>. Have no access to it.</li>
+<li>Proxy distributions:
+- $q_{\phi}(z|x)$: proxy for $p(z|x)$. Assume it is a Gaussian. Need estimate the mean and variance for the Guassian $q_{\phi}(z|x)$
+- $p_{\theta}(x|z)$: proxy for $p(x|z)$. ONLY need to estimate the mean and variance for $p_{\theta}(x|z)$. Do not need to estimate anything for the Gaussian $p_{\theta}(x|z)$. Evaluate how good the generated image $x$ is. Need decoder neural network to turn $z$ into $x$.</li>
+</ul>
+<h2 id="evidence-lower-bound-similar-to-maximum-likelihood-estimation">Evidence Lower Bound (Similar to Maximum Likelihood Estimation)</h2>
+<ul>
+<li>Loss function: <strong>evidence lower bound (ELBO)</strong>: $ELBO(x) = \math{E}<em>{q</em>{\phi}(z|x)}[\log{\frac{p(x, z)}{q_{\phi}(z|x)}}]$
+<ul>
+<li>$\log{p_{\thta}(x)} = \int_{z}q(z|x)\log{P(x)}dz = \int_{z}q(z|x)\log{P(z, x)/P(z|x)}dz = \int_{z}q(z|x)\log(P(z, x)/q(z|x))dz + \int_{z}q(z|x)\log{q(z|x)/p(z|x)}= \mathbb{E}<em>{q</em>{\phi}(z|x)}[\log{\frac{p(x, z)}{q_{\phi}(z|x)}}] + \mathbb{D}<em>{KL}(q</em>{\phi}(z|x)|p(z|x))$</li>
+<li>Lower bound for the prior distribution $log(p(x))$, KL divergence is always non-negative.</li>
+<li>Gap beteween $log(p(x))$ and ELBO(x) is KL divergence: we need to ensure $q_{\phi}(z|x)$ is close to $p(z|x)$</li>
+</ul>
+</li>
+<li>$ELBO(x) = \mathbb{E}<em>{q</em>{\phi}(z|x)}[\log{p_{\theta}(x|z)}] - \mathbb{D}<em>{KL}(q</em>{\phi}(z|x)|p(z))$
+<ul>
+<li>Use $p(x, z) = p(x|z)p(z)$, split the expectations, and KL definition</li>
+<li>Replace $p(x|z)$ with proxy $p_{\theta}(x|z)$</li>
+<li>Previoous assumptions: $p_{\theta}(x|z)$, $q_{phi}(z|x)$, and $p(z)$ are Gaussian distributions</li>
+<li>ELBO = &ldquo;how good the <strong>decoder</strong> is&rdquo; - &ldquo;KL divergence for <strong>encoder</strong>&rdquo;</li>
+<li><strong>Reconstruction</strong> (from $x$ and $z~q_{\phi}(z|x)$, find $\theta$ to maximize $p_{\theta}{x|z}$). Decoder to produce a good image $x$. Want to maximize $\log{p_{\theta}(x|z)}$</li>
+<li><strong>Prior Matching</strong> (from $(z, x)$, find $\phi$ to minimize KL). KL divergence$\downarrow$ similarity $\uparrow$. Here maxizing ELBO, put a negative sign in front of KL term.</li>
+</ul>
+</li>
+</ul>
+<h2 id="training-vae">Training VAE</h2>
+<ul>
+<li>Ground truth pairs $(x,z)$, where $x$ is the clear image, $z$ is the corresponding encoded image generated with distribution $\q_{\phi}(z|x)$ (assume is as a Gaussian)
+<ul>
+<li>A deep neural network such that $\mu = \mu_{\phi}(x)$ and $\sigma^{2} = \sigma_{\phi}^{2}(x)$</li>
+<li>The $l$-th sample $z^{(l)}~\mathcal{N}(z|\mu_{\phi}(x^{(l)}), \sigma_{\phi}^{2}(x^{(l)}I)$</li>
+<li>$\mu_{\phi}(x^{(l)})$ and $\sigma_{\phi}^{2}(x^{(l)}$ are functions of $x^{(l)}$ $\rightarrow$ different $x$ have different Gaussian</li>
+</ul>
+</li>
+<li>High-dimensional Guassian $x~\mathcal{N}(x|\mu, \Sigma)$
+<ul>
+<li>Sampling process with transformation of white noise: $x = \mu + \Sigma^{1/2}w$</li>
+<li>$w~\mathcal{N}(0, I)$, $\Sigma^{1/2}$ is eigen-decomposition</li>
+</ul>
+</li>
+<li>Encoder $p_{\theta}(x|z)$
+<ul>
+<li>Assume $(\hat{x} - x)~\mathcal{N}(0, \sigma_{decoder}^{2})$, where $\hat{x} = decode_{\theta}(z)$</li>
+<li>The distribution $p_{\theta}(x|z)$: $\log{p_{\theta}(x|z)} = \log{\mathcal{N}(x|decode_{\theta}(z), \sigma_{decode}^{2}I)} = -\frac{|x - decode_{\theta}(z)|^{2}}{2\sigma_{dec}^{2}} - \log{\sqrt{(2\pi\sigma_{dec}^{2})^{D}}}$
+<ul>
+<li>$D$ is the dimension of $x$</li>
+<li>2nd term can be ignored</li>
+<li>This equation shows that maximization likelyhood term in ELCO is the $L_{2}$ loss between decoded image $\hat{x}$ and ground truth $x$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="loss-function">Loss Function</h2>
+<ul>
+<li>Approximate the expectation by Monte-Carlo simulation: $\mathbb{E}<em>{q</em>{\phi}(z|x)[\log{p_{\theta}(x|z)}]}\approx \frac{1}{L}\sum_{l = 1}^{L}\log{p_{\theta}(x^{(l)}|z^{(l)})}$</li>
+<li>Training Loss: $argmax_{\phi, \theta}{\frac{1}{L}\sum_{l = 1}^{L}\log{p_{\theta}(x^{(l)}|z^{(l)})}-\mathbb{D}<em>{KL}(q</em>{\phi}(z|x^{(l)}||p(z)))}$
+* KL divergence term: DL divergence for two d-dimensional Gaussian distributions can be straightly calculated with $\mu$ and $\sigma$</li>
+</ul>
+<h2 id="inference-with-vae">Inference with VAE</h2>
+<p>Generate the decoded image $\hat{x}$ with a latent $z$ which is sampled from $p(z) = \mathcal{N}(0, I)$ with decode parameter</p>
+<h1 id="denoising-diffusion-probabilistic-model-ddpm">Denoising Diffusion Probabilistic Model (DDPM)</h1>
+<ul>
+<li>&ldquo;Diffusion models are incremental updates where the assembly of the whole gives us the encoder-decoder structure. The transition from one state to another is realized by a denoiser.&rdquo;</li>
+<li>Variational diffusion model
+<ul>
+<li>$x_{0}$: original image, same as $x$ in VAE</li>
+<li>$x_{T}$: latent variable, same as $z$ in VAE</li>
+<li>$x_{1}$, &hellip;, $x_{T-1}$: intermediante states, also latent variables, not white Gaussian</li>
+</ul>
+</li>
+</ul>
+<h2 id="building-blocks">Building Blocks</h2>
+<ul>
+<li>Transition block
+<ul>
+<li>Forward transition: Ideally, with $x_{t-1}$ and $p(x_{t}|x_{t-1})$, we can get $x_{t}$. However, the distribution $p(x_{t}|x_{t-1})$ remaining unaccessible. We have to use approxy Gaussian $q_{\phi}(x_{t}|x_{t-1})$</li>
+<li>Reverse transition: Similarly, the distribution $p(x_{t+1}|x_{t})$ is unknown. The approxy Gaussian $p_{\theta}(x_{t+1}|x_{t})$ is used here. The mean of this Gaussian needs to be estimated by a neural network.</li>
+</ul>
+</li>
+<li>Initial block: Only has reverse transition from $x_{1}$ to $x_{0}$. With approxy $p_{\theta}(x_{0}|x_{1})$ and $x_{1}$, the $x_{0}$ can be estimated.</li>
+<li>Final block: Only has forward transition from $x_{T-1}$ to $x_{T}$. With approxy $q_{\phi}(x_{T}|x_{T-1})$ and $x_{T-1}$, the $x_{T}$ can be estimated.</li>
+<li>Understanding the transition distribution $q_{\phi}(x_{t}|x_{t-1})$:
+<ul>
+<li>Definition: $q_{\phi}(x_{t}|x_{t-1}) = \mathcal{N}(x_{t}|\sqrt{\alpha_{t}}x_{t-1}, (1-\alpha_{t})I)$</li>
+<li>Mean is $\sqrt{\alpha_{t}}x_{t-1}$, variance is $(1-\alpha_{t})$</li>
+<li>Scaling factor $\sqrt{\alpha_{t}}$ controls the variance magnitude and preventing explosion or vanishing</li>
+<li>$x_{t} = \sqrt{\alpha_{t}}x_{t-1} + \sqrt{(1-\alpha_{t})}\epsilon$, where $\epsilon~\mathcal{N}(0, I)$</li>
+<li>Derived from Gaussian mixture model</li>
+</ul>
+</li>
+</ul>
+<h2 id="the-magical-scalars-sqrtalpha_t-and-1-alpha_t">The Magical Scalars $\sqrt{\alpha_{t}}$ and $1-\alpha_{t}$</h2>
+<ul>
+<li>$q_{\phi}(x_{t}|x_{t-1}) = \mathcal{N}(x_{t}|ax_{t-1}, b^{2}I)$, where $a = \sqrt{\alpha}$, $b = \sqrt{1-\alpha}$
+<ul>
+<li>$x_{t} = ax_{t-1} + b\epsilon_{t-1}$  $\rightarrow$  $x_{t} = a^{t}x_{0} + b[\epsilon_{t-1} + a\epsilon_{t-2}+\cdots+a^{t-1}\epsilon_{0}]$</li>
+<li>Assume $w_{t} = b[\epsilon_{t-1} + a\epsilon_{t-2}+\cdots+a^{t-1}\epsilon_{0}]$ to be $~\mathcal{N}(0, I)$</li>
+<li>Calculating covariance for $w_{t}$, with $t\rightarrow \inf$, get $b = \sqrt{1-a^{2}}$</li>
+</ul>
+</li>
+</ul>
+<h2 id="distribution-q_phix_tx_0">Distribution $q_{\phi}(x_{t}|x_{0})$</h2>
+<ul>
+<li>$q_{\phi}(x_{t}|x_{0}) = \mathcal{N}(x_{t}|\sqrt{\bar{\alpha_{t}}x_{0}, (1-\bar{\alpha_{t}})I)$, where $\bar{\alpha_{t}} = \prod_{i = 1}^{t}\alpha_{i}$
+<ul>
+<li>Similarly, calculate the covariance for the noise part</li>
+</ul>
+</li>
+</ul>
+<h2 id="evidence-lower-bound">Evidence Lower Bound</h2>
+<ul>
+<li>$ELBO_{\phi, \theta}(x) = \mathbb{E}<em>{q</em>{\phi}(x_{1}|x_{0})}[\log{p_{\theta}(x_{0}|x_{1})}] - \mathbb{E}<em>{q</em>{\phi}(x_{T-1}|x_{0})}[\mathbb{D}<em>{KL}(q</em>{\phi}(x_{T}|x_{T-1})||p(x_{T}))] - \sum_{t = 1}^{T-1}\mathbb{E}<em>{q</em>{\phi}(x_{t-1}, x_{t+1}|x_{0})}[\mathbb{D}<em>{KL}(q</em>{\phi}(x_{t}|x_{t-1})||p_{\theta}(x_{t}|x_{t+1}))]$
+<ul>
+<li>3 terms for evaluating initila block, final block, and transition blocks</li>
+<li>Reconstruction: The expectation is taken with respect to the samples drawn from $q_{\phi}(x_{1}|x_{0})$, which is distribution that generates intermediate latent variable $x_{1}$.</li>
+<li>Prior matching: KL divergence to measure the difference between $q_{x_{T}|x_{T-1}}$ (forward transition) and $p(x_{T})$ (assuming $\mathcal{N}(0, I)$)</li>
+<li>Consistency: forward transition $\q_{phi}(x_{t}|x_{t-1})$, reverse transition $p_{\theta}(x_{t}|x_{x+1})$; KL divergence to measure the deviation</li>
+</ul>
+</li>
+</ul>
+<h2 id="rewrite-the-consistency-term">Rewrite the Consistency Term</h2>
+<ul>
+<li>Bayers theorem condision on $x_{0}$: $q(x_{t}|x_{t-1}, x_{0}) = \frac{q(x_{t-1}|x_{t}, x_{0})q(x_{t}|x_{0})}{q(x_{t-1}|x_{0})}$. This switch the direction of $q(x_{t}|x_{t-1}, x_{0})$ to $q(x_{t-1}|x_{t}, x_{0})$</li>
+<li>Updated $ELBO_{\phi, \theta}(x) = \mathbb{E}<em>{q</em>{\phi}(x_{1}|x_{0})}[\log{p_{\theta}(x_{0}|x_{1})}]-\mathbb{D}<em>{KL}(q</em>{\phi}(x_{T}|x_{0})||p(x_{T})) - \sum_{t = 2}^{T}\mathbb{E}<em>{q</em>{\phi}(x_{t}|x_{0})}[\mathbb{D}<em>{KL}(q</em>{\phi}(x_{t-1}|x_{t}, x_{0})||p_{\theta}(x_{t-1}|x_{t}))]$
+<ul>
+<li>Reconstruction: same as before. Maximize the log-likelihood</li>
+<li>Prior matching: simplified KL divergence between $q_{\phi}(x_{T}|x_{0})$ and $p(x_{T})$. with condition upon $x_{0}$</li>
+<li>Consistency: index form $2$ to $T$; instead of mathcing forward transition to reverse transition, use $q_{\phi}$ to construct a reverse transition and match with $p_{\theta}$</li>
+</ul>
+</li>
+</ul>
+<h2 id="derivation-of-q_phix_t-1x_t-x_0-which-is-a-guassian">Derivation of $\q_{\phi}(x_{t-1)}|x_{t}, x_{0})$, which is a Guassian</h2>
+<ul>
+<li>Mean and variance
+<ul>
+<li>Mean: $\mu_{q}(x_{t}, x_{0}) = \frac{(1-\bar{\alpha_{t-1}})\sqrt{\alpha_{t}}}{1-\bar{\alpha_{t}}}x_{t} + \frac{(1-\alpha_{t})\sqrt{\bar{\alpha_{t-1}}}}{1-\bar{\alpha_{t}}}x_{0}$</li>
+<li>Variance: $\Sigma_{q}(t) = \frac{(1-\alpha_{t})(1-\sqrt{\bar{\alpha_{t-1}}})}{1-\bar{\alpha_{t}}}$</li>
+<li>Mean and variance are completely characterized by $x_{t}$ and $x_{0}$</li>
+<li>Calculated with Bayes theorem</li>
+</ul>
+</li>
+<li>Pick $p_{\theta}(x_{t-1}|x_{t}) = \mathcal{N}(x_{t-1}|\mu_{\theta}(x_{t}), \sigma_{q}^{2}(t)I)$
+<ul>
+<li>Mean is determined by neural network; variance is chosen to be $\sigma_{q}^{2}(t)$</li>
+</ul>
+</li>
+<li>Consistence term $\mathbb{D}<em>{KL} = \frac{||\mu</em>{q}(x_{t}, x_{0}) - \mu_{\theta}(x_{t})||^{2}}{2\sigma_{q}^{2}(t)}$
+<ul>
+<li>KL divergence to L2 loss between the two mean vectors</li>
+<li>Till now, all subscripts $\phi$ are dropped. Just adding different levels of white noise to each of $x_{t}$</li>
+<li>ELBO is optimized over $\theta$ through network</li>
+<li>Sampling: $q(x_{t}|x{0}) = \mathbb{N}(x_{t}|\sqrt{\bar{\alpha_{t}}}x_{0}, (1-\bar{\alpha_{t}})I)$</li>
+</ul>
+</li>
+</ul>
+<h2 id="training-and-inference">Training and Inference</h2>
+<ul>
+<li>Training
+<ul>
+<li>With definition of $\mu_{\theta}(x_{t}) = \frac{(1-\bar{\alpha_{t-1}})\sqrt{\alpha_{t}}}{1-\bar{\alpha_{t}}}x_{t} + \frac{(1-\alpha_{t})\sqrt{\bar{\alpha_{t-1}}}}{1-\bar{\alpha_{t}}}\hat{x}<em>{\theta}{x</em>{t}}$, where $\hat{x}<em>{\theta}{x</em>{t}}$ is another network</li>
+<li>With some simplification and substitution ELBO becomes: $-\sum_{t=1}^{T}\mathbb{E}<em>{q(x</em>{t}|x_{0})}[\frac{1}{2\sigma_{q}^{2}(t)}\frac{(1-\alpha_{t})^{2}\bar{\alpha_{t-1}}}{(1-\bar{\alpha_{t}})^{2}}|\hat{x}<em>{\theta}(x</em>{t})-x_{0}|^{2}]$</li>
+<li>Forward sampling process: with Gaussian assumption, one-step data generation $x_{t} = \sqrt{\bar{\alpha_{t}}}x_{0} + \sqrt{(1-\bar{\alpha_{t}})z}$
+[//]: # INSERT IMAGE HERE</li>
+<li>$x_{t -1} = \frac{(1-\bar{\alpha_{t-1}})\sqrt{\alpha_{t}}}{1-\bar{\alpha_{t}}}x_{t} + \frac{(1-\alpha_{t})\sqrt{\bar{\alpha_{t-1}}}}{1-\bar{\alpha_{t}}}\hat{x}<em>{\theta}{x</em>{t}} + \sigma_{q}(t)z$, where $z~\mathcal{N}(0, I)$
+[//]: # INSERT IMAGE HERE</li>
+</ul>
+</li>
+</ul>
+<h2 id="derivation-based-on-noise-vector">Derivation Based on Noise Vector</h2>
+<ul>
+<li>Predicts the noise instead of the signal</li>
+<li>Gradient step in training is updated with $\Sigma_{\theta}|\hat{\epsilon}<em>{\theta}(x</em>{t})-\epsilon_{0}|^{2}$</li>
+<li>Inference $x_{t-1}$ update with $x_{t-1} = \frac{1}{\sqrt{\alpha_{t}}(x_{t}-\frac{1-\alpha_{t}}{\sqrt{1-\bar{\alpha_{t}}}}\bar{\epsilon}<em>{\theta}(x</em>{t})}) + \sigma_{q}(t)z$</li>
+</ul>
+<h2 id="inversion-by-direct-denoising-indi-linear-combinations-x_t-1--textsomethingcdot-x_ttextsomething-elsecdot-textdenoisex_t--textnoise">Inversion by Direct Denoising (InDI): linear combinations $x_{t-1} = (\text{something}\cdot x_{t}+\text{something else}\cdot \text{denoise}(x_{t}) + \text{noise}$</h2>
+<ul>
+<li>$\text{denoise}(x_{t})$
+<ul>
+<li>Based on statistics: minimum mean squared error (MMSE) denoiser: $\text{denoise}(y) = \arg \min_{g}\mathbb{E}[|g(y)-x|^{2}] = \mathbb{E}[x|y]$, where $x$ is the denoised image, $y$is the noisy image</li>
+<li>For diffusion model, $\text{denoise}(x_{t}) = \mathbb{E}[x_{t-1}|x_{t}]$</li>
+<li>With given $p_{\theta}(x_{t-1}|x_{t})$, the optimal denoiser is $\mathbb{E}[p_{\theta}(x_{t-1}|x_{t})]$</li>
+<li>For image quality aspect, MMSE is never a good metric.</li>
+<li>MMSE denoiser is equivalent to the conditional expectation of the posterior distribution</li>
+</ul>
+</li>
+<li>Incremental denoising steps
+<ul>
+<li>Considering a small step $\tau$ previous to time $t$, where $0\leq \tau &lt;t\leq 1$</li>
+<li>$x_{t} = (1-t)x_{0}+ty$, $0\leq t\leq 1$</li>
+<li>$\mathbb{E}[x_{t-\tau}|x_{t}] = (1-\frac{\tau}{t})x_{t}+\frac{\tau}{t}\mathbb{E}[x_{0}|x_{t}]$</li>
+<li>With $\hat{x}<em>{t-\tau} = \mathbb{E}[x</em>{t-\tau}|x_{t}]$, $\hat{x}<em>{t}$, and $\text{denoise}(\hat{x}</em>{t}) = \mathbb{E}[x_{0}|x_{t}]$, the inference step is given as $\hat{x}<em>{t-\tau} = (1-\frac{\tau}{t})\cdot \hat{x}</em>{t}+ \frac{\tau}{t}\text{denoise}(\hat{x}_{t})$</li>
+<li>With a noisy image y and denoiser, the above equation can help use retrieve the image $\hat{x_{t-1}}$&hellip;till $\hat{x}_{0}$.</li>
+</ul>
+</li>
+<li>Training
+<ul>
+<li>$min_{\theta}\mathbb{E}<em>{x,y}\mathbb{E}</em>{t~uniform}[|\text{denoise}<em>{\theta}(x</em>{t})-x|^{2}]$</li>
+<li>Training one denoiser for all time steps $t$</li>
+</ul>
+</li>
+<li>Connection with denoising score-matching
+<ul>
+<li>$\frac{dx_{t}}{dt} = \lim_{\tau\rightarrow0}\frac{x_{t}-x_{t-\tau}}{\tau} = \frac{x_{t}-\text{denoise}(x_{t})}{t}$, which is an ordinary diofferential equation (ODE)</li>
+<li>The incremental denoising iteration is equivalent to the denoising score-matching.</li>
+</ul>
+</li>
+<li>Adding stochastic steps
+<ul>
+<li>Add stochastic perturbation to incremental denoising iterations with a sequence of noise levels ${\sigma_{t}|0\leq t\leq 1}$</li>
+<li>$x_{t} = (1-t)x+ty+\sqrt{t}\sigma_{t}\epsilon$</li>
+<li>For training, $min_{\theta}\mathbb{E}<em>{x, y}\mathbb{E}</em>{t~uniform}\mathbb{E}<em>{\epsilon}[|\text{denoise}(x</em>{t})-x|^{2}]$</li>
+<li>For inference, $\hat{x}<em>{t-\tau} = (1-\frac{\tau}{t})\cdot \hat{x}</em>{t}+\frac{\tau}{t}\text{denoise}(\hat{x}<em>{t}) + (t-\tau)\sqrt{\sigma</em>{t-\tau}^{2}-\sigma_{t}^{2}}\epsilon$</li>
+</ul>
+</li>
+</ul>
+
+  </article>
+
+</div>
+
+
+  
+<script type="text/javascript" src="/main.js" defer></script>
+
+
+</body>
+
+</html>

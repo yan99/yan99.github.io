@@ -64,13 +64,13 @@
   <meta itemprop="name" content="Stanford CS 149">
 <meta itemprop="description" content="Parallel Computing">
 
-<meta itemprop="wordCount" content="2396">
+<meta itemprop="wordCount" content="4011">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Stanford CS 149">
 <meta itemprop="description" content="Parallel Computing">
 
-<meta itemprop="wordCount" content="2396">
+<meta itemprop="wordCount" content="4011">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -322,7 +322,7 @@
 <li>Idea #1: use increasing transistor count to add more cores to the processor</li>
 <li>Idea #2: amortize cost/complexity of managing an instruction stream across many ALUs
 <ul>
-<li>SIMD processing: single instruction, multiple data (same instruction broadcast to all ALUs; parallel on all ALUs)</li>
+<li><mark>SIMD</mark> processing: single instruction, multiple data (same instruction broadcast to all ALUs; parallel on all ALUs)</li>
 <li>Vector program: realize with AVX intrinsics datatypes and functions (C)
 <ul>
 <li>Intrinsic functions operate on vectors of $8$ $32$-bit values (e.g. vector of $8$ floats)</li>
@@ -541,9 +541,9 @@
 <li>Implementation (scheduling): potentailly parallel which a program&rsquo;s operations be executed per thread, per execution unit, per lane of a vector instruction</li>
 </ul>
 </li>
-<li>ISPC (Intel SPMD Program Compiler)
+<li><mark>ISPC</mark> (Intel SPMD Program Compiler)
 <ul>
-<li>SPMD (Single Program Multiple Data)</li>
+<li><mark>SPMD</mark> (Single Program Multiple Data)</li>
 <li>Check this link (<a href="https://pharr.org/matt/blog/2018/04/30/ispc-all.html"  target="_blank" rel="noopener" >https://pharr.org/matt/blog/2018/04/30/ispc-all.html</a>) and fill this part</li>
 <li>Function <code>sinx()</code> Example:
 <ul>
@@ -570,14 +570,87 @@
 <li>Return to <code>main()</code>: control transferred back to <code>main()</code> function (sequential execution, C code)</li>
 </ul>
 </li>
-<li>ISPC keywords:
+<li><mark>ISPC keywords</mark>:
 <ul>
 <li><code>programCount</code>: no. of simultaneously executing instances in the gang (uniform value), here <code>programCount</code> is $8$</li>
 <li><code>programIndex</code>: id of the current instance in the gang (a non-uniform value)</li>
 <li><code>uniform</code>: A type modifier; all instances have the same value for this variable; purely for optimization, not needed for correctness</li>
+<li><code>foreach</code>: declares parallel loop iterations; iteration the entire gang (not each instance)</li>
 </ul>
 </li>
-<li>Interleaved assignment</li>
+<li>Interleaved assignment (0,1,2,&hellip;,7) and blocked assignment (0, 8, 16, &hellip;, 56)</li>
+<li>ISPC corss program instance operations:
+<ul>
+<li><code>uniform int64 reduce_add(int32 x);</code>: sum of a variable&rsquo;s value in all program instances in a gang</li>
+<li><code>uniform int32 reduce_min(int32 a);</code>: min of all values in a gang</li>
+<li><code>int32 broadcast(int32 value, uniform int index);</code>: broadcast a value from a instance to all instances in a gang</li>
+<li><code>int32 rotate(int32 value, uniform int offset);</code>: for all <code>i</code>, pass value from instance <code>i</code> to instance <code>i+offset%programCount</code></li>
+</ul>
+</li>
+<li>ISPC: abstraction vs. implementation
+<ul>
+<li>SPMD: single program, multiple data program model
+<ul>
+<li>Running a gang is spawning <code>programCount</code> logical instruction streams (each with a different value of <code>programIndex</code>)</li>
+<li>single thread of control$\rightarrow$ call SPMD function $\rightarrow$ PMD execution (multiple instances of function run in parallel, multiple threads) $\rightarrow$ SPMD function returns $\rightarrow$ resume single thread of control</li>
+</ul>
+</li>
+<li>SIMD: single instruction, multiple data program model
+<ul>
+<li>ISPC compiler emits vector instructions (logic by a ISPC gang)</li>
+<li>ISPC compiler mapping of conditional control flow to vector instructions</li>
+</ul>
+</li>
+<li>ISPC gang abstraction in implemented by SIMD instructions within on thread running on one core of a CPU</li>
+</ul>
+</li>
+<li>Common errors:
+<ul>
+<li>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"></code></pre></div></li>
+</ul>
+export uniform float sum_incorrect_1(uniform int N, uniform float* x) {
+// sum of type float: different variable for all program instances
+float sum = 0.0f;
+foreach(i = 0 &hellip; N) {
+sum += x[i];
+}
+// Many copies of a variable to the calling
+// C code expects one return value of type float
+returnm sum;
+// compile-time type error
+}
+<pre tabindex="0"><code>* ```cpp
+export uniform float sum_incorrect_2(uniform int N, uniform float* x) {
+ // sum of type uniform float: one copy of variable for all program instances
+ uniform float sum = 0.0f;
+ foreach(i = 0 ... N) {
+   // x[i] has different values for each program instance
+   sum += x[i];
+ }
+ // Many copies of a variable to the calling
+ // C code expects one return value of type float
+ returnm sum;
+ // compile-time type error
+}
+</code></pre><ul>
+<li>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"></code></pre></div></li>
+</ul>
+export uniform float sum_array(uniform int N, uniform float* x) {
+uniform float sum;
+// each instance accumulates a private partial sum(no communication)
+float partial = 0.0f;
+foreach(i = 0 &hellip; N) {
+partial += x[i];
+}
+// reduce_add() is part of ISPC&rsquo;s cross program instance standard library
+// partial sums are added cross-instance communication prirmitive
+sum = reduce_add(partial);
+return sum;
+}
+<pre tabindex="0"><code></code></pre></li>
+<li>Another alternative: with <code>Collection</code> structure, no loops (no indexing) which is similar to NumPy, PyTorch etc.</li>
 </ul>
 </li>
 </ul>
@@ -589,6 +662,8 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">X</span><span style="color:#111">,</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">result</span><span style="color:#111">)</span> <span style="color:#111">{</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">// assume N % programCount = 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// Interleave assignment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// &#34;Gang&#34; of ISPC program instances, Gang contains programCount = 8 instances
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">N</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">+=</span> <span style="color:#111">programCount</span><span style="color:#111">)</span> <span style="color:#111">{</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">int</span> <span style="color:#111">idx</span> <span style="color:#f92672">=</span> <span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#111">programIndex</span><span style="color:#111">;</span>             <span style="color:#75715e">// Local variable
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#00a8c8">float</span> <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">];</span>                   <span style="color:#75715e">// Local variable
@@ -612,6 +687,7 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">x</span><span style="color:#111">,</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">result</span><span style="color:#111">)</span> <span style="color:#111">{</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Assume N % programCount = 0;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// Block assingment
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">count</span> <span style="color:#f92672">=</span> <span style="color:#111">N</span> <span style="color:#f92672">/</span> <span style="color:#111">programCount</span><span style="color:#111">;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">int</span> <span style="color:#111">start</span> <span style="color:#f92672">=</span> <span style="color:#111">programIndex</span> <span style="color:#f92672">*</span> <span style="color:#111">count</span><span style="color:#111">;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">count</span><span style="color:#111">;</span> <span style="color:#f92672">++</span><span style="color:#111">i</span><span style="color:#111">)</span> <span style="color:#111">{</span>
@@ -627,6 +703,232 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#111">sign</span> <span style="color:#f92672">*=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#111">result</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">value</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><h2 id="parallel-programming-basics">Parallel Programming Basics</h2>
+<p>Case study on writing an optimizing a parallel program: data parallel; shared address space</p>
+<h3 id="creating-a-parallel-program">Creating a parallel program</h3>
+<ul>
+<li>Thought process:
+<ol>
+<li>Identify work that can be performed in parallel</li>
+<li>Partition work and data associated</li>
+<li>Manage data access, communication, and synchronization</li>
+</ol>
+</li>
+<li>Goal: maximizing speedup for a fixed computation Speedup(P processors) = Time(1 processor)/Time(P processors)</li>
+<li>Flowchart
+<ul>
+<li><strong>Problem to solve</strong></li>
+<li><strong>Decomposition</strong> into subproblems (&ldquo;tasks&rdquo;)</li>
+<li><strong>Assignment</strong> into parallel threads (&ldquo;workers&rdquo;)</li>
+<li><strong>Orchestration</strong> to parallel program (communicating threads)</li>
+<li><strong>Mapping</strong> execution on parallel machine</li>
+</ul>
+</li>
+</ul>
+<h3 id="problem-decomposition">Problem decomposition</h3>
+<ul>
+<li>Create at least enough tasks to keep all execution unites on a machine busy</li>
+<li>Key: <strong>identifying dependencies</strong></li>
+<li>Amdahl&rsquo;s law: dependencies limit maximum speedup due to parallelism
+<ul>
+<li>Assume $$S$$ is the fraction of sequential execution that is inherently sequential (dependencies prevent parallel execution)</li>
+<li>speedup $$= \frac{1}{s + \frac{1-s}{P}}$$, where $$1-s$$ is the proportion that cannot be parallelized, $$s$$ is the proportion can be parallelzed by $$P$$ processors</li>
+<li>Maximum speedup from parallel execution $$\leq 1/S$$</li>
+<li>A small serial region can limit speedup on a large parallel machine</li>
+<li>Maximum speedup $$\approx P$$ if $$0.1%$$ of application is serial</li>
+</ul>
+</li>
+</ul>
+<h3 id="an-example">An Example</h3>
+<ul>
+<li>2-Step computation on a $$N\times N$$ image: multiple brightness of all pixels by 2; average of all pixel values</li>
+<li>Sequential implementation: time complex $$\approx 2N^{2}$$</li>
+<li>1st attempt at parallelism (P processors)
+<ul>
+<li>On step 1: multiplication in parallel (time complexity: $$N^{2}/P$$)
+<ul>
+<li>Overall performance: speedup $$\leq\frac{2N^{2}}{n^{2}/P + N^{2}}\approx 2$$</li>
+</ul>
+</li>
+<li>One step 2: computing partial sums in parallel, combine results serially (time complexity: $$N^{2}/P + P$$)
+<ul>
+<li>Overall performance: speedup $$\leq\frac{2N^{2}}{2n^{2}/P + P\rightarrow P$$ when $$N&raquo;P$$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="decomposition">Decomposition</h3>
+<ul>
+<li>Programmers are responsible for decomposing a program into independent tasks</li>
+<li>Automatic decomposition of sequential programs continues to be a challenging research problem
+<ul>
+<li>Compiler must analyze program, identify dependencies (but can be data dependent which is not known at compile time)</li>
+<li>Had modest success with simple loop nests</li>
+<li>&ldquo;Magic parallelizing compiler&rdquo; for complex, general purpose code as not yet been achieved</li>
+</ul>
+</li>
+</ul>
+<h3 id="assignment">Assignment</h3>
+<ul>
+<li>&ldquo;Tasks&rdquo;, &ldquo;workers&rdquo; (threads, program instances, vector lanes, etc.)</li>
+<li>Goals: good workload balance, reduce communication costs</li>
+<li>Statically or dynamically</li>
+<li>Many languages/runtimes take responsibility for assignment</li>
+<li>Examples in ISPC of work by loop iteration
+<ul>
+<li>Programmer-managed assignment: <strong>static</strong> assignment; assign iterations to ISPC program instances in interleaved fashion</li>
+<li>System-managed assignment: <code>foreach</code> construct exposes independent work(iterations) to system; abstraction leaves room for dynamic assignment; currrent ISPC implementation is <strong>static</strong></li>
+<li>Progammer-managed assignment: <strong>static</strong> assignment; loop iterations to threads in a <strong>blocked</strong> fashion (first half to spawned thread, second half to main thread)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#00a8c8">void</span> <span style="color:#75af00">my_thread_start</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">N</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">terms</span><span style="color:#111">,</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">x</span><span style="color:#111">,</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">results</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span> <span style="color:#111">sinx</span><span style="color:#111">(</span><span style="color:#111">N</span><span style="color:#111">,</span> <span style="color:#111">terms</span><span style="color:#111">,</span> <span style="color:#111">x</span><span style="color:#111">,</span> <span style="color:#111">result</span><span style="color:#111">);</span> <span style="color:#75715e">// do work
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">void</span> <span style="color:#75af00">parallel_sinx</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">N</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">terms</span><span style="color:#111">,</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">x</span><span style="color:#111">,</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">result</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span> <span style="color:#00a8c8">int</span> <span style="color:#111">half</span> <span style="color:#f92672">=</span> <span style="color:#111">N</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// launch thread to do work on first half of array
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#111">std</span><span style="color:#f92672">::</span> <span style="color:#00a8c8">thread</span> <span style="color:#111">t1</span><span style="color:#111">(</span><span style="color:#111">my_thread_start</span><span style="color:#111">,</span> <span style="color:#111">half</span><span style="color:#111">,</span> <span style="color:#111">terms</span><span style="color:#111">,</span> <span style="color:#111">x</span><span style="color:#111">,</span> <span style="color:#111">result</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// do work on second half of array in main thread
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#111">sinx</span><span style="color:#111">(</span><span style="color:#111">N</span> <span style="color:#f92672">-</span> <span style="color:#111">half</span><span style="color:#111">,</span> <span style="color:#111">terms</span><span style="color:#111">,</span> <span style="color:#111">x</span> <span style="color:#f92672">+</span> <span style="color:#111">half</span><span style="color:#111">,</span> <span style="color:#111">result</span> <span style="color:#f92672">+</span> <span style="color:#111">half</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span> <span style="color:#111">t1</span><span style="color:#111">.</span><span style="color:#111">join</span><span style="color:#111">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><ul>
+<li>Dynamic assignment using ISPC tasks: ISPC runtime(invisible to the programmer); assigns tasks to workder threads in a thread pool</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#00a8c8">void</span> <span style="color:#75af00">foo</span><span style="color:#111">(</span><span style="color:#111">uniform</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">input</span><span style="color:#111">,</span> <span style="color:#111">uniform</span> <span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">output</span><span style="color:#111">,</span> <span style="color:#111">uniform</span> <span style="color:#00a8c8">int</span> <span style="color:#111">N</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// create a bunch of tasks
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#111">launch</span><span style="color:#111">[</span><span style="color:#ae81ff">100</span><span style="color:#111">]</span> <span style="color:#111">my_ispc_task</span><span style="color:#111">(</span><span style="color:#111">input</span><span style="color:#111">,</span> <span style="color:#111">output</span><span style="color:#111">,</span> <span style="color:#111">N</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="orchestration">Orchestration</h3>
+<ul>
+<li>Goals: reduce costs of communication/sync, preserve locality of data reference, reduce overhead, etc.
+<ul>
+<li>Structring communication</li>
+<li>Adding synchronization to preserve dependecies</li>
+<li>Organizing data structures in memory</li>
+<li>Scheduling tasks</li>
+</ul>
+</li>
+<li>If synchronization is expensive, programmer might use it more sparsely</li>
+<li>Mapping to hardware (mapping &ldquo;threads&rdquo; to hardware execution units)
+<ul>
+<li>Mapping by the operating system, i.e. a thread to HW execution context on a CPU core</li>
+<li>Mapping by the compiler, i.e. a ISPC pregram instances to vector instruction lanes</li>
+<li>Mapping CUDA thread blocks to GPU cores</li>
+</ul>
+</li>
+<li>Mapping decisions
+<ul>
+<li>Place <strong>related</strong> threads (cooperating threads) on the same core (maximize locality, data sharing, minimize costs of comm/sync)</li>
+<li>Place <strong>unrealated</strong> threads on the same core (one might be bnadwidth limited and another might be compute limited) to use machine more efficiently</li>
+</ul>
+</li>
+</ul>
+<h3 id="example">Example:</h3>
+<ul>
+<li>A 2D-grid based solver: solve partial differential equation on $(N+2)\times(N+2)$ grid</li>
+<li>Iteration algorithm: Gauss-Seidel sweeps over grid until convergence; <code>A[i,j] = 0.2*(A[i,j] + A[i,j-1] + A[i-1, j] + A[i, j+1] + A[i+1,j]);</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#00a8c8">const</span> <span style="color:#00a8c8">int</span> <span style="color:#111">n</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">A</span><span style="color:#111">;</span> <span style="color:#75715e">// allocate space
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">void</span> <span style="color:#75af00">solve</span><span style="color:#111">(</span><span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">A</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">float</span> <span style="color:#111">diff</span><span style="color:#111">,</span> <span style="color:#111">prev</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">bool</span> <span style="color:#111">done</span> <span style="color:#f92672">=</span> <span style="color:#111">false</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">done</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">diff</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">n</span><span style="color:#111">;</span> <span style="color:#f92672">++</span><span style="color:#111">i</span><span style="color:#111">)</span> <span style="color:#111">{</span>  <span style="color:#75715e">// only iterate the non border pixels
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">j</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#111">j</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">n</span><span style="color:#111">;</span> <span style="color:#f92672">++</span><span style="color:#111">j</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">prev</span> <span style="color:#f92672">=</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span> <span style="color:#111">j</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span><span style="color:#111">j</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2f</span> <span style="color:#f92672">*</span> <span style="color:#111">(</span><span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span><span style="color:#111">j</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span> <span style="color:#111">j</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">j</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span> <span style="color:#111">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">j</span><span style="color:#111">]);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">diff</span> <span style="color:#f92672">+=</span> <span style="color:#111">fabs</span><span style="color:#111">(</span><span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span><span style="color:#111">j</span><span style="color:#111">]</span> <span style="color:#f92672">-</span> <span style="color:#111">prev</span><span style="color:#111">);</span> <span style="color:#75715e">// compute amount of change
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">diff</span><span style="color:#f92672">/</span><span style="color:#111">(</span><span style="color:#111">n</span><span style="color:#f92672">*</span><span style="color:#111">n</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">TOLERANCE</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">done</span> <span style="color:#f92672">=</span> <span style="color:#111">true</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><ul>
+<li>Parallel programming step 1: identify dependencies (problem decomposition phase)
+<ul>
+<li>Depends on previous row</li>
+<li>Depends on the left element</li>
+<li>Independent work along diagonals (each diagonal depends on previous diagonal, but every pixel on diagonal is independent)</li>
+<li>$\rightarrow$ Reorder grid cell update via red-black coloring</li>
+</ul>
+</li>
+<li>Parallel programming step 2: assignment
+<ul>
+<li>Block assignment or interleaved assignment depending on the system</li>
+<li>Red cell update in parallel $\rightarrow$ wait until all processors done with update $\rightarrow$ communicate updated red cells to other processors $\rightarrow$ black cell update in parallel $\rightarrow$ wait until processors done with update $\rightarrow$ communicate updated black cells to other processors $\rightarrow$ repeat</li>
+</ul>
+</li>
+<li>Writing the program: data parallel thinking; SPMD/shared address space
+<ul>
+<li>Data-parallel expression of grid solver</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#00a8c8">const</span> <span style="color:#00a8c8">int</span> <span style="color:#111">n</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">A</span> <span style="color:#f92672">=</span> <span style="color:#111">allocate</span><span style="color:#111">(</span><span style="color:#111">n</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#111">n</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">void</span> <span style="color:#75af00">solve</span><span style="color:#111">(</span><span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">A</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">bool</span> <span style="color:#111">done</span> <span style="color:#f92672">=</span> <span style="color:#111">false</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">float</span> <span style="color:#111">diff</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">done</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Decomposition
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#111">for_all</span> <span style="color:#111">(</span><span style="color:#111">red_cells</span><span style="color:#111">(</span><span style="color:#111">i</span><span style="color:#111">,</span><span style="color:#111">j</span><span style="color:#111">))</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">float</span> <span style="color:#111">prev</span> <span style="color:#f92672">=</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span><span style="color:#111">j</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span><span style="color:#111">j</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2f</span> <span style="color:#f92672">*</span> <span style="color:#111">(</span><span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span><span style="color:#111">j</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span> <span style="color:#111">j</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">j</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span> <span style="color:#111">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">j</span><span style="color:#111">]);</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// Orchestration: builtin communication primitive: reduceAdd
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#111">reduceAdd</span><span style="color:#111">(</span><span style="color:#111">diff</span><span style="color:#111">,</span> <span style="color:#111">abs</span><span style="color:#111">(</span><span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span><span style="color:#111">j</span><span style="color:#111">]</span> <span style="color:#f92672">-</span> <span style="color:#111">prev</span><span style="color:#111">));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span> <span style="color:#75715e">// Orchestration: for_all block is implicit wait for all workders before returning to sequential control
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">diff</span> <span style="color:#f92672">/</span> <span style="color:#111">(</span><span style="color:#111">n</span> <span style="color:#f92672">*</span> <span style="color:#111">n</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">TOLERANCE</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">done</span> <span style="color:#f92672">=</span> <span style="color:#111">true</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><pre><code> * Shared address space (with SPMD threads) expression of solver:
+   * Locks: only one thread in the critical region at a time
+   * Barriers: wait for threads to reach this point
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// Global variables
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">int</span> <span style="color:#111">n</span><span style="color:#111">;</span> <span style="color:#75715e">// grid size n x n
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#00a8c8">bool</span> <span style="color:#111">done</span> <span style="color:#f92672">=</span> <span style="color:#111">false</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">float</span> <span style="color:#111">diff</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">LOCK</span> <span style="color:#111">myLock</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">BARRIER</span> <span style="color:#111">myBarrier</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">A</span> <span style="color:#f92672">=</span> <span style="color:#111">allocate</span><span style="color:#111">(</span><span style="color:#111">n</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#111">n</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">void</span> <span style="color:#75af00">solve</span><span style="color:#111">(</span><span style="color:#00a8c8">float</span><span style="color:#f92672">*</span> <span style="color:#111">A</span><span style="color:#111">)</span> <span style="color:#111">{</span> <span style="color:#75715e">// executed by all threads; SPMD-style
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#00a8c8">float</span> <span style="color:#111">myDiff</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">int</span> <span style="color:#111">threadId</span> <span style="color:#f92672">=</span> <span style="color:#111">getThreadId</span><span style="color:#111">();</span> <span style="color:#75715e">// threadID is different for each SPMD instance
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#00a8c8">int</span> <span style="color:#111">myMin</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">threadId</span> <span style="color:#f92672">*</span> <span style="color:#111">n</span> <span style="color:#f92672">/</span> <span style="color:#111">NUM_PROCESSORS</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">int</span> <span style="color:#111">myMax</span> <span style="color:#f92672">=</span> <span style="color:#111">myMin</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">n</span> <span style="color:#f92672">/</span> <span style="color:#111">NUM_PROCESSORS</span><span style="color:#111">);</span> <span style="color:#75715e">// each thread computes the rows
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">done</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">float</span> <span style="color:#111">myDiff</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">diff</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">barrier</span><span style="color:#111">(</span><span style="color:#111">myBarrier</span><span style="color:#111">,</span> <span style="color:#111">NUM_PROCESSORS</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">j</span> <span style="color:#f92672">=</span> <span style="color:#111">myMin</span> <span style="color:#111">to</span> <span style="color:#111">myMax</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">red_cells</span> <span style="color:#111">in</span> <span style="color:#00a8c8">this</span> <span style="color:#111">row</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">float</span> <span style="color:#111">prev</span> <span style="color:#f92672">=</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span><span style="color:#111">j</span><span style="color:#111">];</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span><span style="color:#111">j</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2f</span> <span style="color:#f92672">*</span> <span style="color:#111">(</span><span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span><span style="color:#111">j</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span> <span style="color:#111">j</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">j</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span> <span style="color:#111">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">j</span><span style="color:#111">]);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">myDiff</span> <span style="color:#f92672">+=</span> <span style="color:#111">abs</span><span style="color:#111">(</span><span style="color:#111">A</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">,</span><span style="color:#111">j</span><span style="color:#111">]</span> <span style="color:#f92672">-</span> <span style="color:#111">prev</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">lock</span><span style="color:#111">(</span><span style="color:#111">myLock</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">diff</span> <span style="color:#f92672">+=</span> <span style="color:#111">myDiff</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">unlock</span><span style="color:#111">(</span><span style="color:#111">myLock</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">barrier</span><span style="color:#111">(</span><span style="color:#111">myBarrier</span><span style="color:#111">,</span> <span style="color:#111">NUM_PROCESSORS</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">diff</span> <span style="color:#f92672">/</span> <span style="color:#111">(</span><span style="color:#111">n</span> <span style="color:#f92672">*</span> <span style="color:#111">n</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">TOLERANCE</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">done</span> <span style="color:#f92672">=</span> <span style="color:#111">true</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">barrier</span><span style="color:#111">(</span><span style="color:#111">myBarrier</span><span style="color:#111">,</span> <span style="color:#111">NUM_PROCESSORS</span><span style="color:#111">);</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#111">}</span>
 </span></span></code></pre></div>

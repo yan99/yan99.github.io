@@ -11,7 +11,7 @@
     Depth Image Denoising - Yang Yan
   </title>
 
-  <meta name="description" content="A Pytorch Realisation of A Paper" /><meta name="generator" content="Hugo 0.121.1">
+  <meta name="description" content="Pytorch implementations on denoising models" /><meta name="generator" content="Hugo 0.121.1">
 
   <link rel="stylesheet" href="/main.css" />
 
@@ -49,7 +49,7 @@
   
 
   <meta property="og:title" content="Depth Image Denoising" />
-<meta property="og:description" content="A Pytorch Realisation of A Paper" />
+<meta property="og:description" content="Pytorch implementations on denoising models" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://yan99.github.io/projects/depthimagedenoise/" /><meta property="article:section" content="Projects" />
 
@@ -58,19 +58,19 @@
 
 
   <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Depth Image Denoising"/>
-<meta name="twitter:description" content="A Pytorch Realisation of A Paper"/>
+<meta name="twitter:description" content="Pytorch implementations on denoising models"/>
 
 
   <meta itemprop="name" content="Depth Image Denoising">
-<meta itemprop="description" content="A Pytorch Realisation of A Paper">
+<meta itemprop="description" content="Pytorch implementations on denoising models">
 
-<meta itemprop="wordCount" content="5">
+<meta itemprop="wordCount" content="193">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Depth Image Denoising">
-<meta itemprop="description" content="A Pytorch Realisation of A Paper">
+<meta itemprop="description" content="Pytorch implementations on denoising models">
 
-<meta itemprop="wordCount" content="5">
+<meta itemprop="wordCount" content="193">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -200,8 +200,40 @@
 
     
 
-    <p>The github page is <a href="https://github.com/yan99/ImagePreparation"  target="_blank" rel="noopener" >ImagePreparation</a>.</p>
+    <p>The github page is <a href="https://github.com/yan99/ImagePreparation"  target="_blank" rel="noopener" >ImagePreparation</a>.
+This implementations include three parts, the middlebury dataset together with noise models, an implementation of a CNN denoising model MSMF, and an implementation of a diffusion model DDVM (with a simple Unet, will implement with efficient Unet and the patchwise training method in the near future).</p>
+<pre tabindex="0"><code>Noise Models References:
+@article{Barron:etal:2013A,
+  author  = {Jonathan T. Barron and Jitendra Malik},
+  title   = {Intrinsic Scene Properties from a Single RGB-D Image},
+  journal = {CVPR},
+  year    = {2013},
+}
 
+@article{Bohg:etal:2014,
+  title   = {Robot arm pose estimation through pixel-wise part classification},
+  author  = {Bohg, Jeannette and Romero, Javier and Herzog, Alexander and Schaal, Stefan},
+  journal = {ICRA},
+  year    = {2014},
+}
+</code></pre><p>MSMF, the CNN model:</p>
+<pre tabindex="0"><code>@inproceedings{liao2017multi,
+  title={Multi-scale mutual feature convolutional neural network for depth image denoise and enhancement},
+  author={Liao, Xuan and Zhang, Xin},
+  booktitle={2017 IEEE Visual Communications and Image Processing (VCIP)},
+  pages={1--4},
+  year={2017},
+  organization={IEEE}
+}
+</code></pre><p>DDVM, the diffusion model</p>
+<pre tabindex="0"><code>@article{saxena2024surprising,
+  title={The surprising effectiveness of diffusion models for optical flow and monocular depth estimation},
+  author={Saxena, Saurabh and Herrmann, Charles and Hur, Junhwa and Kar, Abhishek and Norouzi, Mohammad and Sun, Deqing and Fleet, David J},
+  journal={Advances in Neural Information Processing Systems},
+  volume={36},
+  year={2024}
+}
+</code></pre>
   </article>
 
 </div>

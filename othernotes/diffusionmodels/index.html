@@ -64,13 +64,13 @@
   <meta itemprop="name" content="Diffusion Models for Imaging and Vision">
 <meta itemprop="description" content="Notes for Tutorial on Diffusion models for Imaging and Vision by Stanley Chan">
 
-<meta itemprop="wordCount" content="1341">
+<meta itemprop="wordCount" content="1342">
 <meta itemprop="keywords" content="" />
 
   <meta itemprop="name" content="Diffusion Models for Imaging and Vision">
 <meta itemprop="description" content="Notes for Tutorial on Diffusion models for Imaging and Vision by Stanley Chan">
 
-<meta itemprop="wordCount" content="1341">
+<meta itemprop="wordCount" content="1342">
 <meta itemprop="keywords" content="" />
 </head><body class="flex relative h-full min-h-screen"><aside
   class="will-change-transform transform transition-transform -translate-x-full absolute top-0 left-0 md:relative md:translate-x-0 w-3/4 md:basis-60 h-full min-h-screen p-3 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col gap-2.5 z-20 sidebar flex-shrink-0">
@@ -217,14 +217,14 @@
 </ul>
 <h2 id="evidence-lower-bound-similar-to-maximum-likelihood-estimation">Evidence Lower Bound (Similar to Maximum Likelihood Estimation)</h2>
 <ul>
-<li>Loss function: <strong>evidence lower bound (ELBO)</strong>: $ELBO(x) = \math{E}<em>{q</em>{\phi}(z|x)}[\log{\frac{p(x, z)}{q_{\phi}(z|x)}}]$
+<li>Loss function: <strong>evidence lower bound (ELBO)</strong>: $ELBO(x) = E_{q_{\phi}(z|x)}[\log{\frac{p(x, z)}{q_{\phi}(z|x)}}]$
 <ul>
-<li>$\log{p_{\thta}(x)} = \int_{z}q(z|x)\log{P(x)}dz = \int_{z}q(z|x)\log{P(z, x)/P(z|x)}dz = \int_{z}q(z|x)\log(P(z, x)/q(z|x))dz + \int_{z}q(z|x)\log{q(z|x)/p(z|x)}= \mathbb{E}<em>{q</em>{\phi}(z|x)}[\log{\frac{p(x, z)}{q_{\phi}(z|x)}}] + \mathbb{D}<em>{KL}(q</em>{\phi}(z|x)|p(z|x))$</li>
+<li>$\log{p_{\theta}(x)} = \int_{z}q(z|x)\log{P(x)}dz = \int_{z}q(z|x)\log{P(z, x)/P(z|x)}dz = \int_{z}q(z|x)\log(P(z, x)/q(z|x))dz + \int_{z}q(z|x)\log{q(z|x)/p(z|x)}= E_{q_{\phi}(z|x)}[\log{\frac{p(x, z)}{q_{\phi}(z|x)}}] + D_{KL}(q_{\phi}(z|x)|p(z|x))$</li>
 <li>Lower bound for the prior distribution $log(p(x))$, KL divergence is always non-negative.</li>
 <li>Gap beteween $log(p(x))$ and ELBO(x) is KL divergence: we need to ensure $q_{\phi}(z|x)$ is close to $p(z|x)$</li>
 </ul>
 </li>
-<li>$ELBO(x) = \mathbb{E}<em>{q</em>{\phi}(z|x)}[\log{p_{\theta}(x|z)}] - \mathbb{D}<em>{KL}(q</em>{\phi}(z|x)|p(z))$
+<li>$ELBO(x) = E_{q_{\phi}(z|x)}[\log{p_{\theta}(x|z)}] - D_{KL}(q_{\phi}(z|x)|p(z))$
 <ul>
 <li>Use $p(x, z) = p(x|z)p(z)$, split the expectations, and KL definition</li>
 <li>Replace $p(x|z)$ with proxy $p_{\theta}(x|z)$</li>
@@ -265,8 +265,8 @@
 </ul>
 <h2 id="loss-function">Loss Function</h2>
 <ul>
-<li>Approximate the expectation by Monte-Carlo simulation: $\mathbb{E}<em>{q</em>{\phi}(z|x)[\log{p_{\theta}(x|z)}]}\approx \frac{1}{L}\sum_{l = 1}^{L}\log{p_{\theta}(x^{(l)}|z^{(l)})}$</li>
-<li>Training Loss: $argmax_{\phi, \theta}{\frac{1}{L}\sum_{l = 1}^{L}\log{p_{\theta}(x^{(l)}|z^{(l)})}-\mathbb{D}<em>{KL}(q</em>{\phi}(z|x^{(l)}||p(z)))}$
+<li>Approximate the expectation by Monte-Carlo simulation: $E_{q_{\phi}(z|x)[\log{p_{\theta}(x|z)}]}\approx \frac{1}{L}\sum_{l = 1}^{L}\log{p_{\theta}(x^{(l)}|z^{(l)})}$</li>
+<li>Training Loss: $argmax_{\phi, \theta}{\frac{1}{L}\sum_{l = 1}^{L}\log{p_{\theta}(x^{(l)}|z^{(l)})}-D_{KL}(q_{\phi}(z|x^{(l)}||p(z)))}$
 * KL divergence term: DL divergence for two d-dimensional Gaussian distributions can be straightly calculated with $\mu$ and $\sigma$</li>
 </ul>
 <h2 id="inference-with-vae">Inference with VAE</h2>
@@ -314,7 +314,7 @@
 </ul>
 <h2 id="distribution-q_phix_tx_0">Distribution $q_{\phi}(x_{t}|x_{0})$</h2>
 <ul>
-<li>$q_{\phi}(x_{t}|x_{0}) = \mathcal{N}(x_{t}|\sqrt{\bar{\alpha_{t}}x_{0}, (1-\bar{\alpha_{t}})I)$, where $\bar{\alpha_{t}} = \prod_{i = 1}^{t}\alpha_{i}$
+<li>$q_{\phi}(x_{t}|x_{0}) = \mathcal{N}(x_{t}|\sqrt{\bar{\alpha_{t}}x_{0}}, (1-\bar{\alpha_{t}})I)$, where $\bar{\alpha_{t}} = \prod_{i = 1}^{t}\alpha_{i}$
 <ul>
 <li>Similarly, calculate the covariance for the noise part</li>
 </ul>
@@ -322,7 +322,7 @@
 </ul>
 <h2 id="evidence-lower-bound">Evidence Lower Bound</h2>
 <ul>
-<li>$ELBO_{\phi, \theta}(x) = \mathbb{E}<em>{q</em>{\phi}(x_{1}|x_{0})}[\log{p_{\theta}(x_{0}|x_{1})}] - \mathbb{E}<em>{q</em>{\phi}(x_{T-1}|x_{0})}[\mathbb{D}<em>{KL}(q</em>{\phi}(x_{T}|x_{T-1})||p(x_{T}))] - \sum_{t = 1}^{T-1}\mathbb{E}<em>{q</em>{\phi}(x_{t-1}, x_{t+1}|x_{0})}[\mathbb{D}<em>{KL}(q</em>{\phi}(x_{t}|x_{t-1})||p_{\theta}(x_{t}|x_{t+1}))]$
+<li>$ELBO_{\phi, \theta}(x) = E_{q_{\phi}(x_{1}|x_{0})}[\log{p_{\theta}(x_{0}|x_{1})}] - E_{q_{\phi}(x_{T-1}|x_{0})}[D_{KL}(q_{\phi}(x_{T}|x_{T-1})||p(x_{T}))] - \sum_{t = 1}^{T-1}E_{q_{\phi}(x_{t-1}, x_{t+1}|x_{0})}[D_{KL}(q_{\phi}(x_{t}|x_{t-1})||p_{\theta}(x_{t}|x_{t+1}))]$
 <ul>
 <li>3 terms for evaluating initila block, final block, and transition blocks</li>
 <li>Reconstruction: The expectation is taken with respect to the samples drawn from $q_{\phi}(x_{1}|x_{0})$, which is distribution that generates intermediate latent variable $x_{1}$.</li>
@@ -334,7 +334,7 @@
 <h2 id="rewrite-the-consistency-term">Rewrite the Consistency Term</h2>
 <ul>
 <li>Bayers theorem condision on $x_{0}$: $q(x_{t}|x_{t-1}, x_{0}) = \frac{q(x_{t-1}|x_{t}, x_{0})q(x_{t}|x_{0})}{q(x_{t-1}|x_{0})}$. This switch the direction of $q(x_{t}|x_{t-1}, x_{0})$ to $q(x_{t-1}|x_{t}, x_{0})$</li>
-<li>Updated $ELBO_{\phi, \theta}(x) = \mathbb{E}<em>{q</em>{\phi}(x_{1}|x_{0})}[\log{p_{\theta}(x_{0}|x_{1})}]-\mathbb{D}<em>{KL}(q</em>{\phi}(x_{T}|x_{0})||p(x_{T})) - \sum_{t = 2}^{T}\mathbb{E}<em>{q</em>{\phi}(x_{t}|x_{0})}[\mathbb{D}<em>{KL}(q</em>{\phi}(x_{t-1}|x_{t}, x_{0})||p_{\theta}(x_{t-1}|x_{t}))]$
+<li>Updated $ELBO_{\phi, \theta}(x) = E_{q_{\phi}(x_{1}|x_{0})}[\log{p_{\theta}(x_{0}|x_{1})}]-D_{KL}(q_{\phi}(x_{T}|x_{0})||p(x_{T})) - \sum_{t = 2}^{T}E_{q_{\phi}(x_{t}|x_{0})}[D_{KL}(q_{\phi}(x_{t-1}|x_{t}, x_{0})||p_{\theta}(x_{t-1}|x_{t}))]$
 <ul>
 <li>Reconstruction: same as before. Maximize the log-likelihood</li>
 <li>Prior matching: simplified KL divergence between $q_{\phi}(x_{T}|x_{0})$ and $p(x_{T})$. with condition upon $x_{0}$</li>
@@ -342,7 +342,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="derivation-of-q_phix_t-1x_t-x_0-which-is-a-guassian">Derivation of $\q_{\phi}(x_{t-1)}|x_{t}, x_{0})$, which is a Guassian</h2>
+<h2 id="derivation-of-q_phix_t-1x_t-x_0-which-is-a-guassian">Derivation of $q_{\phi}(x_{t-1}|x_{t}, x_{0})$, which is a Guassian</h2>
 <ul>
 <li>Mean and variance
 <ul>
@@ -357,12 +357,12 @@
 <li>Mean is determined by neural network; variance is chosen to be $\sigma_{q}^{2}(t)$</li>
 </ul>
 </li>
-<li>Consistence term $\mathbb{D}<em>{KL} = \frac{||\mu</em>{q}(x_{t}, x_{0}) - \mu_{\theta}(x_{t})||^{2}}{2\sigma_{q}^{2}(t)}$
+<li>Consistence term $D_{KL} = \frac{||\mu_{q}(x_{t}, x_{0}) - \mu_{\theta}(x_{t})||^{2}}{2\sigma_{q}^{2}(t)}$
 <ul>
 <li>KL divergence to L2 loss between the two mean vectors</li>
 <li>Till now, all subscripts $\phi$ are dropped. Just adding different levels of white noise to each of $x_{t}$</li>
 <li>ELBO is optimized over $\theta$ through network</li>
-<li>Sampling: $q(x_{t}|x{0}) = \mathbb{N}(x_{t}|\sqrt{\bar{\alpha_{t}}}x_{0}, (1-\bar{\alpha_{t}})I)$</li>
+<li>Sampling: $q(x_{t}|x{0}) = N(x_{t}|\sqrt{\bar{\alpha_{t}}}x_{0}, (1-\bar{\alpha_{t}})I)$</li>
 </ul>
 </li>
 </ul>
@@ -370,11 +370,11 @@
 <ul>
 <li>Training
 <ul>
-<li>With definition of $\mu_{\theta}(x_{t}) = \frac{(1-\bar{\alpha_{t-1}})\sqrt{\alpha_{t}}}{1-\bar{\alpha_{t}}}x_{t} + \frac{(1-\alpha_{t})\sqrt{\bar{\alpha_{t-1}}}}{1-\bar{\alpha_{t}}}\hat{x}<em>{\theta}{x</em>{t}}$, where $\hat{x}<em>{\theta}{x</em>{t}}$ is another network</li>
-<li>With some simplification and substitution ELBO becomes: $-\sum_{t=1}^{T}\mathbb{E}<em>{q(x</em>{t}|x_{0})}[\frac{1}{2\sigma_{q}^{2}(t)}\frac{(1-\alpha_{t})^{2}\bar{\alpha_{t-1}}}{(1-\bar{\alpha_{t}})^{2}}|\hat{x}<em>{\theta}(x</em>{t})-x_{0}|^{2}]$</li>
+<li>With definition of $\mu_{\theta}(x_{t}) = \frac{(1-\bar{\alpha_{t-1}})\sqrt{\alpha_{t}}}{1-\bar{\alpha_{t}}} x_{t} + \frac{(1-\alpha_{t})\sqrt{\bar{\alpha_{t-1}}}}{1-\bar{\alpha_{t}}}\hat{x_{\theta}}(x_{t})$, where $\hat{x_{\theta}}(x_{t})$ is another network</li>
+<li>With some simplification and substitution ELBO becomes: $-\sum_{t=1}^{T}E_{q(x_{t}|x_{0})}[\frac{1}{2\sigma_{q}^{2}(t)}\frac{(1-\alpha_{t})^{2}\bar{\alpha_{t-1}}}{(1-\bar{\alpha_{t}})^{2}}|\hat{x_{\theta}}(x_{t})-x_{0}|^{2}]$</li>
 <li>Forward sampling process: with Gaussian assumption, one-step data generation $x_{t} = \sqrt{\bar{\alpha_{t}}}x_{0} + \sqrt{(1-\bar{\alpha_{t}})z}$
 [//]: # INSERT IMAGE HERE</li>
-<li>$x_{t -1} = \frac{(1-\bar{\alpha_{t-1}})\sqrt{\alpha_{t}}}{1-\bar{\alpha_{t}}}x_{t} + \frac{(1-\alpha_{t})\sqrt{\bar{\alpha_{t-1}}}}{1-\bar{\alpha_{t}}}\hat{x}<em>{\theta}{x</em>{t}} + \sigma_{q}(t)z$, where $z~\mathcal{N}(0, I)$
+<li>$x_{t -1} = \frac{(1-\bar{\alpha_{t-1}})\sqrt{\alpha_{t}}}{1-\bar{\alpha_{t}}}x_{t} + \frac{(1-\alpha_{t})\sqrt{\bar{\alpha_{t-1}}}}{1-\bar{\alpha_{t}}}\hat{x_{\theta}}(x_{t}) + \sigma_{q}(t)z$, where $z~\mathcal{N}(0, I)$
 [//]: # INSERT IMAGE HERE</li>
 </ul>
 </li>
@@ -382,16 +382,16 @@
 <h2 id="derivation-based-on-noise-vector">Derivation Based on Noise Vector</h2>
 <ul>
 <li>Predicts the noise instead of the signal</li>
-<li>Gradient step in training is updated with $\Sigma_{\theta}|\hat{\epsilon}<em>{\theta}(x</em>{t})-\epsilon_{0}|^{2}$</li>
-<li>Inference $x_{t-1}$ update with $x_{t-1} = \frac{1}{\sqrt{\alpha_{t}}(x_{t}-\frac{1-\alpha_{t}}{\sqrt{1-\bar{\alpha_{t}}}}\bar{\epsilon}<em>{\theta}(x</em>{t})}) + \sigma_{q}(t)z$</li>
+<li>Gradient step in training is updated with $\Sigma_{\theta}|\hat{\epsilon_{\theta}}(x_{t})-\epsilon_{0}|^{2}$</li>
+<li>Inference $x_{t-1}$ update with $x_{t-1} = \frac{1}{\sqrt{\alpha_{t}}}(x_{t}-\frac{1-\alpha_{t}}{\sqrt{1-\bar{\alpha_{t}}}}\bar{\epsilon_{\theta}}(x_{t})) + \sigma_{q}(t)z$</li>
 </ul>
-<h2 id="inversion-by-direct-denoising-indi-linear-combinations-x_t-1--textsomethingcdot-x_ttextsomething-elsecdot-textdenoisex_t--textnoise">Inversion by Direct Denoising (InDI): linear combinations $x_{t-1} = (\text{something}\cdot x_{t}+\text{something else}\cdot \text{denoise}(x_{t}) + \text{noise}$</h2>
+<h2 id="inversion-by-direct-denoising-indi-linear-combinations-x_t-1--textsomethingcdot-x_ttextsomething-elsecdot-textdenoisex_t--textnoise">Inversion by Direct Denoising (InDI): linear combinations $x_{t-1} = (\text{something})\cdot x_{t}+(\text{something else})\cdot \text{denoise}(x_{t}) + \text{noise}$</h2>
 <ul>
 <li>$\text{denoise}(x_{t})$
 <ul>
-<li>Based on statistics: minimum mean squared error (MMSE) denoiser: $\text{denoise}(y) = \arg \min_{g}\mathbb{E}[|g(y)-x|^{2}] = \mathbb{E}[x|y]$, where $x$ is the denoised image, $y$is the noisy image</li>
-<li>For diffusion model, $\text{denoise}(x_{t}) = \mathbb{E}[x_{t-1}|x_{t}]$</li>
-<li>With given $p_{\theta}(x_{t-1}|x_{t})$, the optimal denoiser is $\mathbb{E}[p_{\theta}(x_{t-1}|x_{t})]$</li>
+<li>Based on statistics: minimum mean squared error (MMSE) denoiser: $\text{denoise}(y) = \arg \min_{g}E[|g(y)-x|^{2}] = E[x|y]$, where $x$ is the denoised image, $y$is the noisy image</li>
+<li>For diffusion model, $\text{denoise}(x_{t}) = E[x_{t-1}|x_{t}]$</li>
+<li>With given $p_{\theta}(x_{t-1}|x_{t})$, the optimal denoiser is $E[p_{\theta}(x_{t-1}|x_{t})]$</li>
 <li>For image quality aspect, MMSE is never a good metric.</li>
 <li>MMSE denoiser is equivalent to the conditional expectation of the posterior distribution</li>
 </ul>
@@ -400,14 +400,14 @@
 <ul>
 <li>Considering a small step $\tau$ previous to time $t$, where $0\leq \tau &lt;t\leq 1$</li>
 <li>$x_{t} = (1-t)x_{0}+ty$, $0\leq t\leq 1$</li>
-<li>$\mathbb{E}[x_{t-\tau}|x_{t}] = (1-\frac{\tau}{t})x_{t}+\frac{\tau}{t}\mathbb{E}[x_{0}|x_{t}]$</li>
-<li>With $\hat{x}<em>{t-\tau} = \mathbb{E}[x</em>{t-\tau}|x_{t}]$, $\hat{x}<em>{t}$, and $\text{denoise}(\hat{x}</em>{t}) = \mathbb{E}[x_{0}|x_{t}]$, the inference step is given as $\hat{x}<em>{t-\tau} = (1-\frac{\tau}{t})\cdot \hat{x}</em>{t}+ \frac{\tau}{t}\text{denoise}(\hat{x}_{t})$</li>
+<li>$E[x_{t-\tau}|x_{t}] = (1-\frac{\tau}{t})x_{t}+\frac{\tau}{t}E[x_{0}|x_{t}]$</li>
+<li>With $\hat{x_{t-\tau}} = E[x_{t-\tau}|x_{t}]$, $\hat{x_{t}}$, and $\text{denoise}(\hat{x_{t}}) = E[x_{0}|x_{t}]$, the inference step is given as $\hat{x_{t-\tau}} = (1-\frac{\tau}{t})\cdot \hat{x_{t}}+ \frac{\tau}{t}\text{denoise}(\hat{x_{t}})$</li>
 <li>With a noisy image y and denoiser, the above equation can help use retrieve the image $\hat{x_{t-1}}$&hellip;till $\hat{x}_{0}$.</li>
 </ul>
 </li>
 <li>Training
 <ul>
-<li>$min_{\theta}\mathbb{E}<em>{x,y}\mathbb{E}</em>{t~uniform}[|\text{denoise}<em>{\theta}(x</em>{t})-x|^{2}]$</li>
+<li>$min_{\theta}E_{x,y}E_{t~uniform}[|\text{denoise}<em>{\theta}(x</em>{t})-x|^{2}]$</li>
 <li>Training one denoiser for all time steps $t$</li>
 </ul>
 </li>
@@ -421,8 +421,8 @@
 <ul>
 <li>Add stochastic perturbation to incremental denoising iterations with a sequence of noise levels ${\sigma_{t}|0\leq t\leq 1}$</li>
 <li>$x_{t} = (1-t)x+ty+\sqrt{t}\sigma_{t}\epsilon$</li>
-<li>For training, $min_{\theta}\mathbb{E}<em>{x, y}\mathbb{E}</em>{t~uniform}\mathbb{E}<em>{\epsilon}[|\text{denoise}(x</em>{t})-x|^{2}]$</li>
-<li>For inference, $\hat{x}<em>{t-\tau} = (1-\frac{\tau}{t})\cdot \hat{x}</em>{t}+\frac{\tau}{t}\text{denoise}(\hat{x}<em>{t}) + (t-\tau)\sqrt{\sigma</em>{t-\tau}^{2}-\sigma_{t}^{2}}\epsilon$</li>
+<li>For training, $min_{\theta}E_{x, y}E_{t~uniform}E_{\epsilon}[|\text{denoise}(x_{t})-x|^{2}]$</li>
+<li>For inference, $\hat{x_{t-\tau}} = (1-\frac{\tau}{t})\cdot \hat{x_t}+\frac{\tau}{t}\text{denoise}(\hat{x_{t}}) + (t-\tau)\sqrt{\sigma_{t-\tau}^{2}-\sigma_{t}^{2}}\epsilon$</li>
 </ul>
 </li>
 </ul>
